@@ -7,7 +7,7 @@
 //
 
 #import "LoadoutScene.h"
-#import "BearScene.h"
+#import "GameScene.h"
 
 @implementation LoadoutScene
 @synthesize layer = _layer;
@@ -58,7 +58,7 @@
     if (CGRectContainsPoint(launcherRect,location)) {
         NSMutableArray *monsters=[[NSMutableArray alloc] init];
         NSMutableArray *weapons=[[NSMutableArray alloc] init];
-        [[CCDirector sharedDirector] replaceScene:[BearScene initNode:monsters weapons:weapons]];
+        [[CCDirector sharedDirector] replaceScene:[GameScene initNode:monsters weapons:weapons]];
     }
     
 }
