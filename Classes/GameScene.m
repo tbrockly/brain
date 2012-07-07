@@ -4,13 +4,15 @@
 #import "GameOverScene.h"
 #import "math.h"
 #import "Box2D.h"
+#import "cocos2d.h"
+#import "CCActionInterval.h"
 
 @implementation GameScene
 @synthesize layer = _layer;
 BOOL runAI;
 CGSize winSize;
 CGPoint p1center, p2center;
-#define PTM_RATIO 32.0
+#define PTM_RATIO 25.0
 
 + (id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
 	return [[[self alloc] initWithMonsters:monstersIn weapons:weaponsIn] autorelease];
@@ -34,7 +36,7 @@ CGPoint p1center, p2center;
 
 // Game implementation
 @implementation Game
-
+CCSprite* bg, *bg1;
 b2World *_world;
 b2Body *_body;
 CCSprite *_ball;
@@ -83,13 +85,7 @@ CCSprite *_ball;
 
 //fired every .1 sec
 -(void)gameLogic:(ccTime)dt {
-    //[character 
-//        for(Weapon *wep in weaponsToDelete){
-//            [_weapons removeObject:wep];
-//            [self removeChild:wep.sprite cleanup:YES];
-//        }
-//        [weaponsToDelete removeAllObjects];
-//        [weaponsToDelete release];
+    
 	
 }
 
@@ -99,8 +95,15 @@ CCSprite *_ball;
     
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
-	if( (self=[super initWithColor:ccc4(200,200,200,200)] )) {
-        
+	if( (self=[super init] )) {
+        bg = [CCSprite spriteWithFile:@"Mario-Land.jpg"];
+        bg.scale = 2;
+        [bg setPosition:ccp(0,-285+bg.boundingBox.size.height/2)];
+        [self addChild:bg z:0];
+        bg1 = [CCSprite spriteWithFile:@"Mario-Land.jpg"];
+        bg1.scale = 2;
+        [bg1 setPosition:ccp([bg boundingBox].size.width-1,-285+bg.boundingBox.size.height/2)];
+        [self addChild:bg1 z:0];
 		// Enable touch events
 		self.isTouchEnabled = YES;
 		
@@ -121,7 +124,7 @@ CCSprite *_ball;
 		runAI = true;
         
         // Create sprite and add it to the layer
-        _ball = [CCSprite spriteWithFile:@"Projectile.png" rect:CGRectMake(0, 0, 20, 20)];
+        _ball = [CCSprite spriteWithFile:@"FoodItemside.png"];
         _ball.position = ccp(100, 100);
         [self addChild:_ball];
         
@@ -136,15 +139,17 @@ CCSprite *_ball;
         b2EdgeShape groundEdge;
         b2FixtureDef boxShapeDef;
         boxShapeDef.shape = &groundEdge;
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(winSize.width/PTM_RATIO, 0));
+        int myWidth=99999;
+        int myHeight=bg.boundingBox.size.height-285;
+        groundEdge.Set(b2Vec2(0,0), b2Vec2(myWidth/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(0, winSize.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2(0,0), b2Vec2(0, myHeight/PTM_RATIO));
         groundBody->CreateFixture(&boxShapeDef);
-        groundEdge.Set(b2Vec2(0, winSize.height/PTM_RATIO), 
-                       b2Vec2(winSize.width/PTM_RATIO, winSize.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2(0, myHeight/PTM_RATIO), 
+                       b2Vec2(myWidth/PTM_RATIO, myHeight/PTM_RATIO));
         groundBody->CreateFixture(&boxShapeDef);
-        groundEdge.Set(b2Vec2(winSize.width/PTM_RATIO, 
-                              winSize.height/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, 0));
+        groundEdge.Set(b2Vec2(myWidth/PTM_RATIO, 
+                              myHeight/PTM_RATIO), b2Vec2(myWidth/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
         
         // Create ball body and shape
@@ -152,38 +157,31 @@ CCSprite *_ball;
         ballBodyDef.type = b2_dynamicBody;
         ballBodyDef.position.Set(100/PTM_RATIO, 100/PTM_RATIO);
         ballBodyDef.userData = _ball;
+        ballBodyDef.linearVelocity= b2Vec2(25,25);
         _body = _world->CreateBody(&ballBodyDef);
         
-        b2CircleShape circle;
-        circle.m_radius = 26.0/PTM_RATIO;
+        b2PolygonShape circle;
+        circle.SetAsBox(2, 2, b2Vec2(0, 0), .01);
         
         b2FixtureDef ballShapeDef;
         ballShapeDef.shape = &circle;
         ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = 0.2f;
-        ballShapeDef.restitution = 0.8f;
+        ballShapeDef.friction = 0.3f;
+        ballShapeDef.restitution = 0.59f;
         _body->CreateFixture(&ballShapeDef);
-        
         [self schedule:@selector(tick:)];
         
-        self.isAccelerometerEnabled = YES;
+        
+        //self.isAccelerometerEnabled = YES;
 		
 	}
 	return self;
 }
 
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
-    
-    // Landscape left values
-    b2Vec2 gravity(-acceleration.y * 15, acceleration.x *15);
-    _world->SetGravity(gravity);
-    
-}
-
 - (void)swtViewCenter:(CGPoint)point{
-    CGPoint centerPoint =ccp(240,160);
+    CGPoint centerPoint =ccp([self boundingBox].size.width/2,[self boundingBox].size.height/2);
     CGPoint viewPoint = ccpSub(centerPoint, point);
-    self.position=viewPoint;
+    self.position=(ccp(viewPoint.x*self.scaleX,viewPoint.y*self.scaleY));
     
 }
 
@@ -193,12 +191,29 @@ CCSprite *_ball;
     for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {    
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
+            
+            float xx = 30.0/(fabs(b->GetLinearVelocity().x)+30.0);
+            if(fabs(self.scale-xx)>.4){
+                self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
+            }else{
+                self.scale=xx>self.scale?self.scale+.005:self.scale-.005;
+            }
             ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
                                     b->GetPosition().y * PTM_RATIO);
             [self swtViewCenter:ballData.position];
             ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-        }        
+        }
     }
+        if(-self.position.x>bg1.position.x && -self.position.x >bg.position.x){
+            printf("%f~%f~%f  \n",self.position.x, bg.position.x, bg1.position.x);
+            if(bg1.position.x > bg.position.x){
+                bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width,bg.position.y);
+                printf("2");
+            }else{
+                bg1.position = ccp(bg.position.x+bg.boundingBox.size.width,bg1.position.y);
+                printf("3");
+            }
+        }
     
 }
 
@@ -216,15 +231,28 @@ CCSprite *_ball;
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
+    
+    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {    
+        if (b->GetUserData() != NULL) {
+            CCSprite *ballData = (CCSprite *)b->GetUserData();
+            if(location.x>240){
+                b->SetLinearVelocity(b2Vec2(30,30));
+            }else{
+                b->SetLinearVelocity(b2Vec2(-30,30));
+            }
+            if(fabs(b->GetAngularVelocity())<.05)
+                b->SetAngularVelocity(.1);
+        }
+    }
 }
 
 - (void)setLauncherWeapon{//(Weapon *)myWep{
-//    for (Launcher *myLauncher in _launchers) {
-//        [[[myLauncher weapon] sprite] removeFromParentAndCleanup:true];
-//        [myLauncher setWeapon:myWep];
-//        myLauncher.weapon.sprite.positionInPixels=myLauncher.sprite.positionInPixels;
-//        [self addChild:[[myLauncher weapon] sprite]];
-//    }
+    //    for (Launcher *myLauncher in _launchers) {
+    //        [[[myLauncher weapon] sprite] removeFromParentAndCleanup:true];
+    //        [myLauncher setWeapon:myWep];
+    //        myLauncher.weapon.sprite.positionInPixels=myLauncher.sprite.positionInPixels;
+    //        [self addChild:[[myLauncher weapon] sprite]];
+    //    }
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -232,7 +260,7 @@ CCSprite *_ball;
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
-
+    
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
