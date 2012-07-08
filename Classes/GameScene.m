@@ -36,10 +36,10 @@ CGPoint p1center, p2center;
 
 // Game implementation
 @implementation Game
+@synthesize _world;
 CCSprite* bg, *bg1;
-b2World *_world;
-b2Body *_body;
-CCSprite *_ball;
+b2Body *_body, *_ebody;
+CCSprite *_ball, *_enemy;
 
 + (id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
 	return [[[self alloc] initWithMonsters:monstersIn weapons:weaponsIn] autorelease];
@@ -171,6 +171,10 @@ CCSprite *_ball;
         _body->CreateFixture(&ballShapeDef);
         [self schedule:@selector(tick:)];
         
+        //enemies
+        
+        
+        
         
         //self.isAccelerometerEnabled = YES;
 		
@@ -191,30 +195,38 @@ CCSprite *_ball;
     for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {    
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
-            
-            float xx = 30.0/(fabs(b->GetLinearVelocity().x)+30.0);
-            if(fabs(self.scale-xx)>.4){
-                self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
-            }else{
-                self.scale=xx>self.scale?self.scale+.005:self.scale-.005;
+            if(ballData == _ball){
+                float xx = 30.0/(fabs(b->GetLinearVelocity().x)+30.0);
+                if(fabs(self.scale-xx)>.4){
+                    self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
+                }else{
+                    self.scale=xx>self.scale?self.scale+.005:self.scale-.005;
+                }
+                ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
+                                        b->GetPosition().y * PTM_RATIO);
+                [self swtViewCenter:ballData.position];
+                if(ballData.position.x>bg1.position.x && ballData.position.x >bg.position.x){
+                    if(bg1.position.x > bg.position.x){
+                        bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width-2,bg.position.y);
+                        printf("2");
+                    }else{
+                        bg1.position = ccp(bg.position.x+bg.boundingBox.size.width-2,bg1.position.y);
+                        printf("3");
+                    }
+                }
+                ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }
-            ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
-                                    b->GetPosition().y * PTM_RATIO);
-            [self swtViewCenter:ballData.position];
-            ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            else if(ballData == _enemy){
+                if(ballData.position.x<bg1.position.x && ballData.position.x <bg.position.x){
+                    ballData.position=ccp(ballData.position.x+6000,100);
+                    b->SetLinearVelocity(b2Vec2(0,0));
+                }
+                ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
+                                        b->GetPosition().y * PTM_RATIO);
+                ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            }
         }
     }
-        if(-self.position.x>bg1.position.x && -self.position.x >bg.position.x){
-            printf("%f~%f~%f  \n",self.position.x, bg.position.x, bg1.position.x);
-            if(bg1.position.x > bg.position.x){
-                bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width,bg.position.y);
-                printf("2");
-            }else{
-                bg1.position = ccp(bg.position.x+bg.boundingBox.size.width,bg1.position.y);
-                printf("3");
-            }
-        }
-    
 }
 
 - (void)update:(ccTime)dt {
@@ -236,9 +248,9 @@ CCSprite *_ball;
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
             if(location.x>240){
-                b->SetLinearVelocity(b2Vec2(30,30));
+                b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+10,b->GetLinearVelocity().y+10));
             }else{
-                b->SetLinearVelocity(b2Vec2(-30,30));
+                b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-10,b->GetLinearVelocity().y+10));
             }
             if(fabs(b->GetAngularVelocity())<.05)
                 b->SetAngularVelocity(.1);

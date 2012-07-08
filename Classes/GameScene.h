@@ -1,6 +1,7 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "Box2D.h"
 #import "Character.h"
 
 // HelloWorld Layer
@@ -14,11 +15,14 @@
     NSMutableArray *_eMonsters;
     NSMutableArray *_eWeapons;
     Character *character;
+    b2World *_world;
+    
 	int _projectilesDestroyed;
 }
 - (void)pauseGame;
 +(id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
 -(id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
+@property b2World* _world;
 @end
 
 @interface GameScene : CCScene
