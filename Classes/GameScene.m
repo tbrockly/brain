@@ -6,6 +6,8 @@
 #import "Box2D.h"
 #import "cocos2d.h"
 #import "CCActionInterval.h"
+#import "Monster.h"
+#import "Ball.h"
 
 @implementation GameScene
 @synthesize layer = _layer;
@@ -36,7 +38,7 @@ CGPoint p1center, p2center;
 
 // Game implementation
 @implementation Game
-@synthesize _world;
+@synthesize world;
 CCSprite* bg, *bg1;
 b2Body *_body, *_ebody;
 CCSprite *_ball, *_enemy;
@@ -128,14 +130,16 @@ CCSprite *_ball, *_enemy;
         _ball.position = ccp(100, 100);
         [self addChild:_ball];
         
-        // Create a world
+        // Create ainitWithGame world
         b2Vec2 gravity = b2Vec2(0.0f, -30.0f);
-        _world = new b2World(gravity);
+        world = new b2World(gravity);
+        world->SetContinuousPhysics(true);
+        //[self setWorld:world];
         
         // Create edges around the entire screen
         b2BodyDef groundBodyDef;
         groundBodyDef.position.Set(0,0);
-        b2Body *groundBody = _world->CreateBody(&groundBodyDef);
+        b2Body *groundBody = world->CreateBody(&groundBodyDef);
         b2EdgeShape groundEdge;
         b2FixtureDef boxShapeDef;
         boxShapeDef.shape = &groundEdge;
@@ -158,7 +162,7 @@ CCSprite *_ball, *_enemy;
         ballBodyDef.position.Set(100/PTM_RATIO, 100/PTM_RATIO);
         ballBodyDef.userData = _ball;
         ballBodyDef.linearVelocity= b2Vec2(25,25);
-        _body = _world->CreateBody(&ballBodyDef);
+        _body = world->CreateBody(&ballBodyDef);
         
         b2PolygonShape circle;
         circle.SetAsBox(2, 2, b2Vec2(0, 0), .01);
@@ -169,11 +173,18 @@ CCSprite *_ball, *_enemy;
         ballShapeDef.friction = 0.3f;
         ballShapeDef.restitution = 0.59f;
         _body->CreateFixture(&ballShapeDef);
+        
+        _enemy =[CCSprite spriteWithFile:@"FoodItemside.png"];
+        [self addChild:_enemy z:0];
+        
+//        Ball *anBall = [[[Ball alloc] initWithMgr:ccp(160, 240)] autorelease];
+//        [self addBallToGame:anBall];
+//        CCSprite *BallSprite =[CCSprite spriteWithFile:@"FoodItemside.png"];
+//        [self addChild:BallSprite z:0];
+//        [anBall addCCNode:(CCSprite *)BallSprite];
+        
+        
         [self schedule:@selector(tick:)];
-        
-        //enemies
-        
-        
         
         
         //self.isAccelerometerEnabled = YES;
@@ -182,20 +193,29 @@ CCSprite *_ball, *_enemy;
 	return self;
 }
 
+// this starts the magic of adding the game piece
+- (void)addBallToGame:(Ball *)aBall {
+    if(aBall) {
+        [aBall setGame:self];
+        [aBall addBall];
+    }
+}
+
 - (void)swtViewCenter:(CGPoint)point{
     CGPoint centerPoint =ccp([self boundingBox].size.width/2,[self boundingBox].size.height/2);
     CGPoint viewPoint = ccpSub(centerPoint, point);
     self.position=(ccp(viewPoint.x*self.scaleX,viewPoint.y*self.scaleY));
     
 }
+int i=0;
 
 - (void)tick:(ccTime) dt {
     
-    _world->Step(dt, 10, 10);
-    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {    
+    world->Step(dt, 10, 10);
+    for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
-            if(ballData == _ball){
+            if([ballData isKindOfClass:[CCNode class]]){
                 float xx = 30.0/(fabs(b->GetLinearVelocity().x)+30.0);
                 if(fabs(self.scale-xx)>.4){
                     self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
@@ -205,6 +225,14 @@ CCSprite *_ball, *_enemy;
                 ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
                                         b->GetPosition().y * PTM_RATIO);
                 [self swtViewCenter:ballData.position];
+                //check for enemy collision
+                if(CGRectIntersectsRect(ballData.boundingBox, _enemy.boundingBox)){
+                    b->SetLinearVelocity(b2Vec2(50, 50));
+                }
+                if(ballData.position.x>_enemy.position.x+300){
+                    _enemy.position=ccp(_enemy.position.x+3000, _enemy.position.y);
+                }
+                //check for bg spawn
                 if(ballData.position.x>bg1.position.x && ballData.position.x >bg.position.x){
                     if(bg1.position.x > bg.position.x){
                         bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width-2,bg.position.y);
@@ -214,15 +242,6 @@ CCSprite *_ball, *_enemy;
                         printf("3");
                     }
                 }
-                ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-            }
-            else if(ballData == _enemy){
-                if(ballData.position.x<bg1.position.x && ballData.position.x <bg.position.x){
-                    ballData.position=ccp(ballData.position.x+6000,100);
-                    b->SetLinearVelocity(b2Vec2(0,0));
-                }
-                ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
-                                        b->GetPosition().y * PTM_RATIO);
                 ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }
         }
@@ -244,7 +263,7 @@ CCSprite *_ball, *_enemy;
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
     
-    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {    
+    for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {    
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
             if(location.x>240){

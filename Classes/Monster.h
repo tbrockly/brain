@@ -15,14 +15,14 @@
     
     b2Body* b2body;
     b2Shape* b2shape;
-    Game* gameWorld;
+    b2World* gameWorld;
     
 }
 
--(id) initWithGame:(GameScene *)gameScene;
+-(id) initWithGame:(Game *)gameScene;
 
 @property (readwrite,assign) b2Body* b2body;
 @property (readwrite,assign) b2Shape* b2shape;
-@property (retain) Game* gameWorld;
+@property (nonatomic,assign) b2World* gameWorld;
 
 @end

@@ -30,7 +30,7 @@
         enemyBodyDef.type = b2_dynamicBody;
         enemyBodyDef.linearVelocity= b2Vec2(1,0);
         enemyBodyDef.position.Set(1000/PTM_RATIO, 100/PTM_RATIO);
-        b2body= [gameWorld _world]->CreateBody(&enemyBodyDef);
+        b2body = gameWorld->CreateBody(&enemyBodyDef);
         
         b2PolygonShape lol;
         lol.SetAsBox(1, 1, b2Vec2(0, 0), .01);
@@ -49,20 +49,20 @@
 }
 
 -(id) initWithGame:(Game *)game{
-    self.gameWorld=game;
+    self.gameWorld=game.world;
+    return [self init];
 }
 
 -(void) tickGameNode: (ccTime) dt {
     // set position of sprite based on position of space
     if(b2body != nil) {
-//        CGPoint worldPosition = cpv(b2body->GetPosition().x * PTM_RATIO, b2body->GetPosition().y * PTM_RATIO);
-//        
-//        // find the screen position relative to the camera view.
-//        CGPoint viewPosition = [[Game instance] view];
-//        worldPosition = cpvsub(worldPosition, viewPosition);
-//        
-//        [self setPosition:worldPosition];
-//        [self setRotation:CC_RADIANS_TO_DEGREES(b2body->GetAngle() * -1)];
+        CGPoint worldPosition = ccp(b2body->GetPosition().x * PTM_RATIO, b2body->GetPosition().y * PTM_RATIO);
+        
+        // find the screen position relative to the camera view.
+        worldPosition = ccp(worldPosition.x, worldPosition.y);
+        
+        [self setPosition:worldPosition];
+        [self setRotation:CC_RADIANS_TO_DEGREES(b2body->GetAngle() * -1)];
     }
 }
 

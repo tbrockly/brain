@@ -15,14 +15,14 @@
     NSMutableArray *_eMonsters;
     NSMutableArray *_eWeapons;
     Character *character;
-    b2World *_world;
+    b2World *world;
     
 	int _projectilesDestroyed;
 }
 - (void)pauseGame;
 +(id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
 -(id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
-@property b2World* _world;
+@property (nonatomic, readonly) b2World * world;
 @end
 
 @interface GameScene : CCScene
