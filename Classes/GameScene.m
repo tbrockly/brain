@@ -8,9 +8,11 @@
 #import "CCActionInterval.h"
 #import "Monster.h"
 #import "Ball.h"
+#import "QuizScene.h"
 
 @implementation GameScene
 @synthesize layer = _layer;
+@synthesize quizLayer = _quizLayer;
 BOOL runAI;
 CGSize winSize;
 CGPoint p1center, p2center;
@@ -22,8 +24,13 @@ CGPoint p1center, p2center;
 
 - (id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
     if ((self = [super init])) {
-        self.layer = [Game initNode:monstersIn weapons:weaponsIn];
-        [self addChild:_layer];
+        GameState *gameState=[[GameState alloc] init];
+        self.layer = [Game initNode:_quizLayer];
+        [self.layer setGameState:gameState];
+        [self addChild:_layer z:1];
+        self.quizLayer=[QuizLayer node];
+        [self.quizLayer setGameState:gameState];
+        [self addChild:_quizLayer z:0];
     }     
     return self;
 }
@@ -39,13 +46,12 @@ CGPoint p1center, p2center;
 // Game implementation
 @implementation Game
 @synthesize world;
+@synthesize gameState;
 CCSprite* bg, *bg1;
 b2Body *_body, *_ebody;
-CCSprite *_ball, *_enemy;
-
-+ (id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
-	return [[[self alloc] initWithMonsters:monstersIn weapons:weaponsIn] autorelease];
-}
+CCSprite *_ball, *_enemy, *_quiz;
+QuizLayer *_quizLayer;
+bool paused = false;
 
 -(void)addTarget {
     
@@ -91,10 +97,14 @@ CCSprite *_ball, *_enemy;
 	
 }
 
++ (id)initNode:(QuizLayer *)quizLayer {
+	return [[[self alloc] initWithMonsters:quizLayer] autorelease];
+}
+
 // on "init" you need to initialize your instance
-- (id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn 
+- (id)initWithMonsters:(QuizLayer *)quizLayer 
 {
-    
+    _quizLayer=quizLayer;
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
@@ -121,12 +131,12 @@ CCSprite *_ball, *_enemy;
 		winSize = [[CCDirector sharedDirector] winSize];
         p1center = ccp(winSize.width/2,winSize.height/8);
         p2center = ccp(winSize.width/2,7*winSize.height/8);
-        character=[Character alloc];
+        //character=[Character alloc];
         
 		runAI = true;
         
         // Create sprite and add it to the layer
-        _ball = [CCSprite spriteWithFile:@"FoodItemside.png"];
+        _ball = [Character spriteWithFile:@"FoodItemside.png"];
         _ball.position = ccp(100, 100);
         [self addChild:_ball];
         
@@ -143,7 +153,7 @@ CCSprite *_ball, *_enemy;
         b2EdgeShape groundEdge;
         b2FixtureDef boxShapeDef;
         boxShapeDef.shape = &groundEdge;
-        int myWidth=99999;
+        int myWidth=999999;
         int myHeight=bg.boundingBox.size.height-285;
         groundEdge.Set(b2Vec2(0,0), b2Vec2(myWidth/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
@@ -174,8 +184,13 @@ CCSprite *_ball, *_enemy;
         ballShapeDef.restitution = 0.59f;
         _body->CreateFixture(&ballShapeDef);
         
-        _enemy =[CCSprite spriteWithFile:@"FoodItemside.png"];
+        _enemy =[CCSprite spriteWithFile:@"BodyItemside.png"];
         [self addChild:_enemy z:0];
+        _enemy.position=ccp(-1000,50);
+        
+        _quiz =[CCSprite spriteWithFile:@"HeadItemside.png"];
+        [self addChild:_quiz z:0];
+        _quiz.position=ccp(-100,50);
         
 //        Ball *anBall = [[[Ball alloc] initWithMgr:ccp(160, 240)] autorelease];
 //        [self addBallToGame:anBall];
@@ -210,13 +225,15 @@ CCSprite *_ball, *_enemy;
 int i=0;
 
 - (void)tick:(ccTime) dt {
-    
+    if([gameState state]==0){
+    self.visible=TRUE;
     world->Step(dt, 10, 10);
     for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
-            if([ballData isKindOfClass:[CCNode class]]){
-                float xx = 30.0/(fabs(b->GetLinearVelocity().x)+30.0);
+            if([ballData isKindOfClass:[Character class]]){
+                //ZOOM
+                float xx = 40.0/(fabs(b->GetLinearVelocity().x)+60.0);
                 if(fabs(self.scale-xx)>.4){
                     self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
                 }else{
@@ -225,20 +242,51 @@ int i=0;
                 ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
                                         b->GetPosition().y * PTM_RATIO);
                 [self swtViewCenter:ballData.position];
+                //BOOST
+                if([gameState boost]>0){
+                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+[gameState boost],b->GetLinearVelocity().y+[gameState boost]));
+                    [gameState setBoost:0];
+                }
+                
                 //check for enemy collision
                 if(CGRectIntersectsRect(ballData.boundingBox, _enemy.boundingBox)){
                     b->SetLinearVelocity(b2Vec2(50, 50));
-                }
-                if(ballData.position.x>_enemy.position.x+300){
+                    CCParticleExplosion* parc= [CCParticleExplosion node];
+                    parc.texture=[_enemy texture];
+                    [parc setLife:1];
+                    parc.startSize=5.0f;
+                    parc.endSize=10.0f;
+                    parc.duration=1.0f;
+                    parc.speed=90.0f;
+                    [parc setTotalParticles:500];
+                    [parc setGravity:ccp(0,-60)];
+                    //parc.anchorPoint=ccp(.5,.5);
+                    parc.position=_enemy.position;
+                    parc.autoRemoveOnFinish=YES;
+                    [self addChild:parc];
                     _enemy.position=ccp(_enemy.position.x+3000, _enemy.position.y);
+                    
+                }
+                if(ballData.position.x>_enemy.position.x+900){
+                    _enemy.position=ccp(_enemy.position.x+3000, _enemy.position.y);
+                }
+                //check for quiz collision
+                if(CGRectIntersectsRect(ballData.boundingBox, _quiz.boundingBox)){
+                    _quiz.position=ccp(_quiz.position.x+3000, _quiz.position.y);
+                    [gameState setState:1];
+                    
+                    self.visible=false;
+                }
+                if(ballData.position.x>_quiz.position.x+900){
+                    _quiz.position=ccp(_quiz.position.x+3000, _quiz.position.y);
                 }
                 //check for bg spawn
                 if(ballData.position.x>bg1.position.x && ballData.position.x >bg.position.x){
                     if(bg1.position.x > bg.position.x){
-                        bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width-2,bg.position.y);
+                        bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width-8,bg.position.y);
                         printf("2");
                     }else{
-                        bg1.position = ccp(bg.position.x+bg.boundingBox.size.width-2,bg1.position.y);
+                        bg1.position = ccp(bg.position.x+bg.boundingBox.size.width-8,bg1.position.y);
                         printf("3");
                     }
                 }
@@ -246,44 +294,38 @@ int i=0;
             }
         }
     }
+    }
+}
+
+- (void)quizFire:(b2Body*)b {
+    
+    
 }
 
 - (void)update:(ccTime)dt {
     
 }
 
-- (void)pauseGame {
-    NSLog(@"Paused!");
-}
-
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-	// Choose one of the touches to work with
-	UITouch *touch = [touches anyObject];
-	CGPoint location = [touch locationInView:[touch view]];
-	location = [[CCDirector sharedDirector] convertToGL:location];
-    
-    for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {    
-        if (b->GetUserData() != NULL) {
-            CCSprite *ballData = (CCSprite *)b->GetUserData();
-            if(location.x>240){
-                b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+10,b->GetLinearVelocity().y+10));
-            }else{
-                b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-10,b->GetLinearVelocity().y+10));
+    if([gameState state]==0){
+        // Choose one of the touches to work with
+        UITouch *touch = [touches anyObject];
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        
+        for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {    
+            if (b->GetUserData() != NULL) {
+                CCSprite *ballData = (CCSprite *)b->GetUserData();
+                if(location.x>240){
+                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+10,b->GetLinearVelocity().y+10));
+                }else{
+                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-10,b->GetLinearVelocity().y+10));
+                }
+                if(fabs(b->GetAngularVelocity())<.05)
+                    b->SetAngularVelocity(.1);
             }
-            if(fabs(b->GetAngularVelocity())<.05)
-                b->SetAngularVelocity(.1);
         }
     }
-}
-
-- (void)setLauncherWeapon{//(Weapon *)myWep{
-    //    for (Launcher *myLauncher in _launchers) {
-    //        [[[myLauncher weapon] sprite] removeFromParentAndCleanup:true];
-    //        [myLauncher setWeapon:myWep];
-    //        myLauncher.weapon.sprite.positionInPixels=myLauncher.sprite.positionInPixels;
-    //        [self addChild:[[myLauncher weapon] sprite]];
-    //    }
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -299,11 +341,6 @@ int i=0;
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
-    
-	//CGPoint point = [touch locationInView:self];
-	//UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(point.x , point.y,50 ,70)];
-	//bg.image = [UIImage imageNamed:@"bear.png"];
-	//[self addSubview:bg];
 }
 
 

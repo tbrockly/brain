@@ -20,6 +20,11 @@
 #define kGameAutorotationUIViewController 2
 
 //
+#define characterType 0
+#define targetType 1
+#define monsterType 2
+
+//
 // Define here the type of autorotation that you want for your game
 //
 #define GAME_AUTOROTATION kGameAutorotationCCDirector
