@@ -8,49 +8,52 @@
 
 #import "QuizScene.h"
 
-@implementation QuizScene
-@synthesize layer = _layer;
-
-- (id)init {
-    
-	if ((self = [super init])) {
-		self.layer = [QuizLayer node];
-		[self addChild:_layer];
-	}
-	return self;
-}
-
-- (void)dealloc {
-	[_layer release];
-	_layer = nil;
-	[super dealloc];
-}
-
-@end
-
 @implementation QuizLayer
 @synthesize oneLevel;
 @synthesize booster;
 @synthesize gameState;
 CCParticleExplosion* parc;
-CCSprite *wrong;
+int num1, num2;
+CCLabelTTF *num1l;
+#define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init
 {
-	if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
+	if( (self=[super initWithColor:ccc4(155,155,155,255)] )) {
 		// Enable touch events
 		self.isTouchEnabled = YES;
         
-		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 75, 75)];
+		//CGSize winSize = [[CCDirector sharedDirector] winSize];
+		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		[self addChild:oneLevel];
-        oneLevel.position = ccp(winSize.width/4, winSize.height/2);
+        oneLevel.position = ccp(430, 270);
+        num1=1+arc4random() %900;
+        num2=1+arc4random() %900;
+        num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i + %i =",num1,num2] 
+                                                 fontName:@"Arial" 
+                                                 fontSize:30];
+        [self addChild:num1l];
+        num1l.position=ccp(100,200);
         
-        wrong = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 75, 75)];
-		[self addChild:wrong];
-        wrong.position = ccp(winSize.width/1.5, winSize.height/2);
-        
+        answer=[[UITextField alloc] initWithFrame:CGRectMake(150, 250, 100, 30)];
+        [answer setDelegate:self];
+        [answer setText:@""];
+        [answer setTextColor:[UIColor whiteColor]];
+        [answer setKeyboardType:UIKeyboardTypeDecimalPad];
+        [answer setFont:[UIFont fontWithName:@"Arial" size:30]];
+        answer.transform = CGAffineTransformConcat(answer.transform, CGAffineTransformMakeRotation(degreesToRadians(90)));
+        [[[CCDirector sharedDirector] openGLView] addSubview:answer];
+        [answer becomeFirstResponder];
 	}	
 	return self;
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    [answer resignFirstResponder];
+    return YES;
+}
+
+-(void) textFieldDidEndEditing:(UITextField *)textField{
+    
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -61,12 +64,15 @@ CCSprite *wrong;
         location = [[CCDirector sharedDirector] convertToGL:location];
         CGRect rect=oneLevel.boundingBox;
         if (CGRectContainsPoint(rect,location)) {
-            [gameState setBoost:60];
-        rect=wrong.boundingBox;
-        }else if (CGRectContainsPoint(wrong.boundingBox,location)) {
-            [gameState setBoost:-10];
+            NSString *result=answer.text;
+            if(result.integerValue == num1+num2){
+                [gameState setBoost:60];
+            }
+            [gameState setState:0];
+            [answer endEditing:YES];
+            [answer removeFromSuperview];
+            [self.parent removeChild:self cleanup:TRUE];
         }
-        [gameState setState:0];
     }
 }
 

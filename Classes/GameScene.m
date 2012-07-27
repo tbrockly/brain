@@ -25,12 +25,9 @@ CGPoint p1center, p2center;
 - (id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
     if ((self = [super init])) {
         GameState *gameState=[[GameState alloc] init];
-        self.layer = [Game initNode:_quizLayer];
+        self.layer = [Game initNode];
         [self.layer setGameState:gameState];
         [self addChild:_layer z:1];
-        self.quizLayer=[QuizLayer node];
-        [self.quizLayer setGameState:gameState];
-        [self addChild:_quizLayer z:0];
     }     
     return self;
 }
@@ -51,6 +48,8 @@ CCSprite* bg, *bg1;
 b2Body *_body, *_ebody;
 CCSprite *_ball, *_enemy, *_quiz;
 QuizLayer *_quizLayer;
+b2BodyDef ballBodyDef;
+b2FixtureDef ballShapeDef;
 bool paused = false;
 
 -(void)addTarget {
@@ -97,14 +96,13 @@ bool paused = false;
 	
 }
 
-+ (id)initNode:(QuizLayer *)quizLayer {
-	return [[[self alloc] initWithMonsters:quizLayer] autorelease];
++ (id)initNode {
+	return [[[self alloc] initWithMonsters] autorelease];
 }
 
 // on "init" you need to initialize your instance
-- (id)initWithMonsters:(QuizLayer *)quizLayer 
+- (id)initWithMonsters 
 {
-    _quizLayer=quizLayer;
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
@@ -167,17 +165,16 @@ bool paused = false;
         groundBody->CreateFixture(&boxShapeDef);
         
         // Create ball body and shape
-        b2BodyDef ballBodyDef;
         ballBodyDef.type = b2_dynamicBody;
         ballBodyDef.position.Set(100/PTM_RATIO, 100/PTM_RATIO);
         ballBodyDef.userData = _ball;
         ballBodyDef.linearVelocity= b2Vec2(25,25);
+        ballBodyDef.linearDamping=.1;
         _body = world->CreateBody(&ballBodyDef);
         
         b2PolygonShape circle;
         circle.SetAsBox(2, 2, b2Vec2(0, 0), .01);
         
-        b2FixtureDef ballShapeDef;
         ballShapeDef.shape = &circle;
         ballShapeDef.density = 1.0f;
         ballShapeDef.friction = 0.3f;
@@ -226,7 +223,6 @@ int i=0;
 
 - (void)tick:(ccTime) dt {
     if([gameState state]==0){
-    self.visible=TRUE;
     world->Step(dt, 10, 10);
     for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
@@ -244,13 +240,17 @@ int i=0;
                 [self swtViewCenter:ballData.position];
                 //BOOST
                 if([gameState boost]>0){
-                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+[gameState boost],b->GetLinearVelocity().y+[gameState boost]));
+                    float vx=b->GetLinearVelocity().x;
+                    float vy=b->GetLinearVelocity().y < 0.0 ?0.0:b->GetLinearVelocity().y;
+                    b->SetLinearVelocity(b2Vec2(vx+[gameState boost],vy+[gameState boost]));
                     [gameState setBoost:0];
                 }
                 
                 //check for enemy collision
                 if(CGRectIntersectsRect(ballData.boundingBox, _enemy.boundingBox)){
-                    b->SetLinearVelocity(b2Vec2(50, 50));
+                    float vx=b->GetLinearVelocity().x;
+                    float vy=b->GetLinearVelocity().y < 0.0 ?0.0:b->GetLinearVelocity().y;
+                    b->SetLinearVelocity(b2Vec2(vx+20,vy+50));
                     CCParticleExplosion* parc= [CCParticleExplosion node];
                     parc.texture=[_enemy texture];
                     [parc setLife:1];
@@ -274,8 +274,9 @@ int i=0;
                 if(CGRectIntersectsRect(ballData.boundingBox, _quiz.boundingBox)){
                     _quiz.position=ccp(_quiz.position.x+3000, _quiz.position.y);
                     [gameState setState:1];
-                    
-                    self.visible=false;
+                    QuizLayer *q = [[QuizLayer alloc] init];
+                    [q setGameState:self.gameState];
+                    [self.parent addChild:q z:10];
                 }
                 if(ballData.position.x>_quiz.position.x+900){
                     _quiz.position=ccp(_quiz.position.x+3000, _quiz.position.y);
@@ -290,6 +291,10 @@ int i=0;
                         printf("3");
                     }
                 }
+                //update for distance
+                _body->SetLinearDamping(ballData.position.x/(4000.0+ballData.position.x));
+                int i =  ballData.position.x;
+                NSLog(@"%i", i);
                 ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }
         }
