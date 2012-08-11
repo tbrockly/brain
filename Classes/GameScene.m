@@ -16,7 +16,7 @@
 BOOL runAI;
 CGSize winSize;
 CGPoint p1center, p2center;
-#define PTM_RATIO 25.0
+#define PTM_RATIO 150.0
 
 + (id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
 	return [[[self alloc] initWithMonsters:monstersIn weapons:weaponsIn] autorelease];
@@ -50,6 +50,8 @@ CCSprite *_ball, *_enemy, *_quiz;
 QuizLayer *_quizLayer;
 b2BodyDef ballBodyDef;
 b2FixtureDef ballShapeDef;
+float enemyFreq, quizFreq, airResist, speedBoost, friction;
+
 bool paused = false;
 
 -(void)addTarget {
@@ -86,16 +88,6 @@ bool paused = false;
 	
 }
 
--(void)aiTurn:(ccTime)dt {
-    
-}
-
-//fired every .1 sec
--(void)gameLogic:(ccTime)dt {
-    
-	
-}
-
 + (id)initNode {
 	return [[[self alloc] initWithMonsters] autorelease];
 }
@@ -106,6 +98,8 @@ bool paused = false;
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
+        enemyFreq=1000;
+        quizFreq=5000;
         bg = [CCSprite spriteWithFile:@"Mario-Land.jpg"];
         bg.scale = 2;
         [bg setPosition:ccp(0,-285+bg.boundingBox.size.height/2)];
@@ -139,7 +133,7 @@ bool paused = false;
         [self addChild:_ball];
         
         // Create ainitWithGame world
-        b2Vec2 gravity = b2Vec2(0.0f, -30.0f);
+        b2Vec2 gravity = b2Vec2(0.0f, -10.0f);
         world = new b2World(gravity);
         world->SetContinuousPhysics(true);
         //[self setWorld:world];
@@ -152,7 +146,7 @@ bool paused = false;
         b2FixtureDef boxShapeDef;
         boxShapeDef.shape = &groundEdge;
         int myWidth=999999;
-        int myHeight=bg.boundingBox.size.height-285;
+        int myHeight=bg.boundingBox.size.height+99999;
         groundEdge.Set(b2Vec2(0,0), b2Vec2(myWidth/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
         groundEdge.Set(b2Vec2(0,0), b2Vec2(0, myHeight/PTM_RATIO));
@@ -166,14 +160,14 @@ bool paused = false;
         
         // Create ball body and shape
         ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.position.Set(100/PTM_RATIO, 100/PTM_RATIO);
+        ballBodyDef.position.Set(150/PTM_RATIO, 150/PTM_RATIO);
         ballBodyDef.userData = _ball;
-        ballBodyDef.linearVelocity= b2Vec2(25,25);
-        ballBodyDef.linearDamping=.1;
+        ballBodyDef.linearVelocity= b2Vec2(10,10);
+        ballBodyDef.linearDamping=0;
         _body = world->CreateBody(&ballBodyDef);
         
         b2PolygonShape circle;
-        circle.SetAsBox(2, 2, b2Vec2(0, 0), .01);
+        circle.SetAsBox(.33, .33, b2Vec2(0, 0), .01);
         
         ballShapeDef.shape = &circle;
         ballShapeDef.density = 1.0f;
@@ -197,7 +191,7 @@ bool paused = false;
         
         
         [self schedule:@selector(tick:)];
-        
+        [self schedule:@selector(calc:) interval:.01f];
         
         //self.isAccelerometerEnabled = YES;
 		
@@ -221,9 +215,12 @@ bool paused = false;
 }
 int i=0;
 
+- (void)calc:(ccTime) dt {
+}
+
 - (void)tick:(ccTime) dt {
     if([gameState state]==0){
-    world->Step(dt, 10, 10);
+    world->Step(dt, 6, 2);
     for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
@@ -250,25 +247,22 @@ int i=0;
                 if(CGRectIntersectsRect(ballData.boundingBox, _enemy.boundingBox)){
                     float vx=b->GetLinearVelocity().x;
                     float vy=b->GetLinearVelocity().y < 0.0 ?0.0:b->GetLinearVelocity().y;
-                    b->SetLinearVelocity(b2Vec2(vx+20,vy+50));
+                    b->SetLinearVelocity(b2Vec2(vx+3,fabs(vy)+5));
                     CCParticleExplosion* parc= [CCParticleExplosion node];
                     parc.texture=[_enemy texture];
                     [parc setLife:1];
                     parc.startSize=5.0f;
                     parc.endSize=10.0f;
-                    parc.duration=1.0f;
-                    parc.speed=90.0f;
+                    parc.duration=2.0f;
+                    parc.speed=900.0f;
                     [parc setTotalParticles:500];
-                    [parc setGravity:ccp(0,-60)];
+                    [parc setGravity:ccp(ballData.position.x - _enemy.position.x,ballData.position.y - _enemy.position.y)];
                     //parc.anchorPoint=ccp(.5,.5);
                     parc.position=_enemy.position;
                     parc.autoRemoveOnFinish=YES;
                     [self addChild:parc];
                     _enemy.position=ccp(_enemy.position.x+3000, _enemy.position.y);
                     
-                }
-                if(ballData.position.x>_enemy.position.x+900){
-                    _enemy.position=ccp(_enemy.position.x+3000, _enemy.position.y);
                 }
                 //check for quiz collision
                 if(CGRectIntersectsRect(ballData.boundingBox, _quiz.boundingBox)){
@@ -278,8 +272,13 @@ int i=0;
                     [q setGameState:self.gameState];
                     [self.parent addChild:q z:10];
                 }
+                //update positions
+                
+                if(ballData.position.x>_enemy.position.x+900){
+                    _enemy.position=ccp(_enemy.position.x+[self calcFreq:enemyFreq withMin:900 withDist:ballData.position.x], _enemy.position.y);
+                }
                 if(ballData.position.x>_quiz.position.x+900){
-                    _quiz.position=ccp(_quiz.position.x+3000, _quiz.position.y);
+                    _quiz.position=ccp(_quiz.position.x+[self calcFreq:quizFreq withMin:900 withDist:ballData.position.x], _quiz.position.y);
                 }
                 //check for bg spawn
                 if(ballData.position.x>bg1.position.x && ballData.position.x >bg.position.x){
@@ -292,14 +291,18 @@ int i=0;
                     }
                 }
                 //update for distance
-                _body->SetLinearDamping(ballData.position.x/(4000.0+ballData.position.x));
+                //_body->SetLinearDamping((ballData.position.x/100)/(4000.0+(ballData.position.x/100)));
                 int i =  ballData.position.x;
-                NSLog(@"%i", i);
+                NSLog(@"%f", _body->GetLinearVelocity().x);
                 ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }
         }
     }
     }
+}
+
+- (int)calcFreq:(int)freq withMin:(int)min withDist:(float)dist {
+    return (arc4random() % freq+(dist/10)) + min;
 }
 
 - (void)quizFire:(b2Body*)b {
@@ -322,9 +325,9 @@ int i=0;
             if (b->GetUserData() != NULL) {
                 CCSprite *ballData = (CCSprite *)b->GetUserData();
                 if(location.x>240){
-                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+10,b->GetLinearVelocity().y+10));
+                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+2.0,b->GetLinearVelocity().y+2.0));
                 }else{
-                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-10,b->GetLinearVelocity().y+10));
+                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-2.0,b->GetLinearVelocity().y+2.0));
                 }
                 if(fabs(b->GetAngularVelocity())<.05)
                     b->SetAngularVelocity(.1);
