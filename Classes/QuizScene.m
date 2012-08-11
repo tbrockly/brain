@@ -13,7 +13,7 @@
 @synthesize booster;
 @synthesize gameState;
 CCParticleExplosion* parc;
-int num1, num2;
+int num1, num2, mathType;
 CCLabelTTF *num1l;
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init
@@ -26,11 +26,33 @@ CCLabelTTF *num1l;
 		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		[self addChild:oneLevel];
         oneLevel.position = ccp(430, 270);
-        num1=1+arc4random() %900;
-        num2=1+arc4random() %900;
-        num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i + %i =",num1,num2] 
-                                                 fontName:@"Arial" 
-                                                 fontSize:30];
+        mathType=1+arc4random() %4;
+        if(mathType==1){
+            num1=1+arc4random() %900;
+            num2=1+arc4random() %900;
+            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i + %i =",num1,num2] 
+                                            fontName:@"Arial" 
+                                            fontSize:30];
+        }else if(mathType ==2){
+            num1=1+arc4random() %900;
+            num2=1+arc4random() %(num1-1);
+            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i - %i =",num1,num2] 
+                                            fontName:@"Arial" 
+                                            fontSize:30];
+        }else if(mathType==3){
+            num1=1+arc4random() %12;
+            num2=1+arc4random() %12;
+            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i * %i =",num1,num2] 
+                                            fontName:@"Arial" 
+                                            fontSize:30];
+        }else if(mathType==4){
+            num1=1+arc4random() %9;
+            num2=num1*(1+arc4random() %9);
+            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i / %i =",num2,num1] 
+                                            fontName:@"Arial" 
+                                            fontSize:30];
+        }
+        
         [self addChild:num1l];
         num1l.position=ccp(100,200);
         
@@ -65,8 +87,25 @@ CCLabelTTF *num1l;
         CGRect rect=oneLevel.boundingBox;
         if (CGRectContainsPoint(rect,location)) {
             NSString *result=answer.text;
-            if(result.integerValue == num1+num2){
-                [gameState setBoost:60];
+            if(mathType==1){
+                if(result.integerValue == num1+num2){
+                    [gameState setBoost:60];
+                }
+            }
+            else if(mathType==2){
+                if(result.integerValue == num1-num2){
+                    [gameState setBoost:60];
+                }
+            }
+            else if(mathType==3){
+                if(result.integerValue == num1*num2){
+                    [gameState setBoost:60];
+                }
+            }
+            else if(mathType==4){
+                if(result.integerValue == num2/num1){
+                    [gameState setBoost:60];
+                }
             }
             [gameState setState:0];
             [answer endEditing:YES];

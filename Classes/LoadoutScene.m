@@ -77,8 +77,6 @@ NSUserDefaults *defaults;
         CCLabelTTF *boost= [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[defaults integerForKey:@"boost"]] fontName:@"Arial" fontSize:16];
 		boost.position = ccp(winSize.width-50, winSize.height-50);
 		[self addChild:boost];
-        
-		
 	}	
 	return self;
 }
