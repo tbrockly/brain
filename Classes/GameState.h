@@ -11,7 +11,10 @@
 @interface GameState: NSObject{
     int state;
     int boost;
+    int score;
+    float scale;
 }
 @property int state;
-@property int boost;
+@property int boost,score;
+@property float scale;
 @end

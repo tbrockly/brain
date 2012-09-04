@@ -32,17 +32,23 @@
 @implementation LoadoutLayer
 @synthesize readyButton;
 CCSprite *airResistBtn, *enemyFreqBtn, *quizFreqBtn, *boostBtn;
+CCSprite *gravityBtn, *frictonBtn, *enemyBoostBtn,*quizBoostBtn, *topSpeedBtn;
 NSUserDefaults *defaults;
 -(id) init
 {
 	if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
         defaults=[NSUserDefaults standardUserDefaults];
-        if([defaults integerForKey:@"airResist"]<1){
+        //if([defaults integerForKey:@"airResist"]<1){
             [defaults setInteger:1 forKey:@"airResist"];
             [defaults setInteger:1 forKey:@"enemyFreq"];
             [defaults setInteger:1 forKey:@"quizFreq"];
-            [defaults setInteger:1 forKey:@"boost"];
-        }
+            [defaults setInteger:1 forKey:@"enemyBoost"];
+            [defaults setInteger:1 forKey:@"quizBoost"];
+            [defaults setFloat:4 forKey:@"gravity"];
+            [defaults setInteger:1 forKey:@"friction"];
+            [defaults setInteger:1 forKey:@"quizDifficulty"];
+            [defaults setInteger:1 forKey:@"topSpeed"];
+        //}
         
 		// Enable touch events
 		self.isTouchEnabled = YES;
@@ -71,12 +77,12 @@ NSUserDefaults *defaults;
         CCLabelTTF *quiz= [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[defaults integerForKey:@"quizFreq"]] fontName:@"Arial" fontSize:16];
 		quiz.position = ccp(50, winSize.height-50);
 		[self addChild:quiz];
-        boostBtn = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
-		boostBtn.position = ccp(winSize.width-50, winSize.height-50);
-		[self addChild:boostBtn];
-        CCLabelTTF *boost= [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[defaults integerForKey:@"boost"]] fontName:@"Arial" fontSize:16];
-		boost.position = ccp(winSize.width-50, winSize.height-50);
-		[self addChild:boost];
+        gravityBtn = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		gravityBtn.position = ccp(winSize.width-50, winSize.height-50);
+		[self addChild:gravityBtn];
+        CCLabelTTF *grav= [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[defaults integerForKey:@"boost"]] fontName:@"Arial" fontSize:16];
+		grav.position = ccp(winSize.width-50, winSize.height-50);
+		[self addChild:grav];
 	}	
 	return self;
 }
@@ -96,8 +102,6 @@ NSUserDefaults *defaults;
         [defaults setInteger:[defaults integerForKey:@"enemyFreq"]+1 forKey:@"enemyFreq"];
     }else if (CGRectContainsPoint(quizFreqBtn.boundingBox,location)) {
         [defaults setInteger:[defaults integerForKey:@"quizFreq"]+1 forKey:@"quizFreq"];
-    }else if (CGRectContainsPoint(boostBtn.boundingBox,location)) {
-        [defaults setInteger:[defaults integerForKey:@"boost"]+1 forKey:@"boost"];
     }
 }
 @end

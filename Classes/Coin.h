@@ -10,10 +10,14 @@
 #import "cocos2d.h"
 #import "GameConfig.h"
 
-@interface GameTarget : CCSprite {
+@interface Coin : CCSprite {
 	int type;
+    float speed;
+    CGPoint target;
 }
 
 @property int type;
+@property float speed;
+@property CGPoint target;
 
 @end

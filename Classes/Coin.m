@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "GameTarget.h"
+#import "Coin.h"
 #import "GameConfig.h"
 
-@implementation GameTarget
+@implementation Coin
 
-@synthesize type;
+@synthesize type, speed, target;
 
 - (id)init
 {

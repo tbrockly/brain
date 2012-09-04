@@ -7,10 +7,9 @@
 #import "cocos2d.h"
 #import "CCActionInterval.h"
 #import "Monster.h"
-#import "QuizScene.h"
 
 @implementation GameScene
-@synthesize layer = _layer;
+//@synthesize layer = _layer;
 @synthesize quizLayer = _quizLayer;
 BOOL runAI;
 CGSize winSize;
@@ -24,15 +23,20 @@ CGPoint p1center, p2center;
 - (id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
     if ((self = [super init])) {
         GameState *gameState=[[GameState alloc] init];
-        self.layer = [Game initNode];
-        [self.layer setGameState:gameState];
-        [self addChild:_layer z:1];
+        //self.layer = [Game initNode];
+        //[self.layer setGameState:gameState];
+        Game *lay = [Game initNode];
+        [lay setGameState:gameState];
+        HudLayer *lay2 = [[HudLayer alloc] init];;
+        [lay2 setGameState:gameState];
+        [self addChild:lay z:0 tag:0];
+        [self addChild:lay2 z:1 tag:1];
     }     
     return self;
 }
 
 - (void)dealloc {
-    self.layer = nil;
+    //self.layer = nil;
     [super dealloc];
 }
 
@@ -43,14 +47,15 @@ CGPoint p1center, p2center;
 @implementation Game
 @synthesize world;
 @synthesize gameState;
-CCSprite* bg, *bg1, *coin;
-b2Body *_body, *_ebody, *coinBody;
+CCSprite* bg, *bg1;
+b2Body *_body, *_ebody;
 CCSprite *_ball, *_enemy, *_quiz;
 QuizLayer *_quizLayer;
-b2BodyDef ballBodyDef, coinBodyDef;
-b2FixtureDef ballShapeDef, coinShapeDef;
+b2BodyDef ballBodyDef;
+b2FixtureDef ballShapeDef;
+NSUserDefaults *defaults2;
+NSMutableArray *coins;
 float enemyFreq, quizFreq, airResist, speedBoost, friction;
-
 bool paused = false;
 
 -(void)addTarget {
@@ -97,9 +102,12 @@ bool paused = false;
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
+        defaults2=[NSUserDefaults standardUserDefaults];
+        coins=[NSMutableArray arrayWithObjects: nil];
+        [coins retain];
         enemyFreq=1000;
         quizFreq=5000;
-        bg = [CCSprite spriteWithFile:@"Mario-Land.jpg"];
+        bg = [CCSprite spriteWithFile:@"BG_1.jpg"];
         bg.scale = 2;
         [bg setPosition:ccp(0,-285+bg.boundingBox.size.height/2)];
         [self addChild:bg z:0];
@@ -112,12 +120,6 @@ bool paused = false;
 		
 		// Initialize arrays
 		_targets = [[NSMutableArray alloc] init];
-		_projectiles = [[NSMutableArray alloc] init];
-        _launchers = [[NSMutableArray alloc] init];
-        _weapons = [[NSMutableArray alloc] init];
-        _monsters = [[NSMutableArray alloc] init];
-        _eWeapons = [[NSMutableArray alloc] init];
-        _eMonsters = [[NSMutableArray alloc] init];
         
 		winSize = [[CCDirector sharedDirector] winSize];
         p1center = ccp(winSize.width/2,winSize.height/8);
@@ -132,7 +134,8 @@ bool paused = false;
         [self addChild:_ball];
         
         // Create ainitWithGame world
-        b2Vec2 gravity = b2Vec2(0.0f, -10.0f);
+        
+        b2Vec2 gravity = b2Vec2(0.0f, [defaults2 floatForKey:@"gravity"]-6.0f);
         world = new b2World(gravity);
         //world->SetContinuousPhysics(false);
         //[self setWorld:world];
@@ -170,29 +173,9 @@ bool paused = false;
         
         ballShapeDef.shape = &circle;
         ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = 0.3f;
+        ballShapeDef.friction = 0.29f;
         ballShapeDef.restitution = 0.59f;
         _body->CreateFixture(&ballShapeDef);
-        
-        coin = [Character spriteWithFile:@"Icon-Small.png"];//[CCSprite spriteWithFile:@"Icon-Small.png"];
-        coin.position=ccp(100,200);
-        [self addChild:coin z:100];
-        coinBodyDef.type = b2_dynamicBody;
-        coinBodyDef.userData=coin;
-        coinBodyDef.linearVelocity=b2Vec2(5, 5);
-        coinBodyDef.linearDamping=0;
-        coinBodyDef.position.Set(150/PTM_RATIO, (250/PTM_RATIO));
-        //NSLog(@"%f , %f", ballData.position.x,ballData.position.y);
-        coinBody = world->CreateBody(&coinBodyDef);
-        
-        //b2PolygonShape circle;
-        circle.SetAsBox(.2, .2);
-        
-        coinShapeDef.shape = &circle;
-        coinShapeDef.density = 1.0f;
-        coinShapeDef.friction = 0.7f;
-        coinShapeDef.restitution = 0.59f;
-        coinBody->CreateFixture(&coinShapeDef);
         
         _enemy =[CCSprite spriteWithFile:@"BodyItemside.png"];
         [self addChild:_enemy z:0];
@@ -238,19 +221,17 @@ int i=0;
     for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
-            if([ballData isKindOfClass:[GameTarget class]]){
-                
-            }
             if([ballData isKindOfClass:[Character class]]){
+                ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
+                                        b->GetPosition().y * PTM_RATIO);
                 //ZOOM
-                float xx = 40.0/(fabs(b->GetLinearVelocity().x)+60.0);
+                float xx = 20.0/(fabs(b->GetLinearVelocity().x)+40.0);
                 if(fabs(self.scale-xx)>.4){
                     self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
                 }else{
                     self.scale=xx>self.scale?self.scale+.005:self.scale-.005;
                 }
-                ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
-                                        b->GetPosition().y * PTM_RATIO);
+                [gameState setScale:self.scale];
                 [self swtViewCenter:ballData.position];
                 //BOOST
                 if([gameState boost]>0){
@@ -259,6 +240,8 @@ int i=0;
                     b->SetLinearVelocity(b2Vec2(vx+[gameState boost],vy+[gameState boost]));
                     [gameState setBoost:0];
                 }
+
+                [gameState setScore:_ball.position.x];
                 
                 //check for enemy collision
                 if(CGRectIntersectsRect(ballData.boundingBox, _enemy.boundingBox)){
@@ -279,25 +262,17 @@ int i=0;
 //                    parc.autoRemoveOnFinish=YES;
 //                    [self addChild:parc];
                     
-                    coin = [CCSprite spriteWithFile:@"Icon-Small.png"];
-                    coin.position=ccp(_enemy.position.x,_enemy.position.y+100);
-                    [self addChild:coin z:100];
-                    coinBodyDef.type = b2_dynamicBody;
-                    coinBodyDef.userData=coin;
-                    coinBodyDef.linearVelocity=b2Vec2(b->GetLinearVelocity().x, b->GetLinearVelocity().y);
-                    coinBodyDef.linearDamping=0;
-                    coinBodyDef.position.Set(_enemy.position.x, (_enemy.position.y+100));
-                    NSLog(@"%f , %f", ballData.position.x,ballData.position.y);
-                    coinBody = world->CreateBody(&coinBodyDef);
+                    [[self.parent getChildByTag:1] createCoins:15];
+                   
                     
-                    b2PolygonShape circle;
-                    circle.SetAsBox(.2, .2);
-                    
-                    coinShapeDef.shape = &circle;
-                    coinShapeDef.density = 1.0f;
-                    coinShapeDef.friction = 0.7f;
-                    coinShapeDef.restitution = 0.59f;
-                    coinBody->CreateFixture(&coinShapeDef);
+//                    b2PolygonShape circle;
+//                    circle.SetAsBox(.2, .2);
+//                    
+//                    coinShapeDef.shape = &circle;
+//                    coinShapeDef.density = 1.0f;
+//                    coinShapeDef.friction = 0.7f;
+//                    coinShapeDef.restitution = 0.59f;
+//                    coinBody->CreateFixture(&coinShapeDef);
                     
                     _enemy.position=ccp(_enemy.position.x+3000, _enemy.position.y);
                 }
@@ -329,8 +304,8 @@ int i=0;
                     }
                 }
                 //update for distance
-                //_body->SetLinearDamping((ballData.position.x/100)/(4000.0+(ballData.position.x/100)));
-                int i =  ballData.position.x;
+                _body->SetLinearDamping((ballData.position.x/100)/(40000.0+(ballData.position.x/100)));
+                //int i =  ballData.position.x;
                 //NSLog(@"%f", _body->GetLinearVelocity().x);
                 ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
             }
@@ -350,16 +325,18 @@ int i=0;
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         
-        for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {    
+        for(b2Body *b = world->GetBodyList(); b; b=b->GetNext()) {
             if (b->GetUserData() != NULL) {
                 CCSprite *ballData = (CCSprite *)b->GetUserData();
-                if(location.x>240){
-                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+2.0,b->GetLinearVelocity().y+2.0));
-                }else{
-                    b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-2.0,b->GetLinearVelocity().y+2.0));
+                if([ballData isKindOfClass:[Character class]]){
+                    if(location.x>240){
+                        b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x+2.0,b->GetLinearVelocity().y+2.0));
+                    }else{
+                        b->SetLinearVelocity(b2Vec2(b->GetLinearVelocity().x-2.0,b->GetLinearVelocity().y+2.0));
+                    }
+                    if(fabs(b->GetAngularVelocity())<.05)
+                        b->SetAngularVelocity(.1);
                 }
-                if(fabs(b->GetAngularVelocity())<.05)
-                    b->SetAngularVelocity(.1);
             }
         }
     }
@@ -386,8 +363,6 @@ int i=0;
 {
 	[_targets release];
 	_targets = nil;
-	[_projectiles release];
-	_projectiles = nil;
 	
 	// don't forget to call "super dealloc"
 	[super dealloc];

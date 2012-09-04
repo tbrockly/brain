@@ -3,19 +3,16 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 #import "Character.h"
-#import "QuizScene.h"
+#import "GameTarget.h"
+#import "Coin.h"
+#import "QuizLayer.h"
+#import "HudLayer.h"
 #import "GameState.h"
 
 // HelloWorld Layer
 @interface Game : CCColorLayer
 {
 	NSMutableArray *_targets;
-	NSMutableArray *_projectiles;
-    NSMutableArray *_launchers;
-    NSMutableArray *_weapons;
-    NSMutableArray *_monsters;
-    NSMutableArray *_eMonsters;
-    NSMutableArray *_eWeapons;
     b2World *world;
     GameState *gameState;
 	int _projectilesDestroyed;
@@ -29,11 +26,11 @@
 
 @interface GameScene : CCScene
 {
-    Game *_layer;
+    //Game *_layer;
     QuizLayer *_quizLayer;
     
 }
-@property (nonatomic, retain) Game *layer;
+//@property (nonatomic, retain) Game *layer;
 @property (nonatomic, retain) QuizLayer *quizLayer;
 +(id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
 -(id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
