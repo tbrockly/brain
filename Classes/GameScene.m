@@ -16,11 +16,11 @@ CGSize winSize;
 CGPoint p1center, p2center;
 #define PTM_RATIO 150.0
 
-+ (id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
-	return [[[self alloc] initWithMonsters:monstersIn weapons:weaponsIn] autorelease];
++ (id)initNode {
+	return [[[self alloc] initWithMonsters] autorelease];
 }
 
-- (id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn {
+- (id)initWithMonsters{
     if ((self = [super init])) {
         GameState *gameState=[[GameState alloc] init];
         //self.layer = [Game initNode];
@@ -47,7 +47,7 @@ CGPoint p1center, p2center;
 @implementation Game
 @synthesize world;
 @synthesize gameState;
-CCSprite* bg, *bg1;
+CCSprite* bg, *bg1, *bg2, *bg3;
 b2Body *_body, *_ebody;
 CCSprite *_ball, *_enemy, *_quiz;
 QuizLayer *_quizLayer;
@@ -107,14 +107,22 @@ bool paused = false;
         [coins retain];
         enemyFreq=1000;
         quizFreq=5000;
-        bg = [CCSprite spriteWithFile:@"BG_1.jpg"];
+        bg = [CCSprite spriteWithFile:@"BG1.jpg"];
         bg.scale = 2;
-        [bg setPosition:ccp(0,-285+bg.boundingBox.size.height/2)];
+        [bg setPosition:ccp(0,-300+bg.boundingBox.size.height/2)];
         [self addChild:bg z:0];
-        bg1 = [CCSprite spriteWithFile:@"Mario-Land.jpg"];
+        bg1 = [CCSprite spriteWithFile:@"BG2.jpg"];
         bg1.scale = 2;
-        [bg1 setPosition:ccp([bg boundingBox].size.width-1,-285+bg.boundingBox.size.height/2)];
+        [bg1 setPosition:ccp([bg boundingBox].size.width/2+[bg1 boundingBox].size.width/2,-300+bg1.boundingBox.size.height/2)];
         [self addChild:bg1 z:0];
+        bg2 = [CCSprite spriteWithFile:@"BG3.jpg"];
+        bg2.scale = 2;
+        [bg2 setPosition:ccp([bg boundingBox].size.width/2+[bg1 boundingBox].size.width+[bg2 boundingBox].size.width/2,-300+bg2.boundingBox.size.height/2)];
+        [self addChild:bg2 z:0];
+        bg3 = [CCSprite spriteWithFile:@"BG4.jpg"];
+        bg3.scale = 2;
+        [bg3 setPosition:ccp([bg boundingBox].size.width/2+[bg1 boundingBox].size.width+[bg2 boundingBox].size.width+[bg3 boundingBox].size.width/2,-300+bg3.boundingBox.size.height/2)];
+        [self addChild:bg3 z:0];
 		// Enable touch events
 		self.isTouchEnabled = YES;
 		
@@ -129,7 +137,8 @@ bool paused = false;
 		runAI = true;
         
         // Create sprite and add it to the layer
-        _ball = [Character spriteWithFile:@"FoodItemside.png"];
+        _ball = [Character spriteWithFile:@"brain_test.png"];
+        _ball.scale=.3;
         _ball.position = ccp(100, 100);
         [self addChild:_ball];
         
@@ -164,7 +173,7 @@ bool paused = false;
         ballBodyDef.type = b2_dynamicBody;
         ballBodyDef.position.Set(150/PTM_RATIO, 150/PTM_RATIO);
         ballBodyDef.userData = _ball;
-        ballBodyDef.linearVelocity= b2Vec2(10,10);
+        ballBodyDef.linearVelocity= b2Vec2(1,1);
         ballBodyDef.linearDamping=0;
         _body = world->CreateBody(&ballBodyDef);
         
@@ -173,8 +182,8 @@ bool paused = false;
         
         ballShapeDef.shape = &circle;
         ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = 0.29f;
-        ballShapeDef.restitution = 0.59f;
+        ballShapeDef.friction = 0.21f;
+        ballShapeDef.restitution = 0.69f;
         _body->CreateFixture(&ballShapeDef);
         
         _enemy =[CCSprite spriteWithFile:@"BodyItemside.png"];
@@ -225,7 +234,7 @@ int i=0;
                 ballData.position = ccp(b->GetPosition().x * PTM_RATIO,
                                         b->GetPosition().y * PTM_RATIO);
                 //ZOOM
-                float xx = 20.0/(fabs(b->GetLinearVelocity().x)+40.0);
+                float xx = 20.0/(fabs(b->GetLinearVelocity().x)+50.0);
                 if(fabs(self.scale-xx)>.4){
                     self.scale=xx>self.scale?self.scale+.01:self.scale-.01;
                 }else{
@@ -237,7 +246,7 @@ int i=0;
                 if([gameState boost]>0){
                     float vx=b->GetLinearVelocity().x;
                     float vy=b->GetLinearVelocity().y < 0.0 ?0.0:b->GetLinearVelocity().y;
-                    b->SetLinearVelocity(b2Vec2(vx+[gameState boost],vy+[gameState boost]));
+                    b->SetLinearVelocity(b2Vec2(vx+[gameState boost],vy+[gameState boost]*.8));
                     [gameState setBoost:0];
                 }
 
@@ -247,7 +256,7 @@ int i=0;
                 if(CGRectIntersectsRect(ballData.boundingBox, _enemy.boundingBox)){
                     float vx=b->GetLinearVelocity().x;
                     float vy=b->GetLinearVelocity().y < 0.0 ?0.0:b->GetLinearVelocity().y;
-                    b->SetLinearVelocity(b2Vec2(vx+3,fabs(vy)+5));
+                    b->SetLinearVelocity(b2Vec2(vx+5,fabs(vy)+8));
 //                    CCParticleExplosion* parc= [CCParticleExplosion node];
 //                    parc.texture=[_enemy texture];
 //                    [parc setLife:1];
@@ -294,14 +303,15 @@ int i=0;
                     _quiz.position=ccp(_quiz.position.x+[self calcFreq:quizFreq withMin:900 withDist:ballData.position.x], _quiz.position.y);
                 }
                 //check for bg spawn
-                if(ballData.position.x>bg1.position.x && ballData.position.x >bg.position.x){
-                    if(bg1.position.x > bg.position.x){
-                        bg.position = ccp(bg1.position.x+bg1.boundingBox.size.width-8,bg.position.y);
-                        printf("2");
-                    }else{
-                        bg1.position = ccp(bg.position.x+bg.boundingBox.size.width-8,bg1.position.y);
-                        printf("3");
-                    }
+                float totalDist=[bg boundingBox].size.width+[bg1 boundingBox].size.width+[bg2 boundingBox].size.width+[bg3 boundingBox].size.width;
+                if(ballData.position.x>bg.position.x+totalDist/2){
+                        bg.position = ccp(bg.position.x+totalDist,bg.position.y);
+                }else if(ballData.position.x>bg1.position.x+totalDist/2){
+                    bg1.position = ccp(bg1.position.x+totalDist,bg1.position.y);
+                }else if(ballData.position.x>bg2.position.x+totalDist/2){
+                    bg2.position = ccp(bg2.position.x+totalDist,bg2.position.y);
+                }else if(ballData.position.x>bg3.position.x+totalDist/2){
+                    bg3.position = ccp(bg3.position.x+totalDist,bg3.position.y);
                 }
                 //update for distance
                 _body->SetLinearDamping((ballData.position.x/100)/(40000.0+(ballData.position.x/100)));

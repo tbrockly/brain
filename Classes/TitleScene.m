@@ -7,7 +7,7 @@
 //
 
 #import "TitleScene.h"
-#import "LevelSelectScene.h"
+#import "GameScene.h"
 
 @implementation TitleScene
 @synthesize layer = _layer;
@@ -38,7 +38,7 @@
 		self.isTouchEnabled = YES;
         
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		onePlayer = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 50, 50)];
+		onePlayer = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		onePlayer.position = ccp(winSize.width/2, winSize.height/2);
 		[self addChild:onePlayer];
 		
@@ -56,7 +56,7 @@
                                          onePlayer.contentSize.width, 
                                          onePlayer.contentSize.height);
     if (CGRectContainsPoint(launcherRect,location)) {
-        [[CCDirector sharedDirector] replaceScene:[LevelSelectScene node]];
+        [[CCDirector sharedDirector] replaceScene:[GameScene initNode]];
     }
 
 }

@@ -44,7 +44,7 @@ NSUserDefaults *defaults;
             [defaults setInteger:1 forKey:@"quizFreq"];
             [defaults setInteger:1 forKey:@"enemyBoost"];
             [defaults setInteger:1 forKey:@"quizBoost"];
-            [defaults setFloat:4 forKey:@"gravity"];
+            [defaults setFloat:1 forKey:@"gravity"];
             [defaults setInteger:1 forKey:@"friction"];
             [defaults setInteger:1 forKey:@"quizDifficulty"];
             [defaults setInteger:1 forKey:@"topSpeed"];
@@ -93,9 +93,7 @@ NSUserDefaults *defaults;
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
     if (CGRectContainsPoint(readyButton.boundingBox,location)) {
-        NSMutableArray *monsters=[[NSMutableArray alloc] init];
-        NSMutableArray *weapons=[[NSMutableArray alloc] init];
-        [[CCDirector sharedDirector] replaceScene:[GameScene initNode:monsters weapons:weapons]];
+        [[CCDirector sharedDirector] replaceScene:[GameScene initNode]];
     }else if (CGRectContainsPoint(airResistBtn.boundingBox,location)) {
         [defaults setInteger:[defaults integerForKey:@"airResist"]+1 forKey:@"airResist"];
     }else if (CGRectContainsPoint(enemyFreqBtn.boundingBox,location)) {

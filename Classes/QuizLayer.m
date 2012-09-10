@@ -17,7 +17,7 @@ CCLabelTTF *num1l;
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init
 {
-	if( (self=[super initWithColor:ccc4(155,155,155,255)] )) {
+	if( (self=[super initWithColor:ccc4(155,155,155,100)] )) {
 		// Enable touch events
 		self.isTouchEnabled = YES;
         

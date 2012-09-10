@@ -17,8 +17,8 @@
     GameState *gameState;
 	int _projectilesDestroyed;
 }
-+(id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
--(id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
++(id)initNode;
+-(id)initWithMonsters;
 -(void)quizFire:(b2Body *)b;
 @property (nonatomic, readonly) b2World * world;
 @property (nonatomic, retain) GameState * gameState;
