@@ -117,17 +117,12 @@
 		9FB7178315A00F390029E4BD /* b2WheelJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FB7175115A00F390029E4BD /* b2WheelJoint.cpp */; };
 		9FB7178415A00F390029E4BD /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FB7175415A00F390029E4BD /* b2Rope.cpp */; };
 		9FBE407C15A8E27300AE2187 /* Mario-Land.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FBE407B15A8E27300AE2187 /* Mario-Land.jpg */; };
-		9FBE408415A8FE9D00AE2187 /* Monster.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE408315A8FE9D00AE2187 /* Monster.m */; };
-		9FBE408815AA171700AE2187 /* Ball.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE408715AA171700AE2187 /* Ball.m */; };
 		9FBE409115AAA67000AE2187 /* QuizLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE409015AAA66F00AE2187 /* QuizLayer.m */; };
 		9FBE409715B27FD800AE2187 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE409615B27FD700AE2187 /* GameState.m */; };
 		9FBE40A215D6D15E00AE2187 /* GameTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE40A115D6D15D00AE2187 /* GameTarget.m */; };
 		9FC4348414BA532700F85C2A /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC4348314BA532700F85C2A /* GameScene.m */; };
 		9FC4349414BAB18900F85C2A /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC4349014BAB18900F85C2A /* Character.m */; };
 		9FC4349714C1581300F85C2A /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC4349614C1581200F85C2A /* TitleScene.m */; };
-		9FC434A114C22AB300F85C2A /* LevelSelectScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC434A014C22AB200F85C2A /* LevelSelectScene.m */; };
-		9FC434A714C22E4F00F85C2A /* LoadoutScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC434A614C22E4E00F85C2A /* LoadoutScene.m */; };
-		9FC434AA14C22F9E00F85C2A /* LevelUpScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC434A914C22F9D00F85C2A /* LevelUpScene.m */; };
 		9FC434AE14C275E900F85C2A /* BodyItemside.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC434AB14C275E900F85C2A /* BodyItemside.png */; };
 		9FC434AF14C275E900F85C2A /* FoodItemside.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC434AC14C275E900F85C2A /* FoodItemside.png */; };
 		9FC434B014C275E900F85C2A /* HeadItemside.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC434AD14C275E900F85C2A /* HeadItemside.png */; };
@@ -135,6 +130,10 @@
 		9FD533B615F9A197003DB28A /* BG2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FD533B215F9A197003DB28A /* BG2.jpg */; };
 		9FD533B715F9A197003DB28A /* BG3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FD533B315F9A197003DB28A /* BG3.jpg */; };
 		9FD533B815F9A197003DB28A /* BG4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FD533B415F9A197003DB28A /* BG4.jpg */; };
+		9FEDF08716156E53006A5E35 /* shield1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FEDF08316156E53006A5E35 /* shield1.png */; };
+		9FEDF08816156E53006A5E35 /* shield2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FEDF08416156E53006A5E35 /* shield2.png */; };
+		9FEDF08916156E53006A5E35 /* shield3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FEDF08516156E53006A5E35 /* shield3.png */; };
+		9FEDF08A16156E53006A5E35 /* shield4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FEDF08616156E53006A5E35 /* shield4.png */; };
 		DC6640030F83B3EA000B3E49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */; };
 		DC6640050F83B3EA000B3E49 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640040F83B3EA000B3E49 /* OpenAL.framework */; };
 		DCCBF1B70F6022AE0040855A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */; };
@@ -314,7 +313,6 @@
 		E02BB8B3126CC224006E46A2 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E02BB80D126CC224006E46A2 /* ZipUtils.h */; };
 		E02BB8B4126CC224006E46A2 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E02BB80E126CC224006E46A2 /* ZipUtils.m */; };
 		E0F80F60120A0182005866B8 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F80F5F120A0182005866B8 /* RootViewController.m */; };
-		E11EC23F129A2D2E008B1CA2 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = E11EC23D129A2D2E008B1CA2 /* GameOverScene.m */; };
 		E11EC267129A2D92008B1CA2 /* logo6.png in Resources */ = {isa = PBXBuildFile; fileRef = E11EC261129A2D92008B1CA2 /* logo6.png */; };
 		E11EC268129A2D92008B1CA2 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = E11EC262129A2D92008B1CA2 /* background-music-aac.caf */; };
 		E11EC269129A2D92008B1CA2 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = E11EC263129A2D92008B1CA2 /* pew-pew-lei.caf */; };
@@ -493,10 +491,6 @@
 		9FB7175415A00F390029E4BD /* b2Rope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2Rope.cpp; sourceTree = "<group>"; };
 		9FB7175515A00F390029E4BD /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
 		9FBE407B15A8E27300AE2187 /* Mario-Land.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Mario-Land.jpg"; sourceTree = "<group>"; };
-		9FBE408215A8FE9D00AE2187 /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
-		9FBE408315A8FE9D00AE2187 /* Monster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Monster.m; sourceTree = "<group>"; };
-		9FBE408615AA171600AE2187 /* Ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ball.h; sourceTree = "<group>"; };
-		9FBE408715AA171700AE2187 /* Ball.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ball.m; sourceTree = "<group>"; };
 		9FBE408F15AAA66F00AE2187 /* QuizLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizLayer.h; sourceTree = "<group>"; };
 		9FBE409015AAA66F00AE2187 /* QuizLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuizLayer.m; sourceTree = "<group>"; };
 		9FBE409515B27FD600AE2187 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
@@ -509,12 +503,6 @@
 		9FC4349014BAB18900F85C2A /* Character.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Character.m; path = "../../12-23-11/LookoutBears/Classes/Character.m"; sourceTree = "<group>"; };
 		9FC4349514C1581100F85C2A /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
 		9FC4349614C1581200F85C2A /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
-		9FC4349F14C22AB100F85C2A /* LevelSelectScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelSelectScene.h; sourceTree = "<group>"; };
-		9FC434A014C22AB200F85C2A /* LevelSelectScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelSelectScene.m; sourceTree = "<group>"; };
-		9FC434A514C22E4D00F85C2A /* LoadoutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadoutScene.h; sourceTree = "<group>"; };
-		9FC434A614C22E4E00F85C2A /* LoadoutScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadoutScene.m; sourceTree = "<group>"; };
-		9FC434A814C22F9C00F85C2A /* LevelUpScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelUpScene.h; sourceTree = "<group>"; };
-		9FC434A914C22F9D00F85C2A /* LevelUpScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelUpScene.m; sourceTree = "<group>"; };
 		9FC434AB14C275E900F85C2A /* BodyItemside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BodyItemside.png; sourceTree = "<group>"; };
 		9FC434AC14C275E900F85C2A /* FoodItemside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FoodItemside.png; sourceTree = "<group>"; };
 		9FC434AD14C275E900F85C2A /* HeadItemside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HeadItemside.png; sourceTree = "<group>"; };
@@ -522,6 +510,10 @@
 		9FD533B215F9A197003DB28A /* BG2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BG2.jpg; sourceTree = "<group>"; };
 		9FD533B315F9A197003DB28A /* BG3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BG3.jpg; sourceTree = "<group>"; };
 		9FD533B415F9A197003DB28A /* BG4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BG4.jpg; sourceTree = "<group>"; };
+		9FEDF08316156E53006A5E35 /* shield1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield1.png; sourceTree = "<group>"; };
+		9FEDF08416156E53006A5E35 /* shield2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield2.png; sourceTree = "<group>"; };
+		9FEDF08516156E53006A5E35 /* shield3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield3.png; sourceTree = "<group>"; };
+		9FEDF08616156E53006A5E35 /* shield4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield4.png; sourceTree = "<group>"; };
 		DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DC6640040F83B3EA000B3E49 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -703,8 +695,6 @@
 		E0F80F5D120A0182005866B8 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		E0F80F5E120A0182005866B8 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		E0F80F5F120A0182005866B8 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		E11EC23C129A2D2E008B1CA2 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
-		E11EC23D129A2D2E008B1CA2 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		E11EC261129A2D92008B1CA2 /* logo6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo6.png; sourceTree = "<group>"; };
 		E11EC262129A2D92008B1CA2 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		E11EC263129A2D92008B1CA2 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
@@ -809,20 +799,8 @@
 				E0F80F5D120A0182005866B8 /* GameConfig.h */,
 				1F3B9A2C0EF2145700286867 /* Cocos2DSimpleGameAppDelegate.h */,
 				1F3B9A2B0EF2145700286867 /* Cocos2DSimpleGameAppDelegate.m */,
-				E11EC23C129A2D2E008B1CA2 /* GameOverScene.h */,
-				E11EC23D129A2D2E008B1CA2 /* GameOverScene.m */,
 				9FC4349514C1581100F85C2A /* TitleScene.h */,
 				9FC4349614C1581200F85C2A /* TitleScene.m */,
-				9FC4349F14C22AB100F85C2A /* LevelSelectScene.h */,
-				9FC434A014C22AB200F85C2A /* LevelSelectScene.m */,
-				9FC434A514C22E4D00F85C2A /* LoadoutScene.h */,
-				9FC434A614C22E4E00F85C2A /* LoadoutScene.m */,
-				9FC434A814C22F9C00F85C2A /* LevelUpScene.h */,
-				9FC434A914C22F9D00F85C2A /* LevelUpScene.m */,
-				9FBE408215A8FE9D00AE2187 /* Monster.h */,
-				9FBE408315A8FE9D00AE2187 /* Monster.m */,
-				9FBE408615AA171600AE2187 /* Ball.h */,
-				9FBE408715AA171700AE2187 /* Ball.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -933,6 +911,10 @@
 		50F414EB1069373D002A0D5E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9FEDF08316156E53006A5E35 /* shield1.png */,
+				9FEDF08416156E53006A5E35 /* shield2.png */,
+				9FEDF08516156E53006A5E35 /* shield3.png */,
+				9FEDF08616156E53006A5E35 /* shield4.png */,
 				9FD533B115F9A197003DB28A /* BG1.jpg */,
 				9FD533B215F9A197003DB28A /* BG2.jpg */,
 				9FD533B315F9A197003DB28A /* BG3.jpg */,
@@ -1570,6 +1552,10 @@
 				9FD533B615F9A197003DB28A /* BG2.jpg in Resources */,
 				9FD533B715F9A197003DB28A /* BG3.jpg in Resources */,
 				9FD533B815F9A197003DB28A /* BG4.jpg in Resources */,
+				9FEDF08716156E53006A5E35 /* shield1.png in Resources */,
+				9FEDF08816156E53006A5E35 /* shield2.png in Resources */,
+				9FEDF08916156E53006A5E35 /* shield3.png in Resources */,
+				9FEDF08A16156E53006A5E35 /* shield4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1583,13 +1569,9 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1F3B9A2D0EF2145700286867 /* Cocos2DSimpleGameAppDelegate.m in Sources */,
 				E0F80F60120A0182005866B8 /* RootViewController.m in Sources */,
-				E11EC23F129A2D2E008B1CA2 /* GameOverScene.m in Sources */,
 				9FC4348414BA532700F85C2A /* GameScene.m in Sources */,
 				9FC4349414BAB18900F85C2A /* Character.m in Sources */,
 				9FC4349714C1581300F85C2A /* TitleScene.m in Sources */,
-				9FC434A114C22AB300F85C2A /* LevelSelectScene.m in Sources */,
-				9FC434A714C22E4F00F85C2A /* LoadoutScene.m in Sources */,
-				9FC434AA14C22F9E00F85C2A /* LevelUpScene.m in Sources */,
 				9FB7175815A00F390029E4BD /* b2BroadPhase.cpp in Sources */,
 				9FB7175915A00F390029E4BD /* b2CollideCircle.cpp in Sources */,
 				9FB7175A15A00F390029E4BD /* b2CollideEdge.cpp in Sources */,
@@ -1635,8 +1617,6 @@
 				9FB7178215A00F390029E4BD /* b2WeldJoint.cpp in Sources */,
 				9FB7178315A00F390029E4BD /* b2WheelJoint.cpp in Sources */,
 				9FB7178415A00F390029E4BD /* b2Rope.cpp in Sources */,
-				9FBE408415A8FE9D00AE2187 /* Monster.m in Sources */,
-				9FBE408815AA171700AE2187 /* Ball.m in Sources */,
 				9FBE409115AAA67000AE2187 /* QuizLayer.m in Sources */,
 				9FBE409715B27FD800AE2187 /* GameState.m in Sources */,
 				9FBE40A215D6D15E00AE2187 /* GameTarget.m in Sources */,
