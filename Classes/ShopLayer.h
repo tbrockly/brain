@@ -14,9 +14,11 @@
     CCSprite *oneLevel;
     UITextField *answer;
     GameState *gameState;
+    CCColorLayer *parentLayer;
     int booster;
 }
 @property (nonatomic, retain) CCSprite *oneLevel;
 @property (nonatomic, retain) GameState *gameState;
+@property (nonatomic, retain) CCColorLayer *parentLayer;
 @property int booster;
 @end

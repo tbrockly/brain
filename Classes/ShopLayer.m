@@ -11,7 +11,7 @@
 @implementation ShopLayer
 @synthesize oneLevel;
 @synthesize booster;
-@synthesize gameState;
+@synthesize gameState,parentLayer;
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init
 {
@@ -19,20 +19,10 @@
 		// Enable touch events
 		self.isTouchEnabled = YES;
         
-		//CGSize winSize = [[CCDirector sharedDirector] winSize];
-		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		CGSize winSize = [[CCDirector sharedDirector] winSize];
+		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(20, 20, 40, 40)];
 		[self addChild:oneLevel];
-        oneLevel.position = ccp(430, 270);
-        
-        answer=[[UITextField alloc] initWithFrame:CGRectMake(150, 250, 100, 30)];
-        [answer setDelegate:self];
-        [answer setText:@""];
-        [answer setTextColor:[UIColor whiteColor]];
-        [answer setKeyboardType:UIKeyboardTypeDecimalPad];
-        [answer setFont:[UIFont fontWithName:@"Arial" size:30]];
-        answer.transform = CGAffineTransformConcat(answer.transform, CGAffineTransformMakeRotation(degreesToRadians(90)));
-        [[[CCDirector sharedDirector] openGLView] addSubview:answer];
-        [answer becomeFirstResponder];
+        oneLevel.position = ccp(winSize.width/2, winSize.height/2);
 	}	
 	return self;
 }
@@ -47,16 +37,21 @@
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([gameState state]==1){
+    //if([gameState state]==2){
         // Choose one of the touches to work with
         UITouch *touch = [touches anyObject];
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
-        CGRect rect=oneLevel.boundingBox;
-        if (CGRectContainsPoint(rect,location)) {
+        if (CGRectContainsPoint(oneLevel.boundingBox,location)) {
+            //[gameState setState:-[gameState state]];
+            [answer endEditing:YES];
+            [answer removeFromSuperview];
+            parentLayer.isTouchEnabled=YES;
             [self.parent removeChild:self cleanup:TRUE];
+            [[CCDirector sharedDirector] resume];
         }
-    }
+    //}
 }
+
 
 @end

@@ -8,6 +8,7 @@
 
 #import "TitleScene.h"
 #import "GameScene.h"
+#import "ShopLayer.h"
 
 @implementation TitleScene
 @synthesize layer = _layer;
@@ -30,33 +31,40 @@
 @end
 
 @implementation TitleLayer
-@synthesize onePlayer;
+@synthesize onePlayer, shopSprite, gameState;
 -(id) init
 {
 	if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
 		// Enable touch events
 		self.isTouchEnabled = YES;
-        
+        gameState=[[GameState alloc] init];
+        [gameState setState:10];
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
 		onePlayer = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		onePlayer.position = ccp(winSize.width/2, winSize.height/2);
 		[self addChild:onePlayer];
-		
+		shopSprite = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		[self addChild:shopSprite];
 	}	
 	return self;
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	// Choose one of the touches to work with
-	UITouch *touch = [touches anyObject];
-	CGPoint location = [touch locationInView:[touch view]];
-	location = [[CCDirector sharedDirector] convertToGL:location];
-    CGRect launcherRect = CGRectMake(onePlayer.position.x - (onePlayer.contentSize.width/2), 
-                                         onePlayer.position.y - (onePlayer.contentSize.height/2), 
-                                         onePlayer.contentSize.width, 
-                                         onePlayer.contentSize.height);
-    if (CGRectContainsPoint(launcherRect,location)) {
-        [[CCDirector sharedDirector] replaceScene:[GameScene initNode]];
+    if([gameState state] ==10){
+        UITouch *touch = [touches anyObject];
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        if (CGRectContainsPoint(onePlayer.boundingBox,location)) {
+            [[CCDirector sharedDirector] replaceScene:[GameScene initNode]];
+        }
+        if (CGRectContainsPoint(shopSprite.boundingBox,location)) {
+            //[gameState setState:-10];
+            ShopLayer *q = [[ShopLayer alloc] init];
+            self.isTouchEnabled=NO;
+            [q setParentLayer:self];
+            [self.parent addChild:q z:10];
+        }
     }
 
 }

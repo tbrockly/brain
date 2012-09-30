@@ -12,11 +12,13 @@
 
 @interface PauseLayer : CCColorLayer <UITextFieldDelegate>{
     CCSprite *oneLevel;
+    CCSprite *restart;
     UITextField *answer;
     GameState *gameState;
     int booster;
 }
 @property (nonatomic, retain) CCSprite *oneLevel;
+@property (nonatomic, retain) CCSprite *restart;
 @property (nonatomic, retain) GameState *gameState;
 @property int booster;
 @end

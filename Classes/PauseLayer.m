@@ -7,9 +7,11 @@
 //
 
 #import "PauseLayer.h"
+#import "GameScene.h"
 
 @implementation PauseLayer
 @synthesize oneLevel;
+@synthesize restart;
 @synthesize booster;
 @synthesize gameState;
 
@@ -20,21 +22,13 @@
 		// Enable touch events
 		self.isTouchEnabled = YES;
         
-		//CGSize winSize = [[CCDirector sharedDirector] winSize];
-		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		CGSize winSize = [[CCDirector sharedDirector] winSize];
+		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(20, 20, 40, 40)];
 		[self addChild:oneLevel];
-        oneLevel.position = ccp(430, 270);
-        
-        
-        answer=[[UITextField alloc] initWithFrame:CGRectMake(150, 250, 100, 30)];
-        [answer setDelegate:self];
-        [answer setText:@""];
-        [answer setTextColor:[UIColor whiteColor]];
-        [answer setKeyboardType:UIKeyboardTypeDecimalPad];
-        [answer setFont:[UIFont fontWithName:@"Arial" size:30]];
-        answer.transform = CGAffineTransformConcat(answer.transform, CGAffineTransformMakeRotation(degreesToRadians(90)));
-        [[[CCDirector sharedDirector] openGLView] addSubview:answer];
-        [answer becomeFirstResponder];
+        oneLevel.position = ccp(winSize.width/2, winSize.height/2);
+        restart = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(20, 20, 40, 40)];
+		[self addChild:restart];
+        restart.position = ccp(winSize.width/2, winSize.height/4);
 	}	
 	return self;
 }
@@ -49,17 +43,23 @@
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([gameState state]==1){
+    if([gameState state]==2){
         // Choose one of the touches to work with
         UITouch *touch = [touches anyObject];
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
-        CGRect rect=oneLevel.boundingBox;
-        if (CGRectContainsPoint(rect,location)) {
+        if (CGRectContainsPoint(oneLevel.boundingBox,location)) {
             [gameState setState:0];
             [answer endEditing:YES];
             [answer removeFromSuperview];
             [self.parent removeChild:self cleanup:TRUE];
+            [[CCDirector sharedDirector] resume];
+        }
+        if (CGRectContainsPoint(restart.boundingBox,location)) {
+            [gameState setState:0];
+            [self.parent removeChild:self cleanup:TRUE];
+            [[CCDirector sharedDirector] resume];
+            [[CCDirector sharedDirector] replaceScene:[GameScene initNode]];
         }
     }
 }

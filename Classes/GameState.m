@@ -10,6 +10,6 @@
 
 @implementation GameState
 @synthesize state;
-@synthesize boost,score;
+@synthesize boost,score,charge;
 @synthesize scale;
 @end

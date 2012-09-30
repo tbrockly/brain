@@ -7,11 +7,16 @@
 //
 
 #import "cocos2d.h"
+#import "GameState.h"
 
 @interface TitleLayer : CCColorLayer {
     CCSprite *onePlayer;
+    CCSprite *shopSprite;
+    GameState *gameState;
 }
 @property (nonatomic, retain) CCSprite *onePlayer;
+@property (nonatomic, retain) CCSprite *shopSprite;
+@property (nonatomic, retain) GameState *gameState;
 @end
 
 @interface TitleScene : CCScene {
