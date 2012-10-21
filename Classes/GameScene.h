@@ -20,6 +20,7 @@
 +(id)initNode;
 -(id)initWithMonsters;
 -(void)quizFire:(b2Body *)b;
+
 @property (nonatomic, readonly) b2World * world;
 @property (nonatomic, retain) GameState * gameState;
 @end
@@ -28,11 +29,13 @@
 {
     //Game *_layer;
     QuizLayer *_quizLayer;
-    
+    HudLayer *_hudLayer;
 }
 //@property (nonatomic, retain) Game *layer;
 @property (nonatomic, retain) QuizLayer *quizLayer;
+@property (nonatomic, retain) HudLayer *hudLayer;
 +(id)initNode:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
 -(id)initWithMonsters:(NSMutableArray *)monstersIn weapons:(NSMutableArray *)weaponsIn;
+- (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist;
 @end
 

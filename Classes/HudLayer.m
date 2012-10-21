@@ -19,7 +19,7 @@
 CCLabelTTF *scoreLab, *chargeLab;
 int curTar=0;
 int coinCount=0;
-int targetx=125,targety=175;
+int targetx=135,targety=175;
 CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targetx-100,targety),ccp(targetx-70,targety-70),ccp(targetx,targety-100), ccp(targetx+70,targety-70),ccp(targetx+100,targety),ccp(targetx+70,targety+70)};
 -(id) init
 {
@@ -55,7 +55,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 
 - (void)addCoin:(ccTime) dt {
     if(coinCount>0){
-        Coin* coin = [Coin spriteWithFile:@"Icon-Small.png"];
+        Coin* coin = [Coin spriteWithFile:@"super_mario_coin.png"];
         coin.position=ccp(0,0);
         [coin setScale:.5];
         [coin setTarget:targets[curTar]];

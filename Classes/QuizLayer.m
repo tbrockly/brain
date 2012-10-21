@@ -106,22 +106,22 @@ CCLabelTTF *num1l, *timeLab;
             NSString *result=answer.text;
             if(mathType==1){
                 if(result.integerValue == num1+num2){
-                    [gameState setBoost:timer];
+                    [gameState setBoost:timer/2+2];
                 }
             }
             else if(mathType==2){
                 if(result.integerValue == num1-num2){
-                    [gameState setBoost:timer];
+                    [gameState setBoost:timer/2+2];
                 }
             }
             else if(mathType==3){
                 if(result.integerValue == num1*num2){
-                    [gameState setBoost:timer];
+                    [gameState setBoost:timer/2+2];
                 }
             }
             else if(mathType==4){
                 if(result.integerValue == num2/num1){
-                    [gameState setBoost:timer];
+                    [gameState setBoost:timer/2+2];
                 }
             }
             [gameState setState:0];

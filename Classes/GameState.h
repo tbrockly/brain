@@ -7,14 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AchievementEngine.h"
 
 @interface GameState: NSObject{
     int state;
     int boost;
     int score,charge;
+    int rocketTime,boostTime,bounceTime,bonusTime,quizTime,zerograv;
+    int spinShield, topSpeed;
     float scale;
+    AchievementEngine * achEng;
+    NSMutableArray * coins;
 }
 @property int state;
 @property int boost,score,charge;
+@property int rocketTime,boostTime,bounceTime,bonusTime,quizTime,zerograv;
+@property int spinShield, topSpeed;
 @property float scale;
+@property (retain) AchievementEngine * achEng;
+@property (retain) NSMutableArray * coins;
 @end

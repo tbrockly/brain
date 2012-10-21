@@ -12,4 +12,8 @@
 @synthesize state;
 @synthesize boost,score,charge;
 @synthesize scale;
+@synthesize rocketTime,boostTime,bounceTime,bonusTime,quizTime, zerograv;
+@synthesize spinShield;
+@synthesize achEng, topSpeed, coins;
+
 @end
