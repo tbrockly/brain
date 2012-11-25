@@ -48,5 +48,9 @@
 	<array>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Archer-Medium-Pro.otf</string>
+	</array>
 </dict>
 </plist>

@@ -12,11 +12,13 @@
 
 @interface ShopLayer : CCColorLayer <UITextFieldDelegate>{
     CCSprite *oneLevel;
-    UITextField *answer;
     GameState *gameState;
     CCColorLayer *parentLayer;
     int booster;
 }
+
+-(id)init:(GameState*)gs;
+
 @property (nonatomic, retain) CCSprite *oneLevel;
 @property (nonatomic, retain) GameState *gameState;
 @property (nonatomic, retain) CCColorLayer *parentLayer;

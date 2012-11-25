@@ -27,7 +27,7 @@
 //
 // Define here the type of autorotation that you want for your game
 //
-#define GAME_AUTOROTATION kGameAutorotationCCDirector
+#define GAME_AUTOROTATION kGameAutorotationNone
 
 
 #endif // __GAME_CONFIG_H

@@ -9,25 +9,35 @@
 #import "Rocket.h"
 #import "cocos2d.h"
 #import "GameState.h"
+#include <AudioToolbox/AudioToolbox.h>
 
 @implementation Rocket
 #define HEIGHTDIFF 2000
 #define HEIGHTDIFF2 4000
 
+
 - (id) initSelf{
-    self.power=powerLevel*2;
-    self.freq=10000-freqLevel*1000;
-    [self initWithFile:@"microscope.png"];
-    self.scale=.2;
+    imgName=@"microscope.png";
+    [self initWithFile:imgName];
+    self.powStr=@"rocketLevel";
+    self.freqStr=@"rocketFreq";
+    self.name=@"Rocket";
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"rocketLevel"]*2;
+    self.freq=100;
+    //20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"rocketFreq"]*1000;
+    NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"scifi012" ofType:@"mp3"];
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
+    self.scale=.8;
     return self;
 }
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+    AudioServicesPlaySystemSound(mySound);
     gameState.achEng.rocket++;
     gameState.achEng.totrocket++;
-    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y)+3.0,0));
+    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y)+power,0));
     gameState.rocketTime=10;
     _body->SetAngularVelocity(0);
-    self.position=ccp(self.position.x+[self calcFreq:freq withMin:freq/2 withDist:self.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:self.position.y-HEIGHTDIFF withDist:0], 0));
+    self.position=ccp(self.position.x-2000, 0);
 }
 @end

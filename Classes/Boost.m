@@ -15,20 +15,27 @@
 #define HEIGHTDIFF2 4000
 
 - (id) initSelf{
-    self.power=powerLevel*2;
-    self.freq=10000-freqLevel*1000;
-    [self initWithFile:@"tubey.png"];
-    self.scale=.2;
+    self.powStr=@"boostLevel";
+    self.freqStr=@"boostFreq";
+    self.name=@"Booster";
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*2;
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
+    imgName=@"tubey.png";
+    [self initWithFile:imgName];
+    self.scale=.8;
+    NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon008" ofType:@"mp3"];
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     return self;
 }
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+    AudioServicesPlaySystemSound(mySound);
     gameState.achEng.boost++;
     gameState.achEng.totboost++;
     float vx=_body->GetLinearVelocity().x;
     float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-    _body->SetLinearVelocity(b2Vec2(vx+4,fabs(vy)+4));
+    _body->SetLinearVelocity(b2Vec2(vx+power,fabs(vy)+power));
     
-    self.position=ccp(self.position.x+[self calcFreq:freq withMin:freq/2 withDist:self.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:self.position.y-HEIGHTDIFF withDist:0], 0));
+    self.position=ccp(self.position.x-2000, 0);
 }
 @end

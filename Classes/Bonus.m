@@ -15,19 +15,24 @@
 #define HEIGHTDIFF2 4000
 
 - (id) initSelf{
-    self.power=powerLevel*2;
-    self.freq=10000-freqLevel*1000;
-    [self initWithFile:@"Kawaii-Popsicle.gif"];
-    self.scale=2;
+    self.powStr=@"bonusLevel";
+    self.freqStr=@"bonusFreq";
+    self.name=@"Bonus";
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusLevel"];
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusFreq"]*1000;
+    imgName=@"Kawaii-Popsicle.gif";
+    [self initWithFile:imgName];
+    NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon015" ofType:@"mp3"];
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
+    self.scale=1;
     return self;
 }
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+    AudioServicesPlaySystemSound(mySound);
+    gameState.coins=gameState.coins+power;
     gameState.achEng.bonus++;
     gameState.achEng.totbonus++;
-    float vx=_body->GetLinearVelocity().x;
-    float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-    _body->SetLinearVelocity(b2Vec2(vx+4,fabs(vy)+4));
-    self.position=ccp(self.position.x+[self calcFreq:freq withMin:freq/2 withDist:self.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:self.position.y-HEIGHTDIFF withDist:0], 0));
+    self.position=ccp(self.position.x-2000, 0);
 }
 @end

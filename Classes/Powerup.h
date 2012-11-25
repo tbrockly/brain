@@ -8,18 +8,25 @@
 
 #import "CCSprite.h"
 #import "Box2D.h"
+#include <AudioToolbox/AudioToolbox.h>
 
 @interface Powerup : CCSprite{
-    short freqLevel;
-    short powerLevel;
     int power;
     int freq;
+    NSString *imgName;
+    NSString *name;
+    SystemSoundID mySound;
+    NSString *powStr;
+    NSString *freqStr;
 }
 
-@property short freqLevel;
-@property short powerLevel;
 @property int power;
 @property int freq;
+@property (assign) NSString *imgName;
+@property (assign) NSString *name;
+@property SystemSoundID mySound;
+@property (assign) NSString *powStr;
+@property (assign) NSString *freqStr;
 -(id) initSelf;
 -(void)collide:(b2Body*) body gameState:gameState;
 - (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist;

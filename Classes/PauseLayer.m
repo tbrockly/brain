@@ -56,10 +56,11 @@
             [[CCDirector sharedDirector] resume];
         }
         if (CGRectContainsPoint(restart.boundingBox,location)) {
-            [gameState setState:0];
-            [self.parent removeChild:self cleanup:TRUE];
+            [gameState setState:10];
+            //[self.parent removeChild:self cleanup:TRUE];
+            [self.parent removeAllChildrenWithCleanup:TRUE];
             [[CCDirector sharedDirector] resume];
-            [[CCDirector sharedDirector] replaceScene:[GameScene initNode]];
+            [[CCDirector sharedDirector] popScene];
         }
     }
 }

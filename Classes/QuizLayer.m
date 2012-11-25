@@ -28,18 +28,45 @@ CCLabelTTF *num1l, *timeLab;
         timeLab.position = ccp(winSize.width/2, winSize.height -30);
         [self addChild:timeLab];
 		
+        p1 = [CCSprite spriteWithFile:@"1.png"];
+        p1.position=ccp(20,20);
+		[self addChild:p1];
+        p2 = [CCSprite spriteWithFile:@"2.png"];
+        p2.position=ccp(70,20);
+		[self addChild:p2];
+        p3 = [CCSprite spriteWithFile:@"3.png"];
+        p3.position=ccp(120,20);
+		[self addChild:p3];
+        p4 = [CCSprite spriteWithFile:@"4.png"];
+        p4.position=ccp(170,20);
+		[self addChild:p4];
+        p5 = [CCSprite spriteWithFile:@"5.png"];
+        p5.position=ccp(220,20);
+		[self addChild:p5];
+        p6 = [CCSprite spriteWithFile:@"6.png"];
+        p6.position=ccp(270,20);
+		[self addChild:p6];
+        p7 = [CCSprite spriteWithFile:@"7.png"];
+        p7.position=ccp(320,20);
+		[self addChild:p7];
+        p8 = [CCSprite spriteWithFile:@"8.png"];
+        p8.position=ccp(370,20);
+		[self addChild:p8];
+        p9 = [CCSprite spriteWithFile:@"9.png"];
+        p9.position=ccp(420,20);
+		[self addChild:p9];
 		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		[self addChild:oneLevel];
         oneLevel.position = ccp(430, 270);
         mathType=1+arc4random() %4;
         if(mathType==1){
-            num1=1+arc4random() %900;
-            num2=1+arc4random() %900;
+            num1=1+arc4random() %500;
+            num2=1+arc4random() %500;
             num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i + %i =",num1,num2] 
                                             fontName:@"Arial" 
                                             fontSize:30];
         }else if(mathType ==2){
-            num1=1+arc4random() %900;
+            num1=1+arc4random() %500;
             num2=1+arc4random() %(num1-1);
             num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i - %i =",num1,num2] 
                                             fontName:@"Arial" 
@@ -68,8 +95,8 @@ CCLabelTTF *num1l, *timeLab;
         [answer setKeyboardType:UIKeyboardTypeDecimalPad];
         [answer setFont:[UIFont fontWithName:@"Arial" size:30]];
         answer.transform = CGAffineTransformConcat(answer.transform, CGAffineTransformMakeRotation(degreesToRadians(90)));
-        [[[[CCDirector sharedDirector] openGLView] window] addSubview:answer];
-        [answer becomeFirstResponder];
+        //[[[[CCDirector sharedDirector] openGLView] window] addSubview:answer];
+        //[answer becomeFirstResponder];
         [self schedule:@selector(calc:) interval:1.0f];
 	}	
 	return self;

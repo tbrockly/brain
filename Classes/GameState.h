@@ -14,16 +14,19 @@
     int boost;
     int score,charge;
     int rocketTime,boostTime,bounceTime,bonusTime,quizTime,zerograv;
-    int spinShield, topSpeed;
+    int spinShield, topSpeed,coins;
     float scale;
     AchievementEngine * achEng;
-    NSMutableArray * coins;
+    NSMutableArray *powerups, *achieves, *displayAchieves, *completeAchieves;
 }
 @property int state;
 @property int boost,score,charge;
 @property int rocketTime,boostTime,bounceTime,bonusTime,quizTime,zerograv;
-@property int spinShield, topSpeed;
+@property int spinShield, topSpeed, coins;
 @property float scale;
 @property (retain) AchievementEngine * achEng;
-@property (retain) NSMutableArray * coins;
+@property (retain) NSMutableArray *powerups, *achieves,*displayAchieves, *completeAchieves;
+
+-(void)calcAchieves;
+
 @end

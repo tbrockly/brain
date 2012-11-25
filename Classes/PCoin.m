@@ -15,18 +15,25 @@
 #define HEIGHTDIFF2 4000
 
 - (id) initSelf{
-    self.power=powerLevel*2;
-    self.freq=10000-freqLevel*1000;
-    [self initWithFile:@"super_mario_coin.png"];
+    self.powStr=@"coinLevel";
+    self.freqStr=@"coinFreq";
+    self.name=@"Coin";
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"coinLevel"];
+    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"coinFreq"]*1000;
+    imgName=@"super_mario_coin.png";
+    [self initWithFile:imgName];
+    self.scale=1;
+    NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon019" ofType:@"mp3"];
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     return self;
 }
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
-    gameState.achEng.coins++;
-    gameState.achEng.totcoins++;
-    float vx=_body->GetLinearVelocity().x;
-    float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-    _body->SetLinearVelocity(b2Vec2(vx+4,fabs(vy)+4));
-    self.position=ccp(self.position.x+[self calcFreq:freq withMin:freq/2 withDist:self.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:self.position.y-HEIGHTDIFF withDist:0], 0));
+    AudioServicesPlaySystemSound(mySound);
+    gameState.coins=gameState.coins+power;
+    gameState.achEng.coins=gameState.achEng.coins+power;
+    gameState.achEng.totcoins=gameState.achEng.totcoins+power;
+    
+    self.position=ccp(self.position.x-2000, 0);
 }
 @end

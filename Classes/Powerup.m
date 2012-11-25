@@ -10,10 +10,13 @@
 
 @implementation Powerup
 
-@synthesize freqLevel;
-@synthesize powerLevel;
 @synthesize power;
 @synthesize freq;
+@synthesize mySound;
+@synthesize imgName;
+@synthesize name;
+@synthesize powStr;
+@synthesize freqStr;
 
 - (int)calcFreq:(int)freq2 withMin:(int)min withDist:(int)dist {
     return (arc4random() % freq2+(dist/10)) + min;

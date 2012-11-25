@@ -26,14 +26,14 @@
 	//
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
 
-//	CC_ENABLE_DEFAULT_GL_STATES();
-//	CGSize size = [director winSize];
-//	CCSprite *sprite = [CCSprite spriteWithFile:@"Default.png"];
-//	sprite.position = ccp(size.width/2, size.height/2);
-//	sprite.rotation = -90;
-//	[sprite visit];
-//	[glView swapBuffers];
-//	CC_ENABLE_DEFAULT_GL_STATES();
+	CC_ENABLE_DEFAULT_GL_STATES();
+	CGSize size = [director winSize];
+	CCSprite *sprite = [CCSprite spriteWithFile:@"Default.png"];
+	sprite.position = ccp(size.width/2, size.height/2);
+	sprite.rotation = -90;
+	[sprite visit];
+	[glView swapBuffers];
+	CC_ENABLE_DEFAULT_GL_STATES();
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
@@ -42,6 +42,7 @@
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    //archerFont=[UIFont fontWithName:@"Archer" size:14];
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use the default director
 	if( ! [CCDirector setDirectorType:kCCDirectorTypeDisplayLink] )
@@ -81,11 +82,11 @@
 	// By default, this template only supports Landscape orientations.
 	// Edit the RootViewController.m file to edit the supported orientations.
 	//
-#if GAME_AUTOROTATION == kGameAutorotationUIViewController
-	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
-#else
-	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
-#endif
+//#if GAME_AUTOROTATION == kGameAutorotationUIViewController
+//	[director setDeviceOrientation:kCCDeviceOrientationLandscapeRight];
+//#else
+//	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
+//#endif
 	
 	[director setAnimationInterval:1.0/60];
 	[director setDisplayFPS:YES];
@@ -95,7 +96,7 @@
 	[viewController setView:glView];
 	
 	// make the View Controller a child of the main window
-	[window addSubview: viewController.view];
+	[window setRootViewController: viewController];
 	
 	[window makeKeyAndVisible];
 	

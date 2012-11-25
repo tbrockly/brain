@@ -59,8 +59,9 @@
 	// Since this method should return YES in at least 1 orientation, 
 	// we return YES only in the Portrait orientation
 	//
-    [[CCDirector sharedDirector] setDeviceOrientation: kCCDeviceOrientationPortrait];
-	return ( interfaceOrientation == UIInterfaceOrientationPortrait );
+    [[CCDirector sharedDirector] setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
+    //[[CCDirector sharedDirector] setDeviceOrientation: kCCDeviceOrientationPortrait];
+	return ( interfaceOrientation == kCCDeviceOrientationLandscapeLeft );
 	
 #elif GAME_AUTOROTATION==kGameAutorotationCCDirector
 	//

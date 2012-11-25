@@ -15,17 +15,24 @@
 #define HEIGHTDIFF2 4000
 
 - (id) initSelf{
-    self.power=powerLevel*2;
-    self.freq=10000-freqLevel*1000;
-    [self initWithFile:@"light.png"];
-    self.scale=.2;
+    self.powStr=@"quizLevel";
+    self.freqStr=@"quizFreq";
+    self.name=@"Quiz";
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"quizLevel"]*2;
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
+    imgName=@"light.png";
+    [self initWithFile:imgName];
+    NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon004" ofType:@"mp3"];
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
+    self.scale=.8;
     return self;
 }
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+    AudioServicesPlaySystemSound(mySound);
     gameState.achEng.quiz++;
     gameState.achEng.totquiz++;
     [gameState setState:1];
-    self.position=ccp(self.position.x+[self calcFreq:freq withMin:freq/2 withDist:self.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:self.position.y-HEIGHTDIFF withDist:0], 0));
+    self.position=ccp(self.position.x-2000, 0);
 }
 @end

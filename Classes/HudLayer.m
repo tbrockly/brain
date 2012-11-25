@@ -9,17 +9,19 @@
 #import "HudLayer.h"
 #import "PauseLayer.h"
 #import "Coin.h"
+#import "Achievement.h"
 
 @implementation HudLayer
 @synthesize oneLevel;
 @synthesize gameState;
-@synthesize score,coins;
+@synthesize score;
 
 #define degreesToRadians(x) (M_PI * x /180.0)
-CCLabelTTF *scoreLab, *chargeLab;
+CCLabelTTF *scoreLab, *chargeLab,*achieveLab;
 int curTar=0;
-int coinCount=0;
+int achieveShow=0;
 int targetx=135,targety=175;
+CCSprite * achieveSprite;
 CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targetx-100,targety),ccp(targetx-70,targety-70),ccp(targetx,targety-100), ccp(targetx+70,targety-70),ccp(targetx+100,targety),ccp(targetx+70,targety+70)};
 -(id) init
 {
@@ -28,19 +30,29 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 		self.isTouchEnabled = YES;
         coins=[[NSMutableArray alloc] init];
 		scoreLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.score]
-                                        fontName:@"Arial" 
+                                        fontName:@"Futura" 
                                         fontSize:30];
         [scoreLab setColor:ccWHITE];
         [self addChild:scoreLab];
         scoreLab.position=ccp(300,30);
         chargeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.charge]
-                                           fontName:@"Arial" 
+                                           fontName:@"Futura" 
                                            fontSize:30];
         [chargeLab setColor:ccWHITE];
         [self addChild:chargeLab];
         chargeLab.position=ccp(30,240);
         [self schedule:@selector(calc:) interval:.01f];
-        [self schedule:@selector(addCoin:) interval:.2f];
+        [self schedule:@selector(addCoin:) interval:.3f];
+        achieveSprite=[CCSprite spriteWithFile:@"Kawaii-Popsicle.gif"];
+        achieveSprite.scale=2;
+        [self addChild:achieveSprite];
+        achieveLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"huigyfucvk",gameState.charge]
+    fontName:@"Futura" 
+    fontSize:30];
+        [achieveLab setColor:ccWHITE];
+        [self addChild:achieveLab];
+        achieveLab.position=ccp(-200,-200);
+        
         //CGSize winSize = [[CCDirector sharedDirector] winSize];
 		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 40, 40)];
 		oneLevel.position = ccp(20, 20);
@@ -49,12 +61,10 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 	return self;
 }
 
--(void) createCoins:(int) coinAdd{
-    coinCount=coinCount+coinAdd;
-}
-
 - (void)addCoin:(ccTime) dt {
-    if(coinCount>0){
+    [gameState calcAchieves];
+    [self showAchieves];
+    if([gameState coins]>0){
         Coin* coin = [Coin spriteWithFile:@"super_mario_coin.png"];
         coin.position=ccp(0,0);
         [coin setScale:.5];
@@ -62,7 +72,28 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         if(curTar++ >6){ curTar=0;}
         [self addChild:coin z:100];
         [coins addObject:coin];
-        coinCount--;
+        gameState.coins=gameState.coins-1;
+    }if(achieveShow>0){
+        achieveSprite.position=ccp(200,200);
+        achieveLab.position=ccp(200,200);
+    }else{
+        achieveSprite.position=ccp(-250,-250);
+        achieveLab.position=ccp(-250,-250);
+    }
+    if(achieveShow>0){
+        achieveShow--;
+    }
+    
+}
+
+-(void) showAchieves{
+    if (achieveShow==0 && [gameState displayAchieves].count>0){
+        achieveShow=5;
+        Achievement *a = [[gameState displayAchieves] lastObject];
+        NSString *s=a.title;
+
+        [achieveLab setString:s];
+        [[gameState displayAchieves] removeLastObject];
     }
 }
 

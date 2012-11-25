@@ -15,18 +15,25 @@
 #define HEIGHTDIFF2 4000
 
 - (id) initSelf{
-    self.power=powerLevel*2;
-    self.freq=10000-freqLevel*1000;
-    [self initWithFile:@"lightning-icon.png"];
-    self.scale=.2;
+    self.powStr=@"energyLevel";
+    self.freqStr=@"energyFreq";
+    self.name=@"Energy";
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"energyLevel"];
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"energyFreq"]*1000;
+    imgName=@"lightning-icon.png";
+    [self initWithFile:imgName];
+    NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon019" ofType:@"mp3"];
+    AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
+    self.scale=.5;
     return self;
 }
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
-    gameState.achEng.energy++;
-    gameState.achEng.totenergy++;
-    gameState.charge++;
+    AudioServicesPlaySystemSound(mySound);
+    gameState.achEng.energy=gameState.achEng.energy+power;
+    gameState.achEng.totenergy=gameState.achEng.totenergy+power;
+    gameState.charge=gameState.charge+power;
     _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y)+1.0,0));
-    self.position=ccp(self.position.x+[self calcFreq:freq withMin:freq/2 withDist:self.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:self.position.y-HEIGHTDIFF withDist:0], 0));
+    self.position=ccp(self.position.x-2000, 0);
 }
 @end
