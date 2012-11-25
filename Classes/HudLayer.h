@@ -11,14 +11,11 @@
 #import "GameState.h"
 
 @interface HudLayer : CCLayer <UITextFieldDelegate>{
-    CCSprite *oneLevel;
+    CCSprite *oneLevel,*botBar,*arrowA,*arrowD,*arrowV,*arrowVV,*coinIcon,*eng;
     UITextField *answer;
-    GameState *gameState;
+    @public GameState *gameState;
     NSMutableArray *coins;
     int score;
+    CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab;
 }
-@property (nonatomic, retain) CCSprite *oneLevel;
-@property (nonatomic, retain) GameState *gameState;
-@property (nonatomic, retain) NSMutableArray *coins;
-@property int score;
 @end

@@ -12,8 +12,6 @@
 #import "ShopRightLayer.h"
 
 @implementation MainTableView
-@synthesize gameState;
-@synthesize parent;
 ShopRightLayer *srl;
 
 - (id)initWithFrame:(CGRect)frame gameState:(GameState*)gs
@@ -23,7 +21,7 @@ ShopRightLayer *srl;
         self.delegate=self;
         self.dataSource=self;
         self.backgroundColor=[UIColor clearColor];
-        self.gameState=gs;
+        gameState=gs;
         //self.separatorColor=[UIColor darkGrayColor];
         self.opaque=false;
     }

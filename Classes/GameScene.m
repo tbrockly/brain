@@ -20,8 +20,6 @@
 
 @implementation GameScene
 //@synthesize layer = _layer;
-@synthesize quizLayer = _quizLayer;
-@synthesize hudLayer = _hudLayer;
 BOOL runAI;
 CGSize winSize;
 CGPoint firstTouch, lastTouch;
@@ -52,7 +50,7 @@ AVAudioPlayer *player;
         //[self.layer setGameState:gameState];
         Game *lay = [Game initNode:gameState];
         _hudLayer = [[HudLayer alloc] init];;
-        [_hudLayer setGameState:gameState];
+        _hudLayer->gameState = gameState;
         [self addChild:[CCColorLayer layerWithColor:ccc4(124,106,128,255)]];
         [self addChild:lay z:2 tag:0];
         [self addChild:_hudLayer z:3 tag:1];
@@ -73,8 +71,6 @@ AVAudioPlayer *player;
 
 // Game implementation
 @implementation Game
-@synthesize world;
-@synthesize gameState;
 CCSprite* bg, *bg1, *bg2, *bg3, *bg10,*bg11,*bg20,*bg21,*bg30,*bg31;
 b2Body *_body;
 CCSprite *_ball;
@@ -105,7 +101,7 @@ float friction=.2;
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super initWithColor:ccc4(155,155,155,255)] )) {
         //self.pow
-        self.gameState=gs;
+        gameState=gs;
         defaults2=[NSUserDefaults standardUserDefaults];
         
         [defaults2 setInteger:1 forKey:@"airResist"];
@@ -464,6 +460,7 @@ int i=0;
                     _body->SetLinearVelocity(b2Vec2(gameState.topSpeed,_body->GetLinearVelocity().y));
                 }
                 [gameState setScore:_ball.position.x];
+                [gameState setSpeed:_body->GetLinearVelocity().x];
                 
                 //check for enemy collision
             for (Powerup *pow in [gameState powerups]) {
@@ -472,7 +469,7 @@ int i=0;
                     [self shieldCalc];
                     if(gameState.state==1){
                         QuizLayer *q = [[QuizLayer alloc] init];
-                        [q setGameState:self.gameState];
+                        q->gameState=gameState;
                         [self.parent addChild:q z:10];
                     }
                 }
@@ -515,7 +512,8 @@ int i=0;
             }
             
                 //update for distance
-                _body->SetLinearDamping(((ballData.position.x/100)+(_body->GetLinearVelocity().x)*50)/(40000.0+(ballData.position.x/100)));
+                //NSLo
+                _body->SetLinearDamping((_body->GetLinearVelocity().x/100)+((ballData.position.x/100)/(40000.0+(ballData.position.x/100))));
                 //int i =  ballData.position.x;
                 //NSLog(@"%f", _body->GetLinearVelocity().x);
                 ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(_body->GetAngle());

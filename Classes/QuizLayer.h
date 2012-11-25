@@ -11,12 +11,9 @@
 #import "GameState.h"
 
 @interface QuizLayer : CCColorLayer <UITextFieldDelegate>{
-    CCSprite *oneLevel,*p1,*p2,*p3,*p4,*p5,*p6,*p7,*p8,*p9;
+    CCSprite *oneLevel,*p1,*p2,*p3,*p4,*p5,*p6,*p7,*p8,*p9,*s1,*s2,*s3,*s4,*s5,*bg;
     UITextField *answer;
-    GameState *gameState;
+    @public GameState *gameState;
     int booster;
 }
-@property (nonatomic, retain) CCSprite *oneLevel,*p1,*p2,*p3,*p4,*p5,*p6,*p7,*p8,*p9;
-@property (nonatomic, retain) GameState *gameState;
-@property int booster;
 @end

@@ -10,11 +10,6 @@
 #import "GameScene.h"
 
 @implementation ShopRightLayer
-@synthesize pow;
-@synthesize restart,plusPow,plusFreq;
-@synthesize booster;
-@synthesize shopLayer;
-@synthesize powCost,powLevel,powDescrip,freqCost,freqLevel,freqDescrip;
 
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init:(Powerup*)power
@@ -22,24 +17,24 @@
 	if( (self=[super initWithColor:ccc4(155,155,155,100)] )) {
 		// Enable touch events
 		self.isTouchEnabled = YES;
-        self.pow=power;
+        pow=power;
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-        self.restart = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+        restart = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		restart.position = ccp(winSize.width/1.33, winSize.height/6);
         [self addChild:restart];
-        self.plusFreq = [CCSprite spriteWithFile:@"BodyItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+        plusFreq = [CCSprite spriteWithFile:@"BodyItemside.png" rect:CGRectMake(0, 0, 100, 100)];
         plusFreq.position = ccp(430, 250);
         [self addChild:plusFreq];
-        self.plusPow = [CCSprite spriteWithFile:@"BodyItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+        plusPow = [CCSprite spriteWithFile:@"BodyItemside.png" rect:CGRectMake(0, 0, 100, 100)];
         plusPow.position = ccp(430, 150);
         [self addChild:plusPow];
-        freqLevel=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:self.pow.freqStr]]
+        freqLevel=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:pow.freqStr]]
                                            fontName:@"Futura"
                                            fontSize:30];
         [freqLevel setColor:ccWHITE];
         freqLevel.position = ccp(380, 250);
         [self addChild:freqLevel];
-        powLevel=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:self.pow.powStr]]
+        powLevel=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:pow.powStr]]
                                             fontName:@"Futura"
                                             fontSize:30];
         [powLevel setColor:ccWHITE];
@@ -68,12 +63,12 @@
             [[CCDirector sharedDirector] resume];
         }
         if (CGRectContainsPoint(plusFreq.boundingBox,location)) {
-            [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:self.pow.freqStr]+1 forKey:self.pow.freqStr];
-            self.freqLevel.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:self.pow.freqStr]];
+            [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:pow.freqStr]+1 forKey:pow.freqStr];
+            freqLevel.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:pow.freqStr]];
         }
         if (CGRectContainsPoint(plusPow.boundingBox,location)) {
-            [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:self.pow.powStr]+1 forKey:self.pow.powStr];
-            self.powLevel.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:self.pow.powStr]];
+            [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:pow.powStr]+1 forKey:pow.powStr];
+            powLevel.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:pow.powStr]];
         }
 }
 

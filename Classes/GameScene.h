@@ -17,8 +17,7 @@
     GameState *gameState;
 	int _projectilesDestroyed;
 }
-@property (nonatomic, readonly) b2World * world;
-@property (nonatomic, retain) GameState * gameState;
+
 + (id) initNode:(GameState*)gs;
 - (id) initWithMonsters;
 - (void) quizFire:(b2Body *)b;
@@ -31,9 +30,6 @@
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
 }
-//@property (nonatomic, retain) Game *layer;
-@property (nonatomic, retain) QuizLayer *quizLayer;
-@property (nonatomic, retain) HudLayer *hudLayer;
 + (id) initNode:(GameState*) gs;
 - (id) initWithMonsters:(GameState*) gs;
 - (int) calcFreq:(int)freq withMin:(int)min withDist:(int)dist;

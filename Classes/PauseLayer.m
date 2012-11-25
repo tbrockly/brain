@@ -10,10 +10,6 @@
 #import "GameScene.h"
 
 @implementation PauseLayer
-@synthesize oneLevel;
-@synthesize restart;
-@synthesize booster;
-@synthesize gameState;
 
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init

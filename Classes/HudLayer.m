@@ -12,12 +12,8 @@
 #import "Achievement.h"
 
 @implementation HudLayer
-@synthesize oneLevel;
-@synthesize gameState;
-@synthesize score;
 
 #define degreesToRadians(x) (M_PI * x /180.0)
-CCLabelTTF *scoreLab, *chargeLab,*achieveLab;
 int curTar=0;
 int achieveShow=0;
 int targetx=135,targety=175;
@@ -29,26 +25,52 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 		// Enable touch events
 		self.isTouchEnabled = YES;
         coins=[[NSMutableArray alloc] init];
+        botBar=[[CCSprite alloc] initWithFile:@"botBar.png" rect:CGRectMake(0, 0, 480, 40)];
+        botBar.scaleY=.5;
+        botBar.position = ccp(240, 10);
+        [self addChild:botBar];
+        speedLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.speed]
+                                           fontName:@"Futura"
+                                           fontSize:15];
+        [speedLab setColor:ccBLACK];
+        [self addChild:speedLab];
+        speedLab.position=ccp(420,10);
+        arrowV=[CCSprite spriteWithFile:@"arrow.png"];
+        arrowV.scale=.5;
+        arrowV.position=ccp(390,10);
+        [self addChild:arrowV];
+        arrowVV=[CCSprite spriteWithFile:@"arrow.png"];
+        arrowVV.scale=.5;
+        arrowVV.position=ccp(380,10);
+        [self addChild:arrowVV];
 		scoreLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.score]
                                         fontName:@"Futura" 
-                                        fontSize:30];
-        [scoreLab setColor:ccWHITE];
+                                        fontSize:15];
+        [scoreLab setColor:ccBLACK];
         [self addChild:scoreLab];
-        scoreLab.position=ccp(300,30);
+        scoreLab.position=ccp(300,10);
         chargeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.charge]
                                            fontName:@"Futura" 
-                                           fontSize:30];
-        [chargeLab setColor:ccWHITE];
+                                           fontSize:15];
+        [chargeLab setColor:ccBLACK];
         [self addChild:chargeLab];
-        chargeLab.position=ccp(30,240);
+        chargeLab.position=ccp(100,10);
+        eng=[CCSprite spriteWithFile:@"lightning-icon.png" ];
+        eng.scale=.15;
+        eng.position=ccp(80,10);
+        [self addChild:eng];
+        arrowD=[CCSprite spriteWithFile:@"arrow.png"];
+        arrowD.scale=.5;
+        arrowD.position=ccp(260,10);
+        [self addChild:arrowD];
         [self schedule:@selector(calc:) interval:.01f];
         [self schedule:@selector(addCoin:) interval:.3f];
         achieveSprite=[CCSprite spriteWithFile:@"Kawaii-Popsicle.gif"];
-        achieveSprite.scale=2;
+        achieveSprite.scale=.5;
         [self addChild:achieveSprite];
         achieveLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"huigyfucvk",gameState.charge]
     fontName:@"Futura" 
-    fontSize:30];
+    fontSize:20];
         [achieveLab setColor:ccWHITE];
         [self addChild:achieveLab];
         achieveLab.position=ccp(-200,-200);
@@ -57,6 +79,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 40, 40)];
 		oneLevel.position = ccp(20, 20);
 		[self addChild:oneLevel];
+        
 	}	
 	return self;
 }
@@ -123,6 +146,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     }
     chargeLab.string=[NSString stringWithFormat:@"%i",gameState.charge];
     scoreLab.string=[NSString stringWithFormat:@"%i",gameState.score];
+    speedLab.string=[NSString stringWithFormat:@"%.1f",gameState.speed];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -145,7 +169,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     if (CGRectContainsPoint(rect,location)) {
         [gameState setState:2];
         PauseLayer *q = [[PauseLayer alloc] init];
-        [q setGameState:self.gameState];
+        q->gameState=gameState;
         [self.parent addChild:q z:10];
         [[CCDirector sharedDirector] pause];
     }

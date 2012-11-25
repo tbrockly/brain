@@ -21,9 +21,4 @@
     int booster;
 }
 -(id)init:(Powerup *) powerup;
-@property (nonatomic, retain) Powerup *pow;
-@property (nonatomic, retain) CCSprite *restart,*plusPow,*plusFreq;
-@property (nonatomic, retain) CCLabelTTF *powCost,*powLevel,*powDescrip,*freqCost,*freqLevel,*freqDescrip;
-@property (nonatomic, retain) ShopLayer *shopLayer;
-@property int booster;
 @end

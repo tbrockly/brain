@@ -9,9 +9,6 @@
 #import "QuizLayer.h"
 
 @implementation QuizLayer
-@synthesize oneLevel;
-@synthesize booster;
-@synthesize gameState;
 int num1, num2, mathType,timer;
 CCLabelTTF *num1l, *timeLab;
 #define degreesToRadians(x) (M_PI * x /180.0)
@@ -27,7 +24,9 @@ CCLabelTTF *num1l, *timeLab;
                                            fontSize:40];
         timeLab.position = ccp(winSize.width/2, winSize.height -30);
         [self addChild:timeLab];
-		
+		bg = [CCSprite spriteWithFile:@"quizBG.png"];
+        bg.position=ccp(240,200);
+		[self addChild:bg];
         p1 = [CCSprite spriteWithFile:@"1.png"];
         p1.position=ccp(20,20);
 		[self addChild:p1];
@@ -96,7 +95,7 @@ CCLabelTTF *num1l, *timeLab;
         [answer setFont:[UIFont fontWithName:@"Arial" size:30]];
         answer.transform = CGAffineTransformConcat(answer.transform, CGAffineTransformMakeRotation(degreesToRadians(90)));
         //[[[[CCDirector sharedDirector] openGLView] window] addSubview:answer];
-        //[answer becomeFirstResponder];
+        [answer becomeFirstResponder];
         [self schedule:@selector(calc:) interval:1.0f];
 	}	
 	return self;

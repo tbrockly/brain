@@ -13,9 +13,6 @@
 #import "RootViewController.h"
 
 @implementation ShopLayer
-@synthesize oneLevel;
-@synthesize booster;
-@synthesize gameState,parentLayer;
 MainTableView *myTable;
 
 #define degreesToRadians(x) (M_PI * x /180.0)
@@ -30,7 +27,7 @@ MainTableView *myTable;
 		[self addChild:oneLevel];
         oneLevel.position = ccp(20, winSize.height/2);
         //CC
-        self.gameState=gs;
+        gameState=gs;
         
         myTable=[[MainTableView alloc] initWithFrame:CGRectMake(100, 0, 200, 320) gameState:gameState];
         [[[[[CCDirector sharedDirector] openGLView] window] rootViewController].view addSubview:myTable];

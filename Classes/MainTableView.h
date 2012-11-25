@@ -14,8 +14,6 @@
     GameState *gameState;
     CCLayer *parent;
 }
-@property (nonatomic, retain) GameState *gameState;
-@property (nonatomic, retain) CCLayer *parent;
 
 - (id)initWithFrame:(CGRect)frame gameState:(GameState*)gs;
 @end
