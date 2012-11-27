@@ -22,10 +22,12 @@
         restart = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
 		restart.position = ccp(winSize.width/1.33, winSize.height/6);
         [self addChild:restart];
-        plusFreq = [CCSprite spriteWithFile:@"BodyItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+        plusFreq = [CCSprite spriteWithFile:@"ok.png"];
+        plusFreq.scale=.2;
         plusFreq.position = ccp(430, 250);
         [self addChild:plusFreq];
-        plusPow = [CCSprite spriteWithFile:@"BodyItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+        plusPow = [CCSprite spriteWithFile:@"ok.png" ];
+        plusPow.scale=.2;
         plusPow.position = ccp(430, 150);
         [self addChild:plusPow];
         freqLevel=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:pow.freqStr]]

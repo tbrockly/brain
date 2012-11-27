@@ -1,15 +1,4 @@
-//
-//  RootViewController.m
-//  Cocos2DSimpleGame
-//
-//  Created by Ray Wenderlich on 11/21/10.
-//  Copyright Ray Wenderlich 2010. All rights reserved.
-//
 
-//
-// RootViewController + iAd
-// If you want to support iAd, use this class as the controller of your iAd
-//
 
 #import "cocos2d.h"
 

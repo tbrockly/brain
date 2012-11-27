@@ -17,29 +17,26 @@
 		self.isTouchEnabled = YES;
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         timer=30;
-        timeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",timer]
-                                           fontName:@"Arial" 
-                                           fontSize:40];
-        timeLab.position = ccp(winSize.width/2, winSize.height -30);
-        [self addChild:timeLab];
+        bg2 = [CCSprite spriteWithFile:@"quizBG.png"];
+        bg2.position=ccp(240,280);
+        bg2.scale=.5;
+		[self addChild:bg2];
 		bg = [CCSprite spriteWithFile:@"quizBG.png"];
-        bg.position=ccp(240,200);
+        bg.position=ccp(240,180);
 		[self addChild:bg];
-        s1 = [CCSprite spriteWithFile:@"b.png"];
-        s1.position=ccp(130,130);
+        
+        s1 = [CCSprite spriteWithFile:@"0.png"];
 		[self addChild:s1];
-        s2 = [CCSprite spriteWithFile:@"b.png"];
-        s2.position=ccp(190,130);
+        s2 = [CCSprite spriteWithFile:@"0.png"];
 		[self addChild:s2];
-        s3 = [CCSprite spriteWithFile:@"b.png"];
-        s3.position=ccp(250,130);
+        s3 = [CCSprite spriteWithFile:@"0.png"];
 		[self addChild:s3];
-        s4 = [CCSprite spriteWithFile:@"b.png"];
-        s4.position=ccp(310,130);
+        s4 = [CCSprite spriteWithFile:@"0.png"];
 		[self addChild:s4];
-        s5 = [CCSprite spriteWithFile:@"b.png"];
-        s5.position=ccp(370,130);
+        s5 = [CCSprite spriteWithFile:@"0.png"];
 		[self addChild:s5];
+        p0 = [CCSprite spriteWithFile:@"0.png"];
+        [self addChild:p0];
         p1 = [CCSprite spriteWithFile:@"1.png"];
 		[self addChild:p1];
         p2 = [CCSprite spriteWithFile:@"2.png"];
@@ -59,53 +56,102 @@
         p9 = [CCSprite spriteWithFile:@"9.png"];
 		[self addChild:p9];
         [self setNumPositions];
-		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		oneLevel = [CCSprite spriteWithFile:@"ok.png"];
+        oneLevel.scale=.2;
 		[self addChild:oneLevel];
-        oneLevel.position = ccp(430, 270);
+        oneLevel.position = ccp(440, 260);
         mathType=1+arc4random() %4;
         if(mathType==1){
             num1=1+arc4random() %500;
             num2=1+arc4random() %500;
-            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i + %i =",num1,num2] 
+            num1l=[[CCLabelTTF alloc] initWithString:@"+"
                                             fontName:@"Arial" 
-                                            fontSize:30];
+                                            fontSize:40];
         }else if(mathType ==2){
             num1=1+arc4random() %500;
             num2=1+arc4random() %(num1-1);
-            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i - %i =",num1,num2] 
+            num1l=[[CCLabelTTF alloc] initWithString:@"-"
                                             fontName:@"Arial" 
-                                            fontSize:30];
+                                            fontSize:40];
         }else if(mathType==3){
             num1=2+arc4random() %12;
             num2=2+arc4random() %12;
-            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i * %i =",num1,num2] 
+            num1l=[[CCLabelTTF alloc] initWithString:@"x" 
                                             fontName:@"Arial" 
-                                            fontSize:30];
+                                            fontSize:40];
         }else if(mathType==4){
-            num1=2+arc4random() %12;
-            num2=num1*(2+arc4random() %12);
-            num1l=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i / %i =",num2,num1] 
+            num2=2+arc4random() %12;
+            num1=num2*(2+arc4random() %12);
+            num1l=[[CCLabelTTF alloc] initWithString:@"÷"
                                             fontName:@"Arial" 
-                                            fontSize:30];
+                                            fontSize:40];
         }
-        
+        [num1l setColor:ccBLACK];
         [self addChild:num1l];
-        num1l.position=ccp(100,200);
+        num1l.position=ccp(120,180);
+        int temp=num1;
+        n4 = [self getTagForInt:temp%10];
+		[self addChild:n4];
+        temp=temp/10;
+        if(temp>=1){
+        n3 = [self getTagForInt:temp%10];
+		[self addChild:n3];
+        temp=temp/10;
+        }
+        if(temp>=1){
+        n2 = [self getTagForInt:temp%10];
+		[self addChild:n2];
+        temp=temp/10;
+        }if(temp>=1){
+        n1 = [self getTagForInt:temp%10];
+		[self addChild:n1];
+        }
+        temp=num2;
+        nn4 = [self getTagForInt:temp%10];
+		[self addChild:nn4];
+        temp=temp/10;
+        if(temp>=1){
+        nn3 = [self getTagForInt:temp%10];
+		[self addChild:nn3];
+        temp=temp/10;
+        }if(temp>=1){
+        nn2 = [self getTagForInt:temp%10];
+		[self addChild:nn2];
+        temp=temp/10;
+        }if(temp>=1){
+        nn1 = [self getTagForInt:temp%10];
+		[self addChild:nn1];
+        }
+        int y1=240;
+        int y2=180;
+        n1.position=ccp(190,y1);
+        n2.position=ccp(250,y1);
+        n3.position=ccp(310,y1);
+        n4.position=ccp(370,y1);
+        nn1.position=ccp(190,y2);
+        nn2.position=ccp(250,y2);
+        nn3.position=ccp(310,y2);
+        nn4.position=ccp(370,y2);
         
-        answer=[[UITextField alloc] initWithFrame:CGRectMake(150, 200, 100, 30)];
-        [answer setText:@""];
-        [answer setTextColor:[UIColor whiteColor]];
-        [answer setKeyboardType:UIKeyboardTypeDecimalPad];
-        [answer setFont:[UIFont fontWithName:@"Arial" size:30]];
-        answer.transform = CGAffineTransformConcat(answer.transform, CGAffineTransformMakeRotation(degreesToRadians(90)));
-        //[[[[CCDirector sharedDirector] openGLView] window] addSubview:answer];
-        [answer becomeFirstResponder];
+        timeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",timer]
+                                          fontName:@"Arial"
+                                          fontSize:30];
+        timeLab.position = ccp(winSize.width/2, winSize.height -15);
+        [timeLab setColor:ccBLACK];
+        [self addChild:timeLab];
+        
         [self schedule:@selector(calc:) interval:1.0f];
 	}	
 	return self;
 }
 
+-(CCSprite*) getTagForInt:(int) i{
+    NSLog(@"%i.png",i);
+    return [CCSprite spriteWithFile:[NSString stringWithFormat:@"%i.png",i]];
+}
+
 - (void)setNumPositions{
+    p0.position=ccp(-200,50);
     p1.position=ccp(20,50);
     p2.position=ccp(75,50);
     p3.position=ccp(130,50);
@@ -115,6 +161,12 @@
     p7.position=ccp(350,50);
     p8.position=ccp(405,50);
     p9.position=ccp(460,50);
+    int y1=110;
+    s1.position=ccp(130,y1);
+    s2.position=ccp(190,y1);
+    s3.position=ccp(250,y1);
+    s4.position=ccp(310,y1);
+    s5.position=ccp(370,y1);
 }
 
 - (void)calc:(ccTime) dt {
@@ -168,6 +220,16 @@
     }else if (CGRectContainsPoint(p9.boundingBox,location)) {
         selected=p9;
         selectNum=9;
+    }else if (CGRectContainsPoint(s1.boundingBox,location)) {
+        selected=s1;
+    }else if (CGRectContainsPoint(s2.boundingBox,location)) {
+        selected=s2;
+    }else if (CGRectContainsPoint(s3.boundingBox,location)) {
+        selected=s3;
+    }else if (CGRectContainsPoint(s4.boundingBox,location)) {
+        selected=s4;
+    }else if (CGRectContainsPoint(s5.boundingBox,location)) {
+        selected=s5;
     }
 }
 
@@ -186,6 +248,22 @@
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         if(selected != NULL){
+            if(selected==s1){
+                ss1=0;
+                s1.texture=p0.texture;
+            }else if(selected==s2){
+                ss2=0;
+                s2.texture=p0.texture;
+            }else if(selected==s3){
+                ss3=0;
+                s3.texture=p0.texture;
+            }else if(selected==s4){
+                ss4=0;
+                s4.texture=p0.texture;
+            }else if(selected==s5){
+                ss5=0;
+                s5.texture=p0.texture;
+            }
             if (CGRectContainsPoint(s1.boundingBox,location)) {
                 s1.texture=selected.texture;
                 ss1=selectNum;
@@ -204,7 +282,7 @@
             }
             [self setNumPositions];
         }
-        else if (CGRectContainsPoint(oneLevel.boundingBox,location)) {
+        if (CGRectContainsPoint(oneLevel.boundingBox,location)) {
             int result=ss5+ss4*10+ss3*100+ss2*1000+ss1*10000;
             if(mathType==1){
                 if(result == num1+num2){
@@ -222,7 +300,7 @@
                 }
             }
             else if(mathType==4){
-                if(result == num2/num1){
+                if(result == num1/num2){
                     [gameState setBoost:timer/2+2];
                 }
             }

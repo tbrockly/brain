@@ -81,10 +81,12 @@
         rocketPow.position=ccp(-1000,50);
         [gameState.powerups addObject:rocketPow];
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		onePlayer = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		onePlayer = [CCSprite spriteWithFile:@"ok.png"];
+        onePlayer.scale=.2;
 		onePlayer.position = ccp(winSize.width/2, winSize.height/2);
 		[self addChild:onePlayer];
-		shopSprite = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(0, 0, 100, 100)];
+		shopSprite = [CCSprite spriteWithFile:@"pause.png" rect:CGRectMake(0, 0, 100, 100)];
+        shopSprite.scale=.5;
 		[self addChild:shopSprite];
 	}	
 	return self;

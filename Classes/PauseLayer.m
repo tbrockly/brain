@@ -19,7 +19,8 @@
 		self.isTouchEnabled = YES;
         
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(20, 20, 40, 40)];
+		oneLevel = [CCSprite spriteWithFile:@"ok.png"];
+        oneLevel.scale=.2;
 		[self addChild:oneLevel];
         oneLevel.position = ccp(winSize.width/2, winSize.height/2);
         restart = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(20, 20, 40, 40)];

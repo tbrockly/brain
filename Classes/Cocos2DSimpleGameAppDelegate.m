@@ -1,10 +1,4 @@
-//
-//  Cocos2DSimpleGameAppDelegate.m
-//  Cocos2DSimpleGame
-//
-//  Created by Ray Wenderlich on 11/21/10.
-//  Copyright Ray Wenderlich 2010. All rights reserved.
-//
+
 
 #import "cocos2d.h"
 
@@ -89,7 +83,7 @@
 //#endif
 	
 	[director setAnimationInterval:1.0/60];
-	[director setDisplayFPS:YES];
+	[director setDisplayFPS:NO];
 	
 	
 	// make the OpenGLView a child of the view controller

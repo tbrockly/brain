@@ -44,7 +44,7 @@ AVAudioPlayer *player;
         AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
         player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:soundPath] error:nil];
         player.numberOfLoops=-1;
-        player.volume=.5;
+        player.volume=.2;
         [player play];
         //self.layer = [Game initNode];
         //[self.layer setGameState:gameState];
@@ -109,7 +109,7 @@ float friction=.2;
         [defaults2 setInteger:1 forKey:@"quizFreq"];
         [defaults2 setInteger:1 forKey:@"enemyBoost"];
         [defaults2 setInteger:1 forKey:@"quizBoost"];
-        [defaults2 setFloat:-4 forKey:@"gravity"];
+        [defaults2 setFloat:-3 forKey:@"gravity"];
         [defaults2 setInteger:1 forKey:@"friction"];
         [defaults2 setInteger:1 forKey:@"quizDifficulty"];
         [defaults2 setInteger:1 forKey:@"topSpeed"];
@@ -216,7 +216,8 @@ float friction=.2;
         [self addChild:fireback z:0];
         arrow.position=ccp(-3000,0);
         [self addChild:arrow z:0];
-        
+        [fireback runAction:[CCFadeOut actionWithDuration:.1]];
+        [arrow runAction:[CCFadeOut actionWithDuration:.1]];
         
         // Create ainitWithGame world
         
@@ -285,6 +286,9 @@ float friction=.2;
 int i=0;
 
 - (void)calc:(ccTime) dt {
+    if(_body->GetLinearVelocity().x<0){
+        _body->SetLinearVelocity(b2Vec2(0, _body->GetLinearVelocity().y));
+    }
     if([gameState state]==0){
     comboTimer++;
     if(comboTimer>2){
@@ -308,9 +312,9 @@ int i=0;
     //Rocket
     if(gameState.rocketTime>=0){
         gameState.rocketTime--;
-        if(gameState.rocketTime==4){
-            [fireback runAction:[CCFadeOut actionWithDuration:2]];
-            
+        if(gameState.rocketTime==0){
+            [fireback runAction:[CCFadeOut actionWithDuration:1]];
+            [arrow runAction:[CCFadeOut actionWithDuration:1]];
         }
         if(gameState.rocketTime==-1){
             rocketing=false;
@@ -325,6 +329,7 @@ int i=0;
 //                [self addChild:rocketWrap z:99];
                 
                 [fireback runAction:[CCFadeIn actionWithDuration:1]];
+                [arrow runAction:[CCFadeIn actionWithDuration:1]];
                 rocketing=true;
                 
             }
@@ -463,6 +468,7 @@ int i=0;
                 [gameState setSpeed:_body->GetLinearVelocity().x];
                 
                 //check for enemy collision
+            if(!rocketing){
             for (Powerup *pow in [gameState powerups]) {
                 if(CGRectIntersectsRect(ballData.boundingBox, pow.boundingBox)){
                     [pow collide: _body gameState:gameState];
@@ -474,13 +480,15 @@ int i=0;
                     }
                 }
             }
-                
+            
+            
                 //update positions
             for (Powerup *pow in [gameState powerups]) {
                 if(ballData.position.x>pow.position.x+2000){
                     //NSLog(@"%f", _body->GetLinearVelocity().x);
                     pow.position=ccp(pow.position.x+[self calcFreq:(pow.freq/4) withMin:(pow.freq/4) withDist:ballData.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:ballData.position.y-HEIGHTDIFF withDist:0], 100));
                 }
+            }
             }
 
                 //check for bg spawn
@@ -513,7 +521,7 @@ int i=0;
             
                 //update for distance
                 //NSLo
-                _body->SetLinearDamping((_body->GetLinearVelocity().x/100)+((ballData.position.x/100)/(40000.0+(ballData.position.x/100))));
+                _body->SetLinearDamping((_body->GetLinearVelocity().x/500)+((ballData.position.x/100)/(40000.0+(ballData.position.x/100))));
                 //int i =  ballData.position.x;
                 //NSLog(@"%f", _body->GetLinearVelocity().x);
                 ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(_body->GetAngle());
@@ -543,9 +551,9 @@ int i=0;
         }else if(gameState.charge>0) {
             if(firstTouch.y>lastTouch.y+60 && len>80){
                 if(_body->GetLinearVelocity().y>0){
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,-5.0));
+                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,-3.0));
                 }else{
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y-5.0));
+                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y-3.0));
                 }
                 if(gameState.spinShield<7){gameState.spinShield=gameState.spinShield+6;}
                 [self shieldCalc];
@@ -553,9 +561,9 @@ int i=0;
             }
             if(firstTouch.y+60<lastTouch.y && len>80){
                 if(_body->GetLinearVelocity().y<0){
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,10.0));
+                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,3.0));
                 }else{
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y+10.0));
+                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y+3.0));
                 }
                 if(gameState.spinShield<7){gameState.spinShield=gameState.spinShield+6;}
                 [self shieldCalc];

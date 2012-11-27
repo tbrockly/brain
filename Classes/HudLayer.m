@@ -76,7 +76,8 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         achieveLab.position=ccp(-200,-200);
         
         //CGSize winSize = [[CCDirector sharedDirector] winSize];
-		oneLevel = [CCSprite spriteWithFile:@"FoodItemside.png" rect:CGRectMake(0, 0, 40, 40)];
+		oneLevel = [CCSprite spriteWithFile:@"pause.png"];
+        oneLevel.scale=.5;
 		oneLevel.position = ccp(20, 20);
 		[self addChild:oneLevel];
         
