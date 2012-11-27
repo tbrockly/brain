@@ -1,7 +1,6 @@
 // Import the interfaces
 #import "GameScene.h"
 #import "SimpleAudioEngine.h"
-#import "GameOverScene.h"
 #import "math.h"
 #import "Box2D.h"
 #import "cocos2d.h"
