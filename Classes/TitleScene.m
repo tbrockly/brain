@@ -18,6 +18,7 @@
 #import "Quiz.h"
 #import "Ride.h"
 #import "Energy.h"
+#import "Cloud.h"
 
 @implementation TitleScene
 @synthesize layer = _layer;
@@ -80,6 +81,17 @@
         Rocket *rocketPow=[[Rocket alloc] initSelf];
         rocketPow.position=ccp(-1000,50);
         [gameState.powerups addObject:rocketPow];
+        
+        Cloud *cPow=[[Cloud alloc] initSelf];
+        cPow.position=ccp(-1000,50);
+        [gameState.powerups addObject:cPow];
+        cPow=[[Cloud alloc] initSelf];
+        cPow.position=ccp(-1000,50);
+        [gameState.powerups addObject:cPow];
+        cPow=[[Cloud alloc] initSelf];
+        cPow.position=ccp(-1000,50);
+        [gameState.powerups addObject:cPow];
+        
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
 		onePlayer = [CCSprite spriteWithFile:@"ok.png"];
         onePlayer.scale=.2;

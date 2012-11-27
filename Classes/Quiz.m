@@ -19,7 +19,7 @@
     self.freqStr=@"quizFreq";
     self.name=@"Quiz";
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"quizLevel"]*2;
-    self.freq=5000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
+    self.freq=4000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
     imgName=@"light.png";
     [self initWithFile:imgName];
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon004" ofType:@"mp3"];
