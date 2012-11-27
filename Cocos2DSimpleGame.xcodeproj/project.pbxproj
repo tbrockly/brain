@@ -148,7 +148,6 @@
 		9FBAD1571644B8E1007A93A3 /* scifi011.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9FBAD1491644B8E1007A93A3 /* scifi011.mp3 */; };
 		9FBAD1581644B8E1007A93A3 /* scifi012.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9FBAD14A1644B8E1007A93A3 /* scifi012.mp3 */; };
 		9FBAD1591644B8E1007A93A3 /* scifi060.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9FBAD14B1644B8E1007A93A3 /* scifi060.mp3 */; };
-		9FBAD15C1644EE18007A93A3 /* ggs.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9FBAD15B1644EE17007A93A3 /* ggs.mp3 */; };
 		9FBE409115AAA67000AE2187 /* QuizLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE409015AAA66F00AE2187 /* QuizLayer.m */; };
 		9FBE409715B27FD800AE2187 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE409615B27FD700AE2187 /* GameState.m */; };
 		9FBE40A215D6D15E00AE2187 /* GameTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE40A115D6D15D00AE2187 /* GameTarget.m */; };
@@ -578,7 +577,6 @@
 		9FBAD1491644B8E1007A93A3 /* scifi011.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = scifi011.mp3; sourceTree = "<group>"; };
 		9FBAD14A1644B8E1007A93A3 /* scifi012.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = scifi012.mp3; sourceTree = "<group>"; };
 		9FBAD14B1644B8E1007A93A3 /* scifi060.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = scifi060.mp3; sourceTree = "<group>"; };
-		9FBAD15B1644EE17007A93A3 /* ggs.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ggs.mp3; sourceTree = "<group>"; };
 		9FBE408F15AAA66F00AE2187 /* QuizLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizLayer.h; sourceTree = "<group>"; };
 		9FBE409015AAA66F00AE2187 /* QuizLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuizLayer.m; sourceTree = "<group>"; };
 		9FBE409515B27FD600AE2187 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
@@ -1289,7 +1287,6 @@
 				9FBAD1461644B8E1007A93A3 /* farm001.mp3 */,
 				9FBAD1471644B8E1007A93A3 /* farm007.mp3 */,
 				9FBAD1481644B8E1007A93A3 /* farm009.mp3 */,
-				9FBAD15B1644EE17007A93A3 /* ggs.mp3 */,
 				9FBAD1491644B8E1007A93A3 /* scifi011.mp3 */,
 				9FBAD14A1644B8E1007A93A3 /* scifi012.mp3 */,
 				9FBAD14B1644B8E1007A93A3 /* scifi060.mp3 */,
@@ -1782,7 +1779,6 @@
 				9FBAD1571644B8E1007A93A3 /* scifi011.mp3 in Resources */,
 				9FBAD1581644B8E1007A93A3 /* scifi012.mp3 in Resources */,
 				9FBAD1591644B8E1007A93A3 /* scifi060.mp3 in Resources */,
-				9FBAD15C1644EE18007A93A3 /* ggs.mp3 in Resources */,
 				9F2B83781657E9DB0088324A /* arrow.png in Resources */,
 				9F2B83791657E9DB0088324A /* beam.png in Resources */,
 				9F2B837A1657E9DB0088324A /* firebackground.jpg in Resources */,
