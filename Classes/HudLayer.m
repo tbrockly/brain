@@ -10,6 +10,7 @@
 #import "PauseLayer.h"
 #import "Coin.h"
 #import "Achievement.h"
+#import "QuizLayer.h"
 
 @implementation HudLayer
 
@@ -63,14 +64,34 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         arrowD.scale=.5;
         arrowD.position=ccp(260,10);
         [self addChild:arrowD];
+        arrow1=[CCSprite spriteWithFile:@"arrow.png"];
+        arrow1.rotation=90;
+        arrow1.position=ccp(20,300);
+        arrow1.opacity=0;
+        [self addChild:arrow1];
+        arrow2=[CCSprite spriteWithFile:@"arrow.png"];
+        arrow2.rotation=90;
+        arrow2.position=ccp(50,300);
+        arrow2.opacity=0;
+        [self addChild:arrow2];
+        arrow3=[CCSprite spriteWithFile:@"arrow.png"];
+        arrow3.rotation=90;
+        arrow3.position=ccp(80,300);
+        arrow3.opacity=0;
+        [self addChild:arrow3];
+        arrow4=[CCSprite spriteWithFile:@"arrow.png"];
+        arrow4.rotation=90;
+        arrow4.position=ccp(110,300);
+        arrow4.opacity=0;
+        [self addChild:arrow4];
         [self schedule:@selector(calc:) interval:.01f];
         [self schedule:@selector(addCoin:) interval:.3f];
         achieveSprite=[CCSprite spriteWithFile:@"Kawaii-Popsicle.gif"];
         achieveSprite.scale=.5;
         [self addChild:achieveSprite];
-        achieveLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"huigyfucvk",gameState.charge]
-    fontName:@"Futura" 
-    fontSize:20];
+        achieveLab=[[CCLabelTTF alloc] initWithString:@""
+                                             fontName:@"Futura" 
+                                             fontSize:20];
         [achieveLab setColor:ccWHITE];
         [self addChild:achieveLab];
         achieveLab.position=ccp(-200,-200);
@@ -81,8 +102,39 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 		oneLevel.position = ccp(20, 20);
 		[self addChild:oneLevel];
         
+        card = [CCSprite spriteWithFile:@"cardback.jpg"];
+        card.scale=.5;
+        card.position=ccp(240,480);
+        [self addChild:card z:2];
+        
 	}	
 	return self;
+}
+
+-(void) drawCard{
+    
+    //card.position=ccp(240,160);
+    //[self addChild:[[CCColorLayer alloc] initWithColor:ccc4(0, 0, 0, 255)] z:199];
+    
+    [card runAction:[CCSequence actions:[CCMoveTo actionWithDuration:1 position:ccp(240,160)],
+                     [CCCallFuncN actionWithTarget:self selector:@selector(pushQuiz)],
+                     [CCDelayTime actionWithDuration:2],
+                     [CCDelayTime actionWithDuration:2.5],
+                     [CCCallFuncN actionWithTarget:self.parent selector:@selector(showGame)],
+                     [CCMoveTo actionWithDuration:1 position:ccp(240,480)],
+                     [CCCallFuncN actionWithTarget:self selector:@selector(resumeGame)],
+                     nil]];
+}
+-(void)resumeGame{
+    [gameState setState:0];
+}
+
+
+-(void)pushQuiz{
+    [self.parent hideGame];
+    QuizScene *q = [[QuizScene alloc] init:gameState];
+    CCTransitionFlipAngular *cctf = [CCTransitionFlipAngular transitionWithDuration:2 scene:q];
+    [[CCDirector sharedDirector] pushScene:cctf];
 }
 
 - (void)addCoin:(ccTime) dt {
@@ -145,6 +197,28 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     if(remObj >-1){
         [coins removeObjectAtIndex:remObj];
     }
+    if([gameState comboTimer]<3) {
+        int temp = [gameState comboVal];
+        int count=1;
+        CCSprite* myArrow= arrow1;
+        while(temp>1){
+            if(temp%10==1){
+                myArrow.rotation=0;
+            }else{
+                myArrow.rotation=180;
+            }
+            myArrow.opacity=255-[gameState comboTimer]*75;
+            count++;
+            if(count==2){myArrow=arrow2;}
+            else if (count==3){myArrow=arrow3;}
+            else if (count==4){myArrow=arrow4;}
+            temp=temp/10;
+        }}else{
+            arrow1.opacity=0;
+            arrow2.opacity=0;
+            arrow3.opacity=0;
+            arrow4.opacity=0;
+        }
     chargeLab.string=[NSString stringWithFormat:@"%i",gameState.charge];
     scoreLab.string=[NSString stringWithFormat:@"%i",gameState.score];
     speedLab.string=[NSString stringWithFormat:@"%.1f",gameState.speed];
@@ -174,6 +248,11 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         [self.parent addChild:q z:10];
         [[CCDirector sharedDirector] pause];
     }
+}
+
+-(void)dealloc{
+    [self.parent showGame];
+    [super dealloc];
 }
 
 @end

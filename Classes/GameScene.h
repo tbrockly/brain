@@ -21,17 +21,21 @@
 + (id) initNode:(GameState*)gs;
 - (id) initWithMonsters;
 - (void) quizFire:(b2Body *)b;
--(void)popScene;
+- (void) quiz:(b2Body *)b;
+-(void)pushQuiz;
 @end
 
 @interface GameScene : CCScene
 {
-    //Game *_layer;
+    Game *lay;
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
 }
+
+- (HudLayer*) getHud;
+-(void)showGame;
+-(void)hideGame;
 + (id) initNode:(GameState*) gs;
 - (id) initWithMonsters:(GameState*) gs;
-- (int) calcFreq:(int)freq withMin:(int)min withDist:(int)dist;
 @end
 

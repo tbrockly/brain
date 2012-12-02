@@ -11,11 +11,15 @@
 #import "GameState.h"
 
 @interface HudLayer : CCLayer <UITextFieldDelegate>{
-    CCSprite *oneLevel,*botBar,*arrowA,*arrowD,*arrowV,*arrowVV,*coinIcon,*eng;
+    CCSprite *card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*coinIcon,*eng;
     UITextField *answer;
     @public GameState *gameState;
     NSMutableArray *coins;
     int score;
     CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab;
 }
+-(void)resumeGame;
+-(void)drawArrows;
+-(void)drawCard;
+-(void)pushQuiz;
 @end

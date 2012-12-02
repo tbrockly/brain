@@ -8,12 +8,33 @@
 
 #import "QuizLayer.h"
 
+@implementation QuizScene
+
+
+- (id)init:(GameState*)gs{
+    if ((self = [super init])) {
+        QuizLayer *lay = [[QuizLayer alloc] init];
+        lay->gameState=gs;
+        //[self addChild:[CCColorLayer layerWithColor:ccc4(124,106,128,255)]];
+        [self addChild:lay z:2 tag:0];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+@end
+
 @implementation QuizLayer
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init
 {
 	if( (self=[super initWithColor:ccc4(155,155,155,100)] )) {
 		// Enable touch events
+        popTimer=-1;
+        [gameState setState:1];
 		self.isTouchEnabled = YES;
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         timer=30;
@@ -36,6 +57,7 @@
         s5 = [CCSprite spriteWithFile:@"0.png"];
 		[self addChild:s5];
         p0 = [CCSprite spriteWithFile:@"0.png"];
+        p0.visible=0;
         [self addChild:p0];
         p1 = [CCSprite spriteWithFile:@"1.png"];
 		[self addChild:p1];
@@ -151,7 +173,6 @@
 }
 
 - (void)setNumPositions{
-    p0.position=ccp(-200,50);
     p1.position=ccp(20,50);
     p2.position=ccp(75,50);
     p3.position=ccp(130,50);
@@ -171,17 +192,15 @@
 
 - (void)calc:(ccTime) dt {
     timer--;
+    
     timeLab.string=[NSString stringWithFormat:@"%i",timer];
     if(timer==0){
-        [gameState setState:0];
-        [answer endEditing:YES];
-        [answer removeFromSuperview];
+        [[CCDirector sharedDirector] popScene];
         [self.parent removeChild:self cleanup:TRUE];
     }
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
-    [answer resignFirstResponder];
     return YES;
 }
 
@@ -293,23 +312,25 @@
                 if(result == num1-num2){
                     [gameState setBoost:timer/2+2];
                 }
-            }
-            else if(mathType==3){
+            }else if(mathType==3){
                 if(result == num1*num2){
                     [gameState setBoost:timer/2+2];
                 }
-            }
-            else if(mathType==4){
+            }else if(mathType==4){
                 if(result == num1/num2){
                     [gameState setBoost:timer/2+2];
                 }
             }
-            [gameState setState:0];
-            [answer endEditing:YES];
-            [answer removeFromSuperview];
-            [self.parent removeChild:self cleanup:TRUE];
+            //[self.parent runAction:[CCSequence actions:[CCMoveTo actionWithDuration:2 position:ccp(-,0)],
+            //                 [CCCallFuncN actionWithTarget:self selector:@selector(popMe)],
+            //                 nil]];
+            [self popMe];
+            //[self.parent removeChild:self cleanup:TRUE];
         }
     }
+}
+-(void) popMe{
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFlipAngular class] duration:2];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "CCSprite.h"
 #import "Box2D.h"
+#import "cocos2d.h"
 #include <AudioToolbox/AudioToolbox.h>
 
 @interface Powerup : CCSprite{
@@ -30,4 +31,5 @@
 -(id) initSelf;
 -(void)collide:(b2Body*) body gameState:gameState;
 - (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist;
+-(void)updatePosition:(CGPoint)ballpos;
 @end

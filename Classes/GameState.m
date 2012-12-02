@@ -10,7 +10,7 @@
 #import "Achievement.h"
 
 @implementation GameState
-@synthesize state;
+@synthesize state,comboTimer,comboVal;
 @synthesize boost,score,charge;
 @synthesize scale;
 @synthesize rocketTime,boostTime,bounceTime,bonusTime,quizTime, zerograv, speed;

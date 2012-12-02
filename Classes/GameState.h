@@ -12,7 +12,7 @@
 @interface GameState: NSObject{
 
 }
-@property int state;
+@property int state, comboTimer,comboVal;
 @property int boost,score,charge;
 @property int rocketTime,boostTime,bounceTime,bonusTime,quizTime,zerograv;
 @property int spinShield, topSpeed, coins;

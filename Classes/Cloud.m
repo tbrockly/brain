@@ -19,7 +19,7 @@
     self.freqStr=@"cloudFreq";
     self.name=@"Coin";
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
-    self.freq=2000;
+    self.freq=6000;
     //10000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
     imgName=@"CL02.png";
     [self initWithFile:imgName];
@@ -29,6 +29,14 @@
 
 -(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
 
+}
+
+- (int)calcFreq:(int)freq2 withMin:(int)min withDist:(int)dist {
+    return (arc4random() % freq2) + min;
+}
+
+-(void)updatePosition:(CGPoint)ballpos{
+    self.position=ccp(ballpos.x+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], fmax([self calcFreq:HEIGHTDIFF2 withMin:ballpos.y-HEIGHTDIFF withDist:0], 1500));
 }
 
 @end

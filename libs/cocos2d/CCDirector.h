@@ -186,7 +186,7 @@ and when to execute the Scenes.
 /** returns a shared instance of the director */
 +(CCDirector *)sharedDirector;
 
-
+-(void) popSceneWithTransition: (Class)transitionClass duration:(ccTime)t;
 
 // Window size
 

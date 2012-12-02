@@ -23,8 +23,7 @@ BOOL runAI;
 CGSize winSize;
 CGPoint firstTouch, lastTouch;
 #define PTM_RATIO 150.0
-#define HEIGHTDIFF 1000
-#define HEIGHTDIFF2 2000
+
 #define pi 3.14
 
 AVAudioPlayer *player;
@@ -47,14 +46,25 @@ AVAudioPlayer *player;
         //[player play];
         //self.layer = [Game initNode];
         //[self.layer setGameState:gameState];
-        Game *lay = [Game initNode:gameState];
+        lay = [Game initNode:gameState];
         _hudLayer = [[HudLayer alloc] init];;
         _hudLayer->gameState = gameState;
         [self addChild:[CCColorLayer layerWithColor:ccc4(124,106,128,255)]];
-        [self addChild:lay z:2 tag:0];
-        [self addChild:_hudLayer z:3 tag:1];
+        [self addChild:lay];
+        [self addChild:_hudLayer];
     }     
     return self;
+}
+
+- (HudLayer*)getHud{
+    return _hudLayer;
+}
+
+- (void)hideGame{
+     lay.visible=0;
+}
+- (void)showGame{
+    lay.visible=1;
 }
 
 - (void)dealloc {
@@ -70,7 +80,7 @@ AVAudioPlayer *player;
 
 // Game implementation
 @implementation Game
-CCSprite* bg, *bg1, *bg2, *bg3, *bg10,*bg11,*bg20,*bg21,*bg30,*bg31;
+CCSprite* bg, *bg1, *bg2, *bg3, *bg10,*bg11,*bg20,*bg21,*bg30,*bg31,*card;
 b2Body *_body;
 CCSprite *_ball;
 CCSprite *_bonusshield,*_ballshield,*_bounceshield,*_boostshield,*fireback,*arrow;
@@ -79,7 +89,7 @@ b2BodyDef ballBodyDef;
 b2FixtureDef ballShapeDef;
 b2Fixture *_fixture;
 NSUserDefaults *defaults2;
-int comboTimer,comboVal;
+
 float fireOffset=0;
 AchievementEngine *achEngine;
 bool paused = false;
@@ -122,6 +132,7 @@ float friction=.2;
         [defaults2 setInteger:1 forKey:@"boostLevel"];
         [defaults2 setInteger:1 forKey:@"energyLevel"];
         gameState.rocketTime=-1;
+        
         //[defaults2 integerForKey:@"airResist"]+
         AchievementEngine *achEng=[[AchievementEngine alloc] init:defaults2];
         [gameState setAchEng:achEng];
@@ -289,9 +300,9 @@ int i=0;
         _body->SetLinearVelocity(b2Vec2(0, _body->GetLinearVelocity().y));
     }
     if([gameState state]==0){
-    comboTimer++;
-    if(comboTimer>2){
-        comboVal=1;
+    [gameState setComboTimer:[gameState comboTimer]+1];
+    if([gameState comboTimer]>2){
+        [gameState setComboVal:1];
     }
     //count 
     if(_body->GetLinearVelocity().x ==0){
@@ -473,9 +484,11 @@ int i=0;
                     [pow collide: _body gameState:gameState];
                     [self shieldCalc];
                     if(gameState.state==1){
-                        QuizLayer *q = [[QuizLayer alloc] init];
-                        q->gameState=gameState;
-                        [self.parent addChild:q z:10];
+                        
+                        //[self.parent addChild:q z:10];
+                        CGPoint center=ccp(ballData.position.x+60*(2/self.scale),ballData.position.y+320);
+                        card.position=ccp(center.x,center.y+320);
+                        [[self.parent getHud] drawCard];
                     }
                 }
             }
@@ -485,7 +498,7 @@ int i=0;
             for (Powerup *pow in [gameState powerups]) {
                 if(ballData.position.x>pow.position.x+2000){
                     //NSLog(@"%f", _body->GetLinearVelocity().x);
-                    pow.position=ccp(pow.position.x+[self calcFreq:(pow.freq/4) withMin:(pow.freq/4) withDist:ballData.position.x], fmax([self calcFreq:HEIGHTDIFF2 withMin:ballData.position.y-HEIGHTDIFF withDist:0], 100));
+                    [pow updatePosition:ballData.position];
                 }
             }
             }
@@ -528,10 +541,6 @@ int i=0;
     }
 }
 
-- (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist {
-    return (arc4random() % freq+(dist/10)) + min;
-}
-
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if([gameState state]==0){
         // Choose one of the touches to work with
@@ -548,7 +557,7 @@ int i=0;
                 _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+len/200,_body->GetLinearVelocity().y+len/400));
             }
         }else if(gameState.charge>0) {
-            if(firstTouch.y>lastTouch.y+60 && len>80){
+            if(firstTouch.y>lastTouch.y+120){
                 if(_body->GetLinearVelocity().y>0){
                     _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,-3.0));
                 }else{
@@ -558,7 +567,7 @@ int i=0;
                 [self shieldCalc];
                 [gameState setCharge:(gameState.charge-1)];
             }
-            if(firstTouch.y+60<lastTouch.y && len>80){
+            if(firstTouch.y+120<lastTouch.y){
                 if(_body->GetLinearVelocity().y<0){
                     _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,3.0));
                 }else{
@@ -571,14 +580,14 @@ int i=0;
             //combos
         ///<<<<
         if(firstTouch.x>lastTouch.x+60 && len>80){
-            comboTimer=0;
-            comboVal=comboVal*10;
+            [gameState setComboTimer:0];
+            [gameState setComboVal:[gameState comboVal]*10];
             [self fireShield];
         }
         ///>>>>
         if(firstTouch.x+60<lastTouch.x && len>80){
-            comboTimer=0;
-            comboVal=comboVal*10+1;
+            [gameState setComboTimer:0];
+            [gameState setComboVal:[gameState comboVal]*10+1];
             [self fireShield];
         }
         }
@@ -586,13 +595,13 @@ int i=0;
 }
                
 -(void)fireShield{
-    if(comboVal==1010){
+    if([gameState comboVal]==1010){
         gameState.spinShield=gameState.spinShield+30;
-    }else if(comboVal==1101){
+    }else if([gameState comboVal]==1101){
         gameState.bounceTime=gameState.bounceTime+30;
-    }else if(comboVal==1110){
+    }else if([gameState comboVal]==1110){
         gameState.boostTime=gameState.boostTime+30;
-    }else if(comboVal==1001){
+    }else if([gameState comboVal]==1001){
         gameState.bonusTime=gameState.bonusTime+30;
     }
 }
