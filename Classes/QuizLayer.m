@@ -330,7 +330,7 @@
     }
 }
 -(void) popMe{
-    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFlipAngular class] duration:2];
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFlipAngular class] duration:1];
 }
 
 @end

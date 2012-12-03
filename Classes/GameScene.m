@@ -15,6 +15,7 @@
 #import "Quiz.h"
 #import "Ride.h"
 #import "Energy.h"
+#import "TotalLayer.h"
 #include <AudioToolbox/AudioToolbox.h>
 
 @implementation GameScene
@@ -25,7 +26,7 @@ CGPoint firstTouch, lastTouch;
 #define PTM_RATIO 150.0
 
 #define pi 3.14
-
+GameState *gameState;
 AVAudioPlayer *player;
 + (id)initNode:(GameState*) gameState {
 	return [[[self alloc] initWithMonsters:gameState] autorelease];
@@ -33,7 +34,7 @@ AVAudioPlayer *player;
 
 - (id)initWithMonsters:(GameState*) gs{
     if ((self = [super init])) {
-        GameState *gameState=gs;
+        gameState=gs;
         gameState.state=0;
         gameState.charge=20;
         gameState.topSpeed=100;
@@ -58,6 +59,11 @@ AVAudioPlayer *player;
 
 - (HudLayer*)getHud{
     return _hudLayer;
+}
+
+-(void)addTotal{
+    TotalLayer* tt = [[TotalLayer alloc] init:gameState];
+    [self addChild:tt];
 }
 
 - (void)hideGame{
@@ -295,6 +301,10 @@ float friction=.2;
 }
 int i=0;
 
+-(void)popMe{
+    [self popScene];
+}
+
 - (void)calc:(ccTime) dt {
     if(_body->GetLinearVelocity().x<0){
         _body->SetLinearVelocity(b2Vec2(0, _body->GetLinearVelocity().y));
@@ -311,7 +321,8 @@ int i=0;
             //_ball=[[CCSprite alloc] initWithFile:@"brain_squash01.png"];
         }
         if(gameState.quizTime>3){
-            [self popScene];
+            [self.parent addTotal];
+            [gameState setState:99];
         }
     }else{
         gameState.quizTime=0;
@@ -420,7 +431,7 @@ int i=0;
 }
 
 - (void)tick:(ccTime) dt {
-    if([gameState state]==0){
+    if([gameState state]==0 || [gameState state]==99){
         static double UPDATE_INTERVAL = 1.0f/60.0f;
         static double MAX_CYCLES_PER_FRAME = 5;
         static double timeAccumulator = 0;
@@ -542,6 +553,9 @@ int i=0;
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if([gameState state]==99){
+        [self popMe];
+    }
     if([gameState state]==0){
         // Choose one of the touches to work with
         //gameState.rocketTime=10;
@@ -579,13 +593,13 @@ int i=0;
             }
             //combos
         ///<<<<
-        if(firstTouch.x>lastTouch.x+60 && len>80){
+        if(firstTouch.x>lastTouch.x+120){
             [gameState setComboTimer:0];
             [gameState setComboVal:[gameState comboVal]*10];
             [self fireShield];
         }
         ///>>>>
-        if(firstTouch.x+60<lastTouch.x && len>80){
+        if(firstTouch.x+120<lastTouch.x){
             [gameState setComboTimer:0];
             [gameState setComboVal:[gameState comboVal]*10+1];
             [self fireShield];

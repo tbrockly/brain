@@ -17,7 +17,7 @@
 #define degreesToRadians(x) (M_PI * x /180.0)
 int curTar=0;
 int achieveShow=0;
-int targetx=135,targety=175;
+int targetx=110,targety=150;
 CCSprite * achieveSprite;
 CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targetx-100,targety),ccp(targetx-70,targety-70),ccp(targetx,targety-100), ccp(targetx+70,targety-70),ccp(targetx+100,targety),ccp(targetx+70,targety+70)};
 -(id) init
@@ -116,12 +116,12 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     //card.position=ccp(240,160);
     //[self addChild:[[CCColorLayer alloc] initWithColor:ccc4(0, 0, 0, 255)] z:199];
     
-    [card runAction:[CCSequence actions:[CCMoveTo actionWithDuration:1 position:ccp(240,160)],
+    [card runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.6 position:ccp(240,160)],
                      [CCCallFuncN actionWithTarget:self selector:@selector(pushQuiz)],
-                     [CCDelayTime actionWithDuration:2],
-                     [CCDelayTime actionWithDuration:2.5],
+                     [CCDelayTime actionWithDuration:1],
+                     [CCDelayTime actionWithDuration:1.2],
                      [CCCallFuncN actionWithTarget:self.parent selector:@selector(showGame)],
-                     [CCMoveTo actionWithDuration:1 position:ccp(240,480)],
+                     [CCMoveTo actionWithDuration:.6 position:ccp(240,480)],
                      [CCCallFuncN actionWithTarget:self selector:@selector(resumeGame)],
                      nil]];
 }
@@ -133,7 +133,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 -(void)pushQuiz{
     [self.parent hideGame];
     QuizScene *q = [[QuizScene alloc] init:gameState];
-    CCTransitionFlipAngular *cctf = [CCTransitionFlipAngular transitionWithDuration:2 scene:q];
+    CCTransitionFlipAngular *cctf = [CCTransitionFlipAngular transitionWithDuration:1 scene:q];
     [[CCDirector sharedDirector] pushScene:cctf];
 }
 

@@ -34,7 +34,7 @@
     gameState.achEng.totboost++;
     float vx=_body->GetLinearVelocity().x;
     float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-    _body->SetLinearVelocity(b2Vec2(vx+power,fabs(vy)+power));
+    _body->SetLinearVelocity(b2Vec2(vx+power+2,fabs(vy)+power+2));
     
     self.position=ccp(self.position.x-2000, 0);
 }

@@ -90,6 +90,7 @@
 		9F7258B116647FDA00B8C80E /* CL07.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7258AD16647FDA00B8C80E /* CL07.png */; };
 		9F7258B41664826100B8C80E /* Cloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7258B31664826100B8C80E /* Cloud.m */; };
 		9F7258B6166B247800B8C80E /* cardback.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F7258B5166B247800B8C80E /* cardback.jpg */; };
+		9F7258B9166C513A00B8C80E /* TotalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7258B8166C513900B8C80E /* TotalLayer.m */; };
 		9F7A6F0715D816BE00EB7BE7 /* Coin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A6F0615D816BE00EB7BE7 /* Coin.m */; };
 		9F7A6F0D15D8838500EB7BE7 /* HudLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7A6F0C15D8838500EB7BE7 /* HudLayer.m */; };
 		9F7A6F1415F5951E00EB7BE7 /* brain_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7A6F1215F5951E00EB7BE7 /* brain_test.png */; };
@@ -478,6 +479,8 @@
 		9F7258B21664826000B8C80E /* Cloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cloud.h; sourceTree = "<group>"; };
 		9F7258B31664826100B8C80E /* Cloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cloud.m; sourceTree = "<group>"; };
 		9F7258B5166B247800B8C80E /* cardback.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cardback.jpg; sourceTree = "<group>"; };
+		9F7258B7166C513800B8C80E /* TotalLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalLayer.h; sourceTree = "<group>"; };
+		9F7258B8166C513900B8C80E /* TotalLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalLayer.m; sourceTree = "<group>"; };
 		9F7A6F0515D816BE00EB7BE7 /* Coin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coin.h; sourceTree = "<group>"; };
 		9F7A6F0615D816BE00EB7BE7 /* Coin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coin.m; sourceTree = "<group>"; };
 		9F7A6F0B15D8838500EB7BE7 /* HudLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudLayer.h; sourceTree = "<group>"; };
@@ -1131,6 +1134,8 @@
 				9FBE409015AAA66F00AE2187 /* QuizLayer.m */,
 				9F61E65115FDB2620093A596 /* ShopLayer.h */,
 				9F61E65215FDB2620093A596 /* ShopLayer.m */,
+				9F7258B7166C513800B8C80E /* TotalLayer.h */,
+				9F7258B8166C513900B8C80E /* TotalLayer.m */,
 			);
 			name = layers;
 			sourceTree = "<group>";
@@ -1905,6 +1910,7 @@
 				9F06CED0164A3990002E1E22 /* MainTableView.m in Sources */,
 				9FD463A1164F65460075C35A /* ShopRightLayer.m in Sources */,
 				9F7258B41664826100B8C80E /* Cloud.m in Sources */,
+				9F7258B9166C513A00B8C80E /* TotalLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

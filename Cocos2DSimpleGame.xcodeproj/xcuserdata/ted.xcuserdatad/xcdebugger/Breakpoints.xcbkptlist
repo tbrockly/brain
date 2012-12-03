@@ -641,11 +641,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376200998.939581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "53"
-         endingLineNumber = "53"
+         startingLineNumber = "54"
+         endingLineNumber = "54"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -654,7 +654,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/HudLayer.m"
-         timestampString = "376166381.393754"
+         timestampString = "376195083.102093"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "243"
@@ -667,7 +667,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/HudLayer.m"
-         timestampString = "376166381.393754"
+         timestampString = "376195083.102093"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "245"
@@ -823,11 +823,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "500"
-         endingLineNumber = "500"
+         startingLineNumber = "511"
+         endingLineNumber = "511"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -836,11 +836,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "499"
-         endingLineNumber = "499"
+         startingLineNumber = "510"
+         endingLineNumber = "510"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -849,11 +849,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "498"
-         endingLineNumber = "498"
+         startingLineNumber = "509"
+         endingLineNumber = "509"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -875,11 +875,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "501"
-         endingLineNumber = "501"
+         startingLineNumber = "512"
+         endingLineNumber = "512"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -914,11 +914,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "484"
-         endingLineNumber = "484"
+         startingLineNumber = "495"
+         endingLineNumber = "495"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -927,11 +927,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "486"
-         endingLineNumber = "486"
+         startingLineNumber = "497"
+         endingLineNumber = "497"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1252,11 +1252,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "114"
-         endingLineNumber = "114"
+         startingLineNumber = "120"
+         endingLineNumber = "120"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1265,11 +1265,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
+         startingLineNumber = "147"
+         endingLineNumber = "147"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1278,11 +1278,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "113"
-         endingLineNumber = "113"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1291,11 +1291,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "181"
-         endingLineNumber = "181"
+         startingLineNumber = "187"
+         endingLineNumber = "187"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1304,11 +1304,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "188"
-         endingLineNumber = "188"
+         startingLineNumber = "194"
+         endingLineNumber = "194"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1330,11 +1330,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "336"
-         endingLineNumber = "336"
+         startingLineNumber = "347"
+         endingLineNumber = "347"
          landmarkName = "-calc:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1343,11 +1343,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "529"
-         endingLineNumber = "529"
+         startingLineNumber = "540"
+         endingLineNumber = "540"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1356,11 +1356,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376202211.344026"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "531"
-         endingLineNumber = "531"
+         startingLineNumber = "542"
+         endingLineNumber = "542"
          landmarkName = "-tick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1382,11 +1382,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/GameScene.m"
-         timestampString = "376167201.227214"
+         timestampString = "376200998.939581"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "37"
-         endingLineNumber = "37"
+         startingLineNumber = "38"
+         endingLineNumber = "38"
          landmarkName = "-initWithMonsters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1401,6 +1401,58 @@
          startingLineNumber = "16"
          endingLineNumber = "16"
          landmarkName = "-init:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/GameScene.m"
+         timestampString = "376202211.344026"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "556"
+         endingLineNumber = "556"
+         landmarkName = "-ccTouchesEnded:withEvent:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/TotalLayer.m"
+         timestampString = "376202397.775109"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "16"
+         endingLineNumber = "16"
+         landmarkName = "-init:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/TotalLayer.m"
+         timestampString = "376202397.775109"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "22"
+         endingLineNumber = "22"
+         landmarkName = "-init:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/TotalLayer.m"
+         timestampString = "376202515.283787"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
+         landmarkName = "-calc:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

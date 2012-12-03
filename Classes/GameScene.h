@@ -8,6 +8,8 @@
 #import "QuizLayer.h"
 #import "HudLayer.h"
 #import "GameState.h"
+#import "TotalLayer.h"
+
 
 // HelloWorld Layer
 @interface Game : CCColorLayer
@@ -18,6 +20,7 @@
 	int _projectilesDestroyed;
 }
 
+-(void) popMe;
 + (id) initNode:(GameState*)gs;
 - (id) initWithMonsters;
 - (void) quizFire:(b2Body *)b;
@@ -30,9 +33,11 @@
     Game *lay;
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
+    TotalLayer *_totalLayer;
 }
 
 - (HudLayer*) getHud;
+-(void)addTotal;
 -(void)showGame;
 -(void)hideGame;
 + (id) initNode:(GameState*) gs;
