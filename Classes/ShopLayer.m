@@ -8,12 +8,13 @@
 
 #import "Shoplayer.h"
 #import "ShopRow.h"
-#import "MainTableView.h"
+
 #import "iosVC.h"
 #import "RootViewController.h"
 
 @implementation ShopLayer
-MainTableView *myTable;
+@synthesize parentLayer;
+
 
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init:(GameState*)gs

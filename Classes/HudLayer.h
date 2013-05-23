@@ -11,7 +11,7 @@
 #import "GameState.h"
 
 @interface HudLayer : CCLayer <UITextFieldDelegate>{
-    CCSprite *card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*coinIcon,*eng;
+    CCSprite *audioBtn,*card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*coinIcon,*eng;
     UITextField *answer;
     @public GameState *gameState;
     NSMutableArray *coins;

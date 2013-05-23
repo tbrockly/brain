@@ -13,10 +13,9 @@
 @synthesize state,comboTimer,comboVal;
 @synthesize boost,score,charge;
 @synthesize scale;
-@synthesize rocketTime,boostTime,bounceTime,bonusTime,quizTime, zerograv, speed;
-@synthesize spinShield;
+@synthesize rocketTime,quizTime, zerograv, speed;
 @synthesize achEng, topSpeed, coins, achieves, displayAchieves, completeAchieves;
-@synthesize powerups;
+@synthesize powerups, shields;
 
 - (id)init
 {

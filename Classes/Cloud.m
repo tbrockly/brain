@@ -17,7 +17,8 @@
 - (id) initSelf{
     self.powStr=@"cloudLevel";
     self.freqStr=@"cloudFreq";
-    self.name=@"Coin";
+    self.name=@"Cloun";
+    self.collectable=false;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
     self.freq=6000;
     //10000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;

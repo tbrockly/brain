@@ -11,8 +11,11 @@
 #import "Coin.h"
 #import "Achievement.h"
 #import "QuizLayer.h"
+#import "SimpleAudioEngine.h"
+#include <AudioToolbox/AudioToolbox.h>
 
 @implementation HudLayer
+AVAudioPlayer *hudplayer;
 
 #define degreesToRadians(x) (M_PI * x /180.0)
 int curTar=0;
@@ -96,11 +99,16 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         [self addChild:achieveLab];
         achieveLab.position=ccp(-200,-200);
         
-        //CGSize winSize = [[CCDirector sharedDirector] winSize];
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
 		oneLevel = [CCSprite spriteWithFile:@"pause.png"];
         oneLevel.scale=.5;
 		oneLevel.position = ccp(20, 20);
 		[self addChild:oneLevel];
+        
+        audioBtn = [CCSprite spriteWithFile:@"kawaii_cupcake.gif"];
+        audioBtn.scale=.5;
+		audioBtn.position = ccp(winSize.width-20, winSize.height-20);
+		[self addChild:audioBtn];
         
         card = [CCSprite spriteWithFile:@"cardback.jpg"];
         card.scale=.5;
@@ -248,6 +256,22 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         [self.parent addChild:q z:10];
         [[CCDirector sharedDirector] pause];
     }
+    if (CGRectContainsPoint(audioBtn.boundingBox,location)) {
+        if(hudplayer == NULL){
+        SystemSoundID mySound;
+        NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"JohnHughes" ofType:@"mp3"];
+        AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
+        hudplayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:soundPath] error:nil];
+        hudplayer.numberOfLoops=-1;
+        hudplayer.volume=.3;
+        [hudplayer play];
+        }else if (hudplayer.playing){
+            [hudplayer stop];
+        } else{
+            [hudplayer play];
+        }
+    }
+    
 }
 
 -(void)dealloc{

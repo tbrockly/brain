@@ -19,10 +19,12 @@
     SystemSoundID mySound;
     NSString *powStr;
     NSString *freqStr;
+    bool collectable;
 }
 
 @property int power;
 @property int freq;
+@property bool collectable;
 @property (assign) NSString *imgName;
 @property (assign) NSString *name;
 @property SystemSoundID mySound;

@@ -22,6 +22,7 @@
     self.powStr=@"rocketLevel";
     self.freqStr=@"rocketFreq";
     self.name=@"Rocket";
+    self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"rocketLevel"]*2;
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"rocketFreq"]*1000;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"scifi012" ofType:@"mp3"];

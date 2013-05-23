@@ -18,6 +18,7 @@
     self.powStr=@"quizLevel";
     self.freqStr=@"quizFreq";
     self.name=@"Quiz";
+    self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"quizLevel"]*2;
     self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
     imgName=@"light.png";

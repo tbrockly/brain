@@ -18,6 +18,7 @@
     self.powStr=@"energyLevel";
     self.freqStr=@"energyFreq";
     self.name=@"Energy";
+    self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"energyLevel"];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"energyFreq"]*1000;
     imgName=@"lightning-icon.png";

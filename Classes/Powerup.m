@@ -17,6 +17,7 @@
 @synthesize name;
 @synthesize powStr;
 @synthesize freqStr;
+@synthesize collectable;
 
 #define HEIGHTDIFF 1000
 #define HEIGHTDIFF2 2000

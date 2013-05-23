@@ -18,6 +18,7 @@
     self.powStr=@"rideLevel";
     self.freqStr=@"rideFreq";
     self.name=@"ZeroGrav";
+    self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"rideLevel"]*2;
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"rideFreq"]*1000;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon016" ofType:@"mp3"];

@@ -46,7 +46,7 @@ ShopRightLayer *srl;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55;
+    return 32;
 }
 
 
@@ -61,8 +61,8 @@ ShopRightLayer *srl;
         cell.contentView.backgroundColor=[UIColor clearColor];
         cell.textLabel.textColor=[UIColor yellowColor];
         cell.textLabel.backgroundColor=[UIColor clearColor];
-        cell.textLabel.numberOfLines=3;
-        //cell.textLabel.font=[myApp archerFont];
+        cell.textLabel.numberOfLines=1;
+        cell.textLabel.font=[UIFont fontWithName:@"Verdana" size:8];
         cell.selectionStyle=UITableViewCellSelectionStyleGray;
         cell.textLabel.shadowColor=[UIColor darkGrayColor];
         cell.textLabel.shadowOffset=CGSizeMake(1, 1);
@@ -70,6 +70,7 @@ ShopRightLayer *srl;
     if(indexPath.section==0){
         Powerup *powerup=[[gameState powerups] objectAtIndex:indexPath.row];
         cell.imageView.image=[UIImage imageNamed:powerup.imgName];
+        cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
         cell.textLabel.text=powerup.imgName;
     }
     
@@ -77,6 +78,8 @@ ShopRightLayer *srl;
     
     return cell;
 }
+
+
 -(void)removeFromSuperview{
     [srl removeFromParentAndCleanup:TRUE];
     [super removeFromSuperview];
@@ -86,10 +89,10 @@ ShopRightLayer *srl;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Powerup *powerup=[[gameState powerups] objectAtIndex:indexPath.row];
-    powerup.position=ccp(300,300);
-    srl=[[ShopRightLayer alloc] init:powerup];
-    [parent addChild:srl];
+    //Powerup *powerup=[[gameState powerups] objectAtIndex:indexPath.row];
+    //powerup.position=ccp(300,300);
+    //srl=[[ShopRightLayer alloc] init:powerup];
+    //[parent addChild:srl];
     //[[[CCDirector sharedDirector] runningScene] addChild:srl];
 }
 

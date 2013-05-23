@@ -18,6 +18,7 @@
     self.powStr=@"coinLevel";
     self.freqStr=@"coinFreq";
     self.name=@"Coin";
+    self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"coinLevel"];
     self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"coinFreq"]*1000;
     imgName=@"super_mario_coin.png";

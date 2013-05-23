@@ -18,6 +18,7 @@
     self.powStr=@"spinLevel";
     self.freqStr=@"spinFreq";
     self.name=@"Spinner";
+    self.collectable=true;
     self.power=20+[[NSUserDefaults standardUserDefaults] integerForKey:@"spinLevel"]*2;
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"spinFreq"]*1000;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon025" ofType:@"mp3"];
@@ -34,6 +35,5 @@
     gameState.achEng.totspin++;
     self.position=ccp(self.position.x-2000, 0);
     _body->SetAngularVelocity(-power);
-    [gameState setSpinShield:12];
 }
 @end

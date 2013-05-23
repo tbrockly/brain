@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "GameState.h"
+#import "MainTableView.h"
 
 @interface ShopLayer : CCColorLayer <UITextFieldDelegate>{
     CCSprite *oneLevel;
     GameState *gameState;
     CCColorLayer *parentLayer;
+    MainTableView *myTable;
     int booster;
 }
+
+@property (nonatomic, retain) CCColorLayer *parentLayer;
 
 -(id)init:(GameState*)gs;
 

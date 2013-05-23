@@ -8,7 +8,7 @@
 
 #import "TitleScene.h"
 #import "GameScene.h"
-#import "ShopLayer.h"
+#import "ShopHome.h"
 #import "Powerup.h"
 #import "Boost.h"
 #import "Rocket.h"
@@ -19,6 +19,11 @@
 #import "Ride.h"
 #import "Energy.h"
 #import "Cloud.h"
+#import "Shield.h"
+#import "BounceShield.h"
+#import "BoostShield.h"
+#import "CoinShield.h"
+#import "RollShield.h"
 
 @implementation TitleScene
 @synthesize layer = _layer;
@@ -92,13 +97,25 @@
         cPow.position=ccp(-1000,50);
         [gameState.powerups addObject:cPow];
         
+        gameState.shields=[[NSMutableArray alloc] init];
+        BounceShield *bounceShld=[[BounceShield alloc] initSelf];
+        [gameState.shields addObject:bounceShld];
+        BoostShield *boostShld=[[BoostShield alloc] initSelf];
+        [gameState.shields addObject:boostShld];
+        CoinShield *coinShld=[[CoinShield alloc] initSelf];
+        [gameState.shields addObject:coinShld];
+        RollShield *rollShld=[[RollShield alloc] initSelf];
+        [gameState.shields addObject:rollShld];
+        
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		onePlayer = [CCSprite spriteWithFile:@"ok.png"];
-        onePlayer.scale=.2;
+        onePlayer = [CCSprite spriteWithFile:@"Title.png"];
+        onePlayer.scale=.5;
 		onePlayer.position = ccp(winSize.width/2, winSize.height/2);
-		[self addChild:onePlayer];
-		shopSprite = [CCSprite spriteWithFile:@"pause.png" rect:CGRectMake(0, 0, 100, 100)];
+        [self addChild:onePlayer];
+        
+		shopSprite = [CCSprite spriteWithFile:@"pause.png"];
         shopSprite.scale=.5;
+        shopSprite.position = ccp(winSize.width/5, winSize.height/5);
 		[self addChild:shopSprite];
 	}	
 	return self;
@@ -110,15 +127,15 @@
         UITouch *touch = [touches anyObject];
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
-        if (CGRectContainsPoint(onePlayer.boundingBox,location)) {
-            [[CCDirector sharedDirector] pushScene:[GameScene initNode:gameState]];
-        }
+        
         if (CGRectContainsPoint(shopSprite.boundingBox,location)) {
             //[gameState setState:-10];
-            ShopLayer *q = [[ShopLayer alloc] init:gameState];
+            ShopHome *q = [[ShopHome alloc] init:gameState];
             self.isTouchEnabled=NO;
             [q setParentLayer:self];
             [self.parent addChild:q z:10];
+        }else if (CGRectContainsPoint(onePlayer.boundingBox,location)) {
+            [[CCDirector sharedDirector] pushScene:[GameScene initNode:gameState]];
         }
     }
 

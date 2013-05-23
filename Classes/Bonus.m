@@ -18,6 +18,7 @@
     self.powStr=@"bonusLevel";
     self.freqStr=@"bonusFreq";
     self.name=@"Bonus";
+    self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusLevel"];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusFreq"]*1000;
     imgName=@"Kawaii-Popsicle.gif";
