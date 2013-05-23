@@ -53,6 +53,10 @@
                         row.text=[NSString stringWithFormat:@"%@ - power level %i    Price: %i", p.name, i, row.price];
                         [tableItems addObject:row];
                     }
+                    i++;
+                }
+                i=1;
+                while( i<11){
                     if(i>freqLvl){
                         CoinShopRow *row=[CoinShopRow alloc];
                         row.iconName=p.imgName;

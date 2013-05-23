@@ -15,7 +15,7 @@
 @synthesize iconName;
 @synthesize name;
 @synthesize text;
-@synthesize price,level;
+@synthesize price,level,type;
 @end
 
 @implementation XPShopTable
@@ -80,7 +80,14 @@
         cell.textLabel.textColor=[UIColor lightTextColor];
         for(Shield *s in gameState.shields){
             if([s.name isEqualToString:row.name]){
-                if(row.level==s.power+1){
+                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:s.powStr];
+                int durLvl=[[NSUserDefaults standardUserDefaults] integerForKey:s.durStr];
+                if(row.type==0 && row.level==powLvl+1){
+                    cell.contentView.backgroundColor=[UIColor whiteColor];
+                    cell.textLabel.backgroundColor=[UIColor whiteColor];
+                    cell.textLabel.textColor=[UIColor yellowColor];
+                }
+                if(row.type==1 && row.level==durLvl+1){
                     cell.contentView.backgroundColor=[UIColor whiteColor];
                     cell.textLabel.backgroundColor=[UIColor whiteColor];
                     cell.textLabel.textColor=[UIColor yellowColor];
@@ -109,9 +116,20 @@
     XPShopRow *row=[myArray objectAtIndex:indexPath.row];
     for(Shield *s in gameState.shields){
         if([s.name isEqualToString:row.name]){
-            if(row.level==s.power+1){
-                int p = s.power++;
-                [[NSUserDefaults standardUserDefaults] setInteger:p forKey:s.powStr];
+            int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:s.powStr];
+            int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:s.durStr];
+            if(row.type==0 && row.level==powLvl+1){
+                [[NSUserDefaults standardUserDefaults] setInteger:powLvl+1 forKey:s.powStr];
+                [s initSelf];
+                [myArray removeObjectAtIndex:indexPath.row];
+                [CATransaction begin];
+                [CATransaction setCompletionBlock:^{[self reloadData];}];
+                [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [CATransaction commit];
+            }
+            if(row.type==1 && row.level==freqLvl+1){
+                [[NSUserDefaults standardUserDefaults] setInteger:freqLvl+1 forKey:s.durStr];
+                [s initSelf];
                 [myArray removeObjectAtIndex:indexPath.row];
                 [CATransaction begin];
                 [CATransaction setCompletionBlock:^{[self reloadData];}];

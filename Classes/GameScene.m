@@ -135,9 +135,9 @@ float friction=.2;
         [defaults2 setInteger:1 forKey:@"coinLevel"];
         [defaults2 setInteger:1 forKey:@"boostLevel"];
         [defaults2 setInteger:1 forKey:@"energyLevel"];
-        [defaults2 setInteger:0 forKey:@"gold"];
-        [defaults2 setInteger:0 forKey:@"xp"];
-        [defaults2 setInteger:0 forKey:@"brains"];
+        //[defaults2 setInteger:0 forKey:@"gold"];
+        //[defaults2 setInteger:0 forKey:@"xp"];
+        //[defaults2 setInteger:0 forKey:@"brains"];
         gameState.rocketTime=-1;
         
         //[defaults2 integerForKey:@"airResist"]+
@@ -566,6 +566,7 @@ int i=0;
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if([gameState state]==99){
+        [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]+(gameState.score/1000) forKey:@"xp"];
         [self popMe];
     }
     if([gameState state]==0){

@@ -80,7 +80,14 @@
         cell.textLabel.textColor=[UIColor lightTextColor];
         for (Powerup *p in gameState.powerups){
             if([p.name isEqualToString:row.name]){
-                if(row.level==p.power+1){
+                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.powStr];
+                int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.freqStr];
+                if(row.type==0 && row.level==powLvl+1){
+                    cell.contentView.backgroundColor=[UIColor whiteColor];
+                    cell.textLabel.backgroundColor=[UIColor whiteColor];
+                    cell.textLabel.textColor=[UIColor yellowColor];
+                }
+                if(row.type==1 && row.level==freqLvl+1){
                     cell.contentView.backgroundColor=[UIColor whiteColor];
                     cell.textLabel.backgroundColor=[UIColor whiteColor];
                     cell.textLabel.textColor=[UIColor yellowColor];
@@ -109,9 +116,20 @@
     CoinShopRow *row=[myArray objectAtIndex:indexPath.row];
     for (Powerup *pup in gameState.powerups){
         if([pup.name isEqualToString:row.name]){
-            if(row.level==pup.power+1){
-                int p = pup.power++;
-                [[NSUserDefaults standardUserDefaults] setInteger:p forKey:pup.powStr];
+            int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.powStr];
+            int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.freqStr];
+            if(row.type==0 && row.level==powLvl+1){
+                [[NSUserDefaults standardUserDefaults] setInteger:powLvl+1 forKey:pup.powStr];
+                [pup initSelf];
+                [myArray removeObjectAtIndex:indexPath.row];
+                [CATransaction begin];
+                [CATransaction setCompletionBlock:^{[self reloadData];}];
+                [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [CATransaction commit];
+            }
+            if(row.type==1 && row.level==freqLvl+1){
+                [[NSUserDefaults standardUserDefaults] setInteger:freqLvl+1 forKey:pup.freqStr];
+                [pup initSelf];
                 [myArray removeObjectAtIndex:indexPath.row];
                 [CATransaction begin];
                 [CATransaction setCompletionBlock:^{[self reloadData];}];

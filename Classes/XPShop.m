@@ -40,15 +40,32 @@
         
         NSMutableArray *tableItems=[[NSMutableArray alloc] init];
         for (Shield *s in gameState.shields){
+            int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:s.powStr];
+            int durLvl=[[NSUserDefaults standardUserDefaults] integerForKey:s.durStr];
             int i=1;
             while( i<11){
-                if(i>s.power){
+                if(i>powLvl){
                     XPShopRow *row=[XPShopRow alloc];
                     row.iconName=s.imgName;
                     row.price=100*i*i;
                     row.level=i;
+                    row.type=0;
                     row.name=s.name;
-                    row.text=[NSString stringWithFormat:@"%@ - level %i    Price: %i", s.name, i, row.price];
+                    row.text=[NSString stringWithFormat:@"%@ - power level %i    Price: %i", s.name, i, row.price];
+                    [tableItems addObject:row];
+                }
+                i++;
+            }
+            i=1;
+            while( i<11){
+                if(i>durLvl){
+                    XPShopRow *row=[XPShopRow alloc];
+                    row.iconName=s.imgName;
+                    row.price=100*i*i;
+                    row.level=i;
+                    row.type=1;
+                    row.name=s.name;
+                    row.text=[NSString stringWithFormat:@"%@ - duration level %i    Price: %i", s.name, i, row.price];
                     [tableItems addObject:row];
                 }
                 i++;

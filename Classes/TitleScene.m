@@ -113,9 +113,9 @@
 		onePlayer.position = ccp(winSize.width/2, winSize.height/2);
         [self addChild:onePlayer];
         
-		shopSprite = [CCSprite spriteWithFile:@"pause.png"];
-        shopSprite.scale=.5;
-        shopSprite.position = ccp(winSize.width/5, winSize.height/5);
+		shopSprite = [CCSprite spriteWithFile:@"super_mario_coin.png"];
+        shopSprite.scale=1;
+        shopSprite.position = ccp(winSize.width/8, winSize.height/8);
 		[self addChild:shopSprite];
 	}	
 	return self;

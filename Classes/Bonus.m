@@ -34,6 +34,7 @@
     gameState.coins=gameState.coins+power+5;
     gameState.achEng.bonus++;
     gameState.achEng.totbonus++;
+    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]+power forKey:@"gold"];
     self.position=ccp(self.position.x-2000, 0);
 }
 @end

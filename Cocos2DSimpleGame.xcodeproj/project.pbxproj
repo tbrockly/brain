@@ -80,7 +80,6 @@
 		9F2B838D166066940088324A /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B8384166066920088324A /* 7.png */; };
 		9F2B838E166066940088324A /* 8.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B8385166066920088324A /* 8.png */; };
 		9F2B838F166066940088324A /* 9.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B8386166066930088324A /* 9.png */; };
-		9F61E65315FDB2620093A596 /* ShopLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F61E65215FDB2620093A596 /* ShopLayer.m */; };
 		9F61E65715FDB2740093A596 /* PauseLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F61E65615FDB2740093A596 /* PauseLayer.m */; };
 		9F7258A716630DA000B8C80E /* ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7258A516630DA000B8C80E /* ok.png */; };
 		9F7258A816630DA000B8C80E /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7258A616630DA000B8C80E /* pause.png */; };
@@ -486,8 +485,6 @@
 		9F2B8384166066920088324A /* 7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7.png; sourceTree = "<group>"; };
 		9F2B8385166066920088324A /* 8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 8.png; sourceTree = "<group>"; };
 		9F2B8386166066930088324A /* 9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 9.png; sourceTree = "<group>"; };
-		9F61E65115FDB2620093A596 /* ShopLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopLayer.h; sourceTree = "<group>"; };
-		9F61E65215FDB2620093A596 /* ShopLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopLayer.m; sourceTree = "<group>"; };
 		9F61E65515FDB2740093A596 /* PauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseLayer.h; sourceTree = "<group>"; };
 		9F61E65615FDB2740093A596 /* PauseLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseLayer.m; sourceTree = "<group>"; };
 		9F7258A516630DA000B8C80E /* ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ok.png; sourceTree = "<group>"; };
@@ -1115,8 +1112,8 @@
 				9F2B8386166066930088324A /* 9.png */,
 				9F18C7FF1634DFE100D1BCE5 /* Archer-Medium-Pro.otf */,
 				9F2B83751657E9DB0088324A /* arrow.png */,
-				9FDA21EE1661F215000D7BF0 /* b.png */,
 				9F2B83761657E9DB0088324A /* beam.png */,
+				9FDA21EE1661F215000D7BF0 /* b.png */,
 				9FC6DBBB1741DA9E00441A57 /* bg2.png */,
 				9FC6DBBC1741DA9E00441A57 /* bg3.png */,
 				9FC6DBBD1741DA9E00441A57 /* bg4.png */,
@@ -1193,8 +1190,6 @@
 				9FD463A0164F65450075C35A /* ShopRightLayer.m */,
 				9FBE408F15AAA66F00AE2187 /* QuizLayer.h */,
 				9FBE409015AAA66F00AE2187 /* QuizLayer.m */,
-				9F61E65115FDB2620093A596 /* ShopLayer.h */,
-				9F61E65215FDB2620093A596 /* ShopLayer.m */,
 				9F7258B7166C513800B8C80E /* TotalLayer.h */,
 				9F7258B8166C513900B8C80E /* TotalLayer.m */,
 				9FC6DBC91747FE8400441A57 /* ShopHome.h */,
@@ -1994,7 +1989,6 @@
 				9FBE40A215D6D15E00AE2187 /* GameTarget.m in Sources */,
 				9F7A6F0715D816BE00EB7BE7 /* Coin.m in Sources */,
 				9F7A6F0D15D8838500EB7BE7 /* HudLayer.m in Sources */,
-				9F61E65315FDB2620093A596 /* ShopLayer.m in Sources */,
 				9F61E65715FDB2740093A596 /* PauseLayer.m in Sources */,
 				9FEDF0AF1623DD6A006A5E35 /* Powerup.m in Sources */,
 				9FEDF0B31623DDA5006A5E35 /* Boost.m in Sources */,

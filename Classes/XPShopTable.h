@@ -23,12 +23,12 @@
     NSString *iconName;
     NSString *text;
     NSString *name;
-    int price, level;
+    int price, level, type;
 }
 
 @property(nonatomic, retain) NSString *iconName;
 @property(nonatomic, retain) NSString *text;
 @property(nonatomic, retain) NSString *name;
-@property int price, level;
+@property int price, level, type;
 
 @end

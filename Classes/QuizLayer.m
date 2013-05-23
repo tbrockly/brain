@@ -306,19 +306,23 @@
             if(mathType==1){
                 if(result == num1+num2){
                     [gameState setBoost:timer/2+2];
+                    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }
             else if(mathType==2){
                 if(result == num1-num2){
                     [gameState setBoost:timer/2+2];
+                    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }else if(mathType==3){
                 if(result == num1*num2){
                     [gameState setBoost:timer/2+2];
+                    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }else if(mathType==4){
                 if(result == num1/num2){
                     [gameState setBoost:timer/2+2];
+                    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }
             //[self.parent runAction:[CCSequence actions:[CCMoveTo actionWithDuration:2 position:ccp(-,0)],
