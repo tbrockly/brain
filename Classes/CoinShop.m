@@ -7,7 +7,7 @@
 //
 
 #import "CoinShop.h"
-#import "ShopRow.h"
+#import "ShopContentLayer.h"
 #import "MainTableView.h"
 #import "iosVC.h"
 #import "Powerup.h"
@@ -30,62 +30,65 @@
         shopBG.scale=.5;
         shopBG.position=ccp(winSize.width/2, winSize.height/2);
 		[self addChild:shopBG];
-		oneLevel = [CCSprite spriteWithFile:@"HeadItemside.png" rect:CGRectMake(20, 20, 40, 40)];
+		oneLevel = [CCSprite spriteWithFile:@"HeadItemside.png"];
+        oneLevel.scale=.3;
 		[self addChild:oneLevel];
-        oneLevel.position = ccp(20, winSize.height/2);
+        oneLevel.position = ccp( winSize.width/2 , 20);
 
         //CC
         gameState=gs;
-        NSMutableArray *tableItems=[[NSMutableArray alloc] init];
-        for (Powerup *p in gameState.powerups){
-            if(p.collectable){
-                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.powStr];
-                int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.freqStr];
-                int i=1;
-                while( i<11){
-                    if(i>powLvl){
-                        CoinShopRow *row=[CoinShopRow alloc];
-                        row.iconName=p.imgName;
-                        row.price=100*i*i;
-                        row.level=i;
-                        row.type=0;
-                        row.name=p.name;
-                        row.text=[NSString stringWithFormat:@"%@ - power level %i    Price: %i", p.name, i, row.price];
-                        [tableItems addObject:row];
-                    }
-                    i++;
-                }
-                i=1;
-                while( i<11){
-                    if(i>freqLvl){
-                        CoinShopRow *row=[CoinShopRow alloc];
-                        row.iconName=p.imgName;
-                        row.price=100*i*i;
-                        row.level=i;
-                        row.type=1;
-                        row.name=p.name;
-                        row.text=[NSString stringWithFormat:@"%@ - frequency level %i    Price: %i", p.name, i, row.price];
-                        [tableItems addObject:row];
-                    }
-                    i++;
-                }
-            }
-        }
+        xpLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]]
+                                        fontName:@"Futura"
+                                        fontSize:15];
+        [xpLab setColor:ccBLACK];
+        [self addChild:xpLab];
+        xpLab.position=ccp(100,305);
+        coinLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]]
+                                          fontName:@"Futura"
+                                          fontSize:15];
+        [coinLab setColor:ccBLACK];
+        [self addChild:coinLab];
+        coinLab.position=ccp(250,305);
+        brainLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]]
+                                           fontName:@"Futura"
+                                           fontSize:15];
+        [brainLab setColor:ccBLACK];
+        [self addChild:brainLab];
+        brainLab.position=ccp(420,305);
+       
+        shop=[[ShopContentLayer alloc] init:gameState];
+        //shop.position=ccp(240*shop.pages,160);
+        [self addChild:shop];
+        currpage=1;
         
-        myTable=[[CoinShopTable alloc] initWithFrame:CGRectMake(50, 100, 400, 250) gameState:gameState rowArray:tableItems];
-        [[[[[CCDirector sharedDirector] openGLView] window] rootViewController].view addSubview:myTable];
+        left=[[CCSprite alloc] initWithFile:@"left.png"];
+        left.position=ccp(20,20);
+        left.scale=.4;
+        [self addChild:left];
+        right=[[CCSprite alloc] initWithFile:@"right.png"];
+        right.position=ccp(460,20);
+        right.scale=.4;
+        [self addChild:right];
+        
+        //myTable=[[CoinShopTable alloc] initWithFrame:CGRectMake(50, 100, 400, 250) gameState:gameState rowArray:tableItems];
+        //[[[[[CCDirector sharedDirector] openGLView] window] rootViewController].view addSubview:myTable];
         
         //CCScrollLayer *layer=[[CCScrollLayer alloc] initWithLayers:shop widthOffset:5];
         //[self addChild:layer];
         
         
+        [self schedule:@selector(calc:) interval:.5f];
 	}
 	return self;
 }
 
+- (void)calc:(ccTime) dt {
+    xpLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]];
+    coinLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]];
+    brainLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]];
+}
+
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    //if([gameState state]==2){
-    // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
@@ -93,11 +96,18 @@
         //[gameState setState:-[gameState state]];
         parentLayer.isTouchEnabled=YES;
         [self.parent removeChild:self cleanup:TRUE];
-        [myTable removeFromSuperview];
         [[CCDirector sharedDirector] resume];
         //[self dealloc];
+    }else if (CGRectContainsPoint(left.boundingBox,location) && currpage>1) {
+        currpage--;
+        [shop runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.4 position:ccp(shop.position.x+480, shop.position.y)], nil, nil]];
+    }else if (CGRectContainsPoint(right.boundingBox,location) && currpage<shop.pages) {
+        currpage++;
+        [shop runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.4 position:ccp(shop.position.x-480, shop.position.y)], nil, nil]];
     }
-    //}
+    xpLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]];
+    coinLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]];
+    brainLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]];
 }
 
 - (void)dealloc

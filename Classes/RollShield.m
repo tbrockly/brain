@@ -18,7 +18,7 @@
     self.timer=0;
     self.triggerCombo=1011;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
-    self.dur=30+[[NSUserDefaults standardUserDefaults] integerForKey:durStr];
+    self.dur=10+[[NSUserDefaults standardUserDefaults] integerForKey:durStr]*2;
     imgName=@"shield1.png";
     [self initWithFile:imgName];
     self.scale=.3;

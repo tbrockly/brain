@@ -13,7 +13,22 @@
 @interface BrainShopTable : UITableView <UITableViewDelegate, UITableViewDataSource>{
     GameState *gameState;
     CCLayer *parent;
+    NSMutableArray *myArray;
 }
 
-- (id)initWithFrame:(CGRect)frame gameState:(GameState*)gs;
+- (id)initWithFrame:(CGRect)frame gameState:(GameState*)gs rowArray:myArray;
+@end
+
+@interface BrainShopRow : NSObject{
+    NSString *iconName;
+    NSString *text;
+    NSString *name;
+    int price, level, type;
+}
+
+@property(nonatomic, retain) NSString *iconName;
+@property(nonatomic, retain) NSString *text;
+@property(nonatomic, retain) NSString *name;
+@property int price, level, type;
+
 @end

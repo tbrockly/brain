@@ -19,7 +19,7 @@
     self.freqStr=@"boostFreq";
     self.name=@"Booster";
     self.collectable=true;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*2;
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
     imgName=@"tubey.png";
     [self initWithFile:imgName];
@@ -35,7 +35,7 @@
     gameState.achEng.totboost++;
     float vx=_body->GetLinearVelocity().x;
     float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-    _body->SetLinearVelocity(b2Vec2(vx+power+2,fabs(vy)+power+2));
+    _body->SetLinearVelocity(b2Vec2(vx+power/2,fabs(vy)+power/2));
     
     self.position=ccp(self.position.x-2000, 0);
 }

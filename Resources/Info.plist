@@ -37,8 +37,6 @@
 	<array>
 		<string>Archer-Medium-Pro.otf</string>
 	</array>
-	<key>UIPrerenderedIcon</key>
-	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
 		<key>accelerometer</key>

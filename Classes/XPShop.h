@@ -18,6 +18,7 @@
     CCColorLayer *parentLayer;
     XPShopTable *myTable;
     int booster;
+    CCLabelTTF *coinLab, *xpLab,*brainLab;
 }
 
 @property (nonatomic, retain) CCColorLayer *parentLayer;

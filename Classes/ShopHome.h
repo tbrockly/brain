@@ -15,10 +15,10 @@
     CCSprite *oneLevel;
     CCSprite *shopBG,*but1,*but2,*but3;
     GameState *gameState;
-    CCColorLayer *parentLayer;
+    CCColorLayer *parentLayer, *xpBar;
     MainTableView *myTable;
     int booster;
-    CCLabelTTF *coinLab, *xpLab,*brainLab;
+    CCLabelTTF *coinLab, *xpLab,*brainLab, *lvlLab;
 }
 
 @property (nonatomic, retain) CCColorLayer *parentLayer;

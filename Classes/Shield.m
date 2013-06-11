@@ -22,9 +22,5 @@
 #define HEIGHTDIFF 1000
 #define HEIGHTDIFF2 2000
 
-- (int)calcFreq:(int)freq2 withMin:(int)min withDist:(int)dist {
-    return (arc4random() % freq2+(dist/100)) + min;
-}
-
 
 @end

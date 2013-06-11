@@ -7,19 +7,27 @@
 //
 
 #import "BrainShopTable.h"
-#import "Powerup.h"
+#import "GlobalParam.h"
 #import "cocos2d.h"
 #import "ShopRightLayer.h"
 
+@implementation BrainShopRow
+@synthesize iconName;
+@synthesize name;
+@synthesize text;
+@synthesize price,level,type;
+@end
+
 @implementation BrainShopTable
 
-- (id)initWithFrame:(CGRect)frame gameState:(GameState*)gs
+- (id)initWithFrame:(CGRect)frame gameState:(GameState*)gs rowArray:(id)rowArray
 {
     self=[super initWithFrame:frame];
     if (self) {
         self.delegate=self;
         self.dataSource=self;
         self.backgroundColor=[UIColor clearColor];
+        myArray=rowArray;
         gameState=gs;
         //self.separatorColor=[UIColor darkGrayColor];
         self.opaque=false;
@@ -40,7 +48,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[gameState powerups] count];
+    return [myArray count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -55,22 +63,42 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     cell.contentView.opaque=false;
+    BrainShopRow *row=[myArray objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.contentView.backgroundColor=[UIColor clearColor];
-        cell.textLabel.textColor=[UIColor yellowColor];
-        cell.textLabel.backgroundColor=[UIColor clearColor];
+        cell.contentView.backgroundColor=[UIColor grayColor];
         cell.textLabel.numberOfLines=1;
         cell.textLabel.font=[UIFont fontWithName:@"Verdana" size:8];
+        cell.textLabel.backgroundColor=[UIColor grayColor];
         cell.selectionStyle=UITableViewCellSelectionStyleGray;
         cell.textLabel.shadowColor=[UIColor darkGrayColor];
         cell.textLabel.shadowOffset=CGSizeMake(1, 1);
     }
     if(indexPath.section==0){
-        Powerup *powerup=[[gameState powerups] objectAtIndex:indexPath.row];
-        cell.imageView.image=[UIImage imageNamed:powerup.imgName];
+        cell.contentView.backgroundColor=[UIColor grayColor];
+        cell.textLabel.backgroundColor=[UIColor grayColor];
+        cell.textLabel.textColor=[UIColor lightTextColor];
+        int brains = [[NSUserDefaults standardUserDefaults] integerForKey:@"brains"];
+        
+        for (GlobalParam *p in gameState.globalParams){
+            if([p.name isEqualToString:row.name]){
+                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.name];
+                if((row.type==0 && row.level==powLvl+1)){
+                    if(brains>row.price){
+                        cell.contentView.backgroundColor=[UIColor whiteColor];
+                        cell.textLabel.backgroundColor=[UIColor whiteColor];
+                        cell.textLabel.textColor=[UIColor yellowColor];
+                    }else{
+                        cell.contentView.backgroundColor=[UIColor redColor];
+                        cell.textLabel.backgroundColor=[UIColor redColor];
+                        cell.textLabel.textColor=[UIColor blackColor];
+                    }
+                }
+            }
+        }
+        cell.imageView.image=[UIImage imageNamed:row.iconName];
         cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
-        cell.textLabel.text=powerup.imgName;
+        cell.textLabel.text=row.text;
     }
     
     // Configure the cell...
@@ -87,11 +115,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //Powerup *powerup=[[gameState powerups] objectAtIndex:indexPath.row];
-    //powerup.position=ccp(300,300);
-    //srl=[[ShopRightLayer alloc] init:powerup];
-    //[parent addChild:srl];
-    //[[[CCDirector sharedDirector] runningScene] addChild:srl];
+    BrainShopRow *row=[myArray objectAtIndex:indexPath.row];
+    for (GlobalParam *pup in gameState.globalParams){
+        if([pup.name isEqualToString:row.name]){
+            int brains = [[NSUserDefaults standardUserDefaults] integerForKey:@"brains"];
+            if(brains>row.price){
+                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.name];
+                if(row.type==0 && row.level==powLvl+1){
+                    brains=brains-row.price;
+                    [[NSUserDefaults standardUserDefaults] setInteger:brains forKey:@"brains"];
+                    [[NSUserDefaults standardUserDefaults] setInteger:powLvl+1 forKey:pup.name];
+                    [pup initSelf];
+                    [myArray removeObjectAtIndex:indexPath.row];
+                    [CATransaction begin];
+                    [CATransaction setCompletionBlock:^{[self reloadData];}];
+                    [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    [CATransaction commit];
+                }
+            }
+        }
+    }
 }
 
 @end

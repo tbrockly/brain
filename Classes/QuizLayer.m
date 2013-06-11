@@ -305,23 +305,23 @@
             int result=ss5+ss4*10+ss3*100+ss2*1000+ss1*10000;
             if(mathType==1){
                 if(result == num1+num2){
-                    [gameState setBoost:timer/2+2];
+                    [gameState setBoost:timer/4+2];
                     [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }
             else if(mathType==2){
                 if(result == num1-num2){
-                    [gameState setBoost:timer/2+2];
+                    [gameState setBoost:timer/4+2];
                     [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }else if(mathType==3){
                 if(result == num1*num2){
-                    [gameState setBoost:timer/2+2];
+                    [gameState setBoost:timer/4+2];
                     [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }else if(mathType==4){
                 if(result == num1/num2){
-                    [gameState setBoost:timer/2+2];
+                    [gameState setBoost:timer/4+2];
                     [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 }
             }

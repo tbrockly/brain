@@ -14,11 +14,12 @@
 }
 @property int state, comboTimer,comboVal;
 @property int boost,score,charge;
-@property int rocketTime,quizTime,zerograv;
+@property int rocketTime,quizTime,zerograv,spinPower;
 @property int topSpeed, coins;
 @property float scale,speed;
+@property float ballvx, ballvy;
 @property (retain) AchievementEngine * achEng;
-@property (retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves;
+@property (retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves, *globalParams;
 
 -(void)calcAchieves;
 

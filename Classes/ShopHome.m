@@ -7,7 +7,6 @@
 //
 
 #import "ShopHome.h"
-#import "ShopRow.h"
 #import "MainTableView.h"
 #import "iosVC.h"
 #import "RootViewController.h"
@@ -65,8 +64,31 @@
         [self addChild:brainLab];
         brainLab.position=ccp(420,305);
         
+        lvlLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"level"]]
+                                           fontName:@"Futura"
+                                           fontSize:60];
+        [lvlLab setColor:ccBLACK];
+        [self addChild:lvlLab];
+        lvlLab.position=ccp(420,65);
+        
+        float tonext=[[NSUserDefaults standardUserDefaults] integerForKey:@"tonext"];
+        float curxp=[[NSUserDefaults standardUserDefaults] integerForKey:@"curxp"];
+        float widLol=300.0f*((float)curxp/(float)tonext);
+        xpBar=[CCColorLayer layerWithColor:ccc4(250, 250, 50, 255) width:widLol height:50];
+        [xpBar setPosition:ccp(40,85)];
+        [self addChild:xpBar];
+        
+        
+        [self schedule:@selector(calc:) interval:.5f];
+        
 	}
 	return self;
+}
+
+- (void)calc:(ccTime) dt {
+    xpLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]];
+    coinLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]];
+    brainLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]];
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -101,6 +123,7 @@
         [q setParentLayer:self];
         [self.parent addChild:q z:10];
     }
+    
     //}
 }
 

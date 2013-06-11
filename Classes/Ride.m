@@ -19,7 +19,7 @@
     self.freqStr=@"rideFreq";
     self.name=@"ZeroGrav";
     self.collectable=true;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"rideLevel"]*2;
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"rideLevel"];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"rideFreq"]*1000;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon016" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
@@ -33,7 +33,7 @@
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.ride++;
     gameState.achEng.totride++;
-    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y)+power,0));
+    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y),0));
     gameState.zerograv=power+4;
     self.position=ccp(self.position.x-2000, 0);
 }

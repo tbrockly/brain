@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "GameState.h"
-#import "CoinShopTable.h"
+#import "ShopContentLayer.h"
 
 @interface CoinShop : CCColorLayer <UITextFieldDelegate>{
     CCSprite *oneLevel;
     CCSprite *shopBG;
+    CCSprite *left, *right;
     GameState *gameState;
     CCColorLayer *parentLayer;
-    CoinShopTable *myTable;
     int booster;
+    CCLabelTTF *coinLab, *xpLab,*brainLab;
+    ShopContentLayer *shop;
+    int currpage;
 }
 
 @property (nonatomic, retain) CCColorLayer *parentLayer;

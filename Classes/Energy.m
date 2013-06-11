@@ -34,7 +34,7 @@
     gameState.achEng.energy=gameState.achEng.energy+power;
     gameState.achEng.totenergy=gameState.achEng.totenergy+power;
     gameState.charge=gameState.charge+power;
-    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y)+1.0,0));
+    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+1.0,fabs(_body->GetLinearVelocity().y)+1.0));
     self.position=ccp(self.position.x-2000, 0);
 }
 @end

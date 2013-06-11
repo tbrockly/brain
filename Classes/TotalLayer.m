@@ -50,7 +50,7 @@
 
 - (void)calc:(ccTime) dt {
     if (scoreRoll<[gameState score]) {
-        scoreRoll=scoreRoll+89;
+        scoreRoll=scoreRoll+189;
         scoreLab.string=[NSString stringWithFormat:@"%i",scoreRoll];
     }else{
         scoreRoll=[gameState score];

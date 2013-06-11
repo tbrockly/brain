@@ -30,7 +30,5 @@
 @property (assign) NSString *powStr;
 @property (assign) NSString *durStr;
 -(id) initSelf;
--(void)collide:(b2Body*) body gameState:gameState;
-- (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist;
 -(void)updatePosition:(CGPoint)ballpos;
 @end

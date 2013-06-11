@@ -24,6 +24,9 @@
 #import "BoostShield.h"
 #import "CoinShield.h"
 #import "RollShield.h"
+#import "GravityParam.h"
+#import "FrictionParam.h"
+#import "BounceParam.h"
 
 @implementation TitleScene
 @synthesize layer = _layer;
@@ -50,6 +53,38 @@
 -(id) init
 {
 	if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
+        NSUserDefaults *defaults2=[NSUserDefaults standardUserDefaults];
+        
+        [defaults2 setInteger:0 forKey:@"version"];
+        if([defaults2 integerForKey:@"version"] <1){
+            [defaults2 setInteger:1 forKey:@"version"];
+            [defaults2 setInteger:1 forKey:@"level"];
+            [defaults2 setInteger:0 forKey:@"curxp"];
+            [defaults2 setInteger:50 forKey:@"tonext"];
+            [defaults2 setInteger:1 forKey:@"airResist"];
+            [defaults2 setInteger:1 forKey:@"enemyFreq"];
+            [defaults2 setInteger:1 forKey:@"quizFreq"];
+            [defaults2 setInteger:1 forKey:@"enemyBoost"];
+            [defaults2 setInteger:1 forKey:@"quizBoost"];
+            [defaults2 setInteger:1 forKey:@"WorldGravity"];
+            [defaults2 setInteger:1 forKey:@"WorldFriction"];
+            [defaults2 setInteger:1 forKey:@"WorldBounce"];
+            [defaults2 setInteger:1 forKey:@"friction"];
+            [defaults2 setInteger:1 forKey:@"quizDifficulty"];
+            [defaults2 setInteger:1 forKey:@"topSpeed"];
+            [defaults2 setInteger:4 forKey:@"charge"];
+            [defaults2 setInteger:1 forKey:@"airResist"];
+            [defaults2 setInteger:1 forKey:@"coinFreq"];
+            [defaults2 setInteger:1 forKey:@"energyFreq"];
+            [defaults2 setInteger:1 forKey:@"bonusFreq"];
+            [defaults2 setInteger:1 forKey:@"rocketFreq"];
+            [defaults2 setInteger:1 forKey:@"coinLevel"];
+            [defaults2 setInteger:1 forKey:@"boostLevel"];
+            [defaults2 setInteger:1 forKey:@"energyLevel"];
+            [defaults2 setInteger:1000 forKey:@"gold"];
+            [defaults2 setInteger:1000 forKey:@"xp"];
+            [defaults2 setInteger:1000 forKey:@"brains"];
+        }
 		// Enable touch events
 		self.isTouchEnabled = YES;
         gameState=[[GameState alloc] init];
@@ -106,6 +141,14 @@
         [gameState.shields addObject:coinShld];
         RollShield *rollShld=[[RollShield alloc] initSelf];
         [gameState.shields addObject:rollShld];
+        
+        gameState.globalParams=[[NSMutableArray alloc] init];
+        GravityParam *grav=[[GravityParam alloc] initSelf];
+        [gameState.globalParams addObject:grav];
+        FrictionParam *fric=[[FrictionParam alloc] initSelf];
+        [gameState.globalParams addObject:fric];
+        BounceParam *bounce=[[BounceParam alloc] initSelf];
+        [gameState.globalParams addObject:bounce];
         
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
         onePlayer = [CCSprite spriteWithFile:@"Title.png"];
