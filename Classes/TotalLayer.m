@@ -40,8 +40,8 @@
         arrowD.scale=.5;
         arrowD.position=ccp(140,200);
         [self addChild:arrowD];
-        [self schedule:@selector(calc:) interval:.001f];
-        
+        //[self schedule:@selector(calc:) interval:.01f];
+        scoreLab.string=[NSString stringWithFormat:@"%i",[gameState score]];
         //CGSize winSize = [[CCDirector sharedDirector] winSize];
 		
 	}
@@ -49,7 +49,7 @@
 }
 
 - (void)calc:(ccTime) dt {
-    if (scoreRoll<[gameState score]) {
+    if (scoreRoll+189<[gameState score]) {
         scoreRoll=scoreRoll+189;
         scoreLab.string=[NSString stringWithFormat:@"%i",scoreRoll];
     }else{

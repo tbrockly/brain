@@ -7,7 +7,6 @@
 //
 
 #import "Powerup.h"
-#import "Box2d.h"
 @interface Boost : Powerup{
     
 }

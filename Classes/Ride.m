@@ -25,15 +25,16 @@
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     imgName=@"light.png";
     [self initWithFile:imgName];
-    self.scale=.8;
+    self.scale=.5;
     return self;
 }
 
--(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+-(void)collide:(GameState*) gameState{
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.ride++;
     gameState.achEng.totride++;
-    _body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y),0));
+    //gamestate.setVX
+    //_body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y),0));
     gameState.zerograv=power+4;
     self.position=ccp(self.position.x-2000, 0);
 }

@@ -20,16 +20,16 @@
     self.name=@"Quiz";
     self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"quizLevel"];
-    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
+    self.freq=1000;//0-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
     imgName=@"light.png";
     [self initWithFile:imgName];
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon004" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
-    self.scale=.8;
+    self.scale=.5;
     return self;
 }
 
--(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+-(void)collide:(GameState*) gameState{
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.quiz++;
     gameState.achEng.totquiz++;

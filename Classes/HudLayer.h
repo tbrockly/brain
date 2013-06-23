@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "GameState.h"
+#import "SimpleAudioEngine.h"
+#include <AudioToolbox/AudioToolbox.h>
 
 @interface HudLayer : CCLayer <UITextFieldDelegate>{
     CCSprite *audioBtn,*card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*coinIcon,*eng;
@@ -17,9 +19,13 @@
     NSMutableArray *coins;
     int score;
     CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab;
+    AVAudioPlayer *hudplayer;
 }
+@property (nonatomic, retain) CCSprite * brain;
+
 -(void)resumeGame;
 -(void)drawArrows;
 -(void)drawCard;
 -(void)pushQuiz;
+-(id) init:(GameState*)myGameState;
 @end

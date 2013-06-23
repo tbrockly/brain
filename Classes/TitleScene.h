@@ -17,6 +17,9 @@
 @property (nonatomic, retain) CCSprite *onePlayer;
 @property (nonatomic, retain) CCSprite *shopSprite;
 @property (nonatomic, retain) GameState *gameState;
+@property (nonatomic, strong) CCSprite *bear;
+@property (nonatomic, strong) CCAction *walkAction;
+@property (nonatomic, strong) CCAction *moveAction;
 @end
 
 @interface TitleScene : CCScene {

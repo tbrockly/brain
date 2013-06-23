@@ -1,14 +1,12 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
-#import "Box2D.h"
-#import "Character.h"
 #import "GameTarget.h"
-#import "Coin.h"
 #import "QuizLayer.h"
 #import "HudLayer.h"
 #import "GameState.h"
 #import "TotalLayer.h"
+#import "BearLayer.h"
 #import "Level1.h"
 #import "SimpleAudioEngine.h"
 #include <AudioToolbox/AudioToolbox.h>
@@ -48,6 +46,7 @@
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
     TotalLayer *_totalLayer;
+    BearLayer *bearLayer;
     BOOL runAI;
     CGSize winSize;
     GameState *gameState;
@@ -55,11 +54,11 @@
 }
 @property int state, comboTimer,comboVal;
 @property int boost,score,charge;
-@property int rocketTime,quizTime,zerograv;
+@property int rocketTime,zerograv;
 @property int topSpeed, coins;
 @property float scale,speed;
-@property (retain) AchievementEngine * achEng;
-@property (retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves;
+@property (nonatomic, retain) AchievementEngine * achEng;
+@property (nonatomic, retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves;
 - (HudLayer*) getHud;
 -(void)startLvl2:(GameState*) gs;
 -(void)addTotal;

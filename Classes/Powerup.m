@@ -10,7 +10,7 @@
 
 @implementation Powerup
 
-@synthesize power;
+@synthesize power, height;
 @synthesize freq;
 @synthesize mySound;
 @synthesize imgName;
@@ -29,6 +29,8 @@
 }
 
 -(void)updatePosition:(CGPoint)ballpos{
-    self.position=ccp(ballpos.x+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], fmax([self calcFreq:HEIGHTDIFF2 withMin:ballpos.y-(HEIGHTDIFF2/2) withDist:0], 100));
+    
+    self.height=80;//fmax([self calcFreq:HEIGHTDIFF2 withMin:ballpos.y-(HEIGHTDIFF2/2) withDist:0], 100);
+    self.position=ccp(ballpos.x+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], self.height);
 }
 @end

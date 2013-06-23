@@ -1,7 +1,6 @@
 // Import the interfaces
 #import "GameScene.h"
 #import "math.h"
-#import "Box2D.h"
 #import "cocos2d.h"
 #import "CCActionInterval.h"
 #import "AchievementEngine.h"
@@ -21,7 +20,6 @@
 #import "CoinShield.h"
 #import "RollShield.h"
 #import "Level1.h"
-#import "Level2.h"
 #import "Achievement.h"
 #define PTM_RATIO 150.0
 
@@ -31,7 +29,7 @@
 @synthesize state,comboTimer,comboVal;
 @synthesize boost,score,charge;
 @synthesize scale;
-@synthesize rocketTime,quizTime, zerograv, speed;
+@synthesize rocketTime, zerograv, speed;
 @synthesize achEng, topSpeed, coins, achieves, displayAchieves, completeAchieves;
 @synthesize powerups, shields;
 //@synthesize layer = _layer;
@@ -56,8 +54,7 @@
         //self.layer = [Game initNode];
         //[self.layer setGameState:gameState];
         lay = [Level1 initNode:gameState];
-        _hudLayer = [[HudLayer alloc] init];;
-        _hudLayer->gameState = gameState;
+        _hudLayer = [[HudLayer alloc] init:gameState];
         [self addChild:[CCColorLayer layerWithColor:ccc4(124,106,128,255)] z:1];
         [self addChild:lay z:5];
         [self addChild:_hudLayer z:10];
@@ -125,14 +122,17 @@
 }
 
 -(void)addTotal{
-    TotalLayer* tt = [[TotalLayer alloc] init:gameState];
+    //TotalLayer* tt = [[TotalLayer alloc] init:gameState];
+    lay.visible=0;
+    _hudLayer.visible=0;
+    BearLayer* tt = [[BearLayer alloc] init:gameState];
     [self addChild:tt z:10];
 }
 
 - (void)startLvl2:(GameState *)gs{
     [self removeChild:lay cleanup:YES];
     gameState=gs;
-    lay = [Level2 initNode:gs];
+    //lay = [Level2 initNode:gs];
     [self addChild:lay z:5];
 }
 

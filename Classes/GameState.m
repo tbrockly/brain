@@ -12,10 +12,10 @@
 @implementation GameState
 @synthesize state,comboTimer,comboVal;
 @synthesize boost,score,charge;
-@synthesize scale;
+@synthesize scale,vx,vy,dx,dy,ax,ay;
 @synthesize rocketTime,quizTime, zerograv, speed, spinPower;
 @synthesize achEng, topSpeed, coins, achieves, displayAchieves, completeAchieves;
-@synthesize powerups, shields, globalParams,ballvx,ballvy;
+@synthesize powerups, shields, globalParams;
 
 - (id)init
 {

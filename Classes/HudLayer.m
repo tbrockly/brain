@@ -8,14 +8,15 @@
 
 #import "HudLayer.h"
 #import "PauseLayer.h"
-#import "Coin.h"
+#import "LaunchLayer.h"
 #import "Achievement.h"
 #import "QuizLayer.h"
 #import "SimpleAudioEngine.h"
 #include <AudioToolbox/AudioToolbox.h>
 
 @implementation HudLayer
-AVAudioPlayer *hudplayer;
+@synthesize brain;
+
 
 #define degreesToRadians(x) (M_PI * x /180.0)
 int curTar=0;
@@ -23,10 +24,11 @@ int achieveShow=0;
 int targetx=110,targety=150;
 CCSprite * achieveSprite;
 CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targetx-100,targety),ccp(targetx-70,targety-70),ccp(targetx,targety-100), ccp(targetx+70,targety-70),ccp(targetx+100,targety),ccp(targetx+70,targety+70)};
--(id) init
+-(id) init:(GameState*)myGameState
 {
 	if( (self=[super init] )) {
 		// Enable touch events
+        gameState=myGameState;
 		self.isTouchEnabled = YES;
         coins=[[NSMutableArray alloc] init];
         botBar=[[CCSprite alloc] initWithFile:@"botBar.png" rect:CGRectMake(0, 0, 480, 40)];
@@ -99,6 +101,11 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         [self addChild:achieveLab];
         achieveLab.position=ccp(-200,-200);
         
+        brain = [CCSprite spriteWithFile:@"brain_test.png"];
+        brain.scale=.4;
+        brain.position = ccp(160, 160);
+        [self addChild:brain z:1];
+        
         CGSize winSize = [[CCDirector sharedDirector] winSize];
 		oneLevel = [CCSprite spriteWithFile:@"pause.png"];
         oneLevel.scale=.5;
@@ -115,8 +122,37 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         card.position=ccp(240,480);
         [self addChild:card z:2];
         
+        //[gameState setState:2];
+        [gameState setState:1];
+        [self runAction:[CCSequence actions:
+                         [CCCallFuncN actionWithTarget:self selector:@selector(pushLaunch)],
+                         [CCDelayTime actionWithDuration:1],
+                         [CCDelayTime actionWithDuration:1.2],
+                         [CCCallFuncN actionWithTarget:self.parent selector:@selector(showGame)],
+                         
+                         //[CCCallFuncN actionWithTarget:self selector:@selector(resumeGame)],
+                         nil]];
+        [self schedule:@selector(tick:)];
+        float pos=160+[gameState vy]/100;
+        if([gameState dy] <240 && pos > 50+[gameState dy]*.5){
+            brain.position=ccp(160,50+[gameState dy]*.5);
+        }else{
+            brain.position=ccp(160,pos);
+        }
 	}	
 	return self;
+}
+
+- (void)tick:(ccTime) dt {
+    if([gameState state]==0 || [gameState state]==99){
+        float pos=160+[gameState vy]/100;
+        if([gameState dy] <120 && pos > 60+[gameState dy]){
+            brain.position=ccp(160,60+[gameState dy]);
+        }else{
+            brain.position=ccp(160,pos);
+        }
+        
+    }
 }
 
 -(void) drawCard{
@@ -137,6 +173,15 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     [gameState setState:0];
 }
 
+-(void)pushLaunch{
+    //[self.parent hideGame];
+    //[[CCDirector sharedDirector] pause];
+    LaunchLayer *lol=[[LaunchLayer alloc] init:gameState];
+    [self addChild: lol];
+    //QuizScene *q = [[QuizScene alloc] init:gameState];
+    //CCTransitionFlipAngular *cctf = [CCTransitionFlipAngular transitionWithDuration:1 scene:q];
+    //[[CCDirector sharedDirector] pushScene:cctf];
+}
 
 -(void)pushQuiz{
     [self.parent hideGame];
@@ -149,14 +194,14 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     [gameState calcAchieves];
     [self showAchieves];
     if([gameState coins]>0){
-        Coin* coin = [Coin spriteWithFile:@"super_mario_coin.png"];
-        coin.position=ccp(0,0);
-        [coin setScale:.5];
-        [coin setTarget:targets[curTar]];
-        if(curTar++ >6){ curTar=0;}
-        [self addChild:coin z:100];
-        [coins addObject:coin];
-        gameState.coins=gameState.coins-1;
+//        Coin* coin = [Coin spriteWithFile:@"super_mario_coin.png"];
+//        coin.position=ccp(0,0);
+//        [coin setScale:.5];
+//        [coin setTarget:targets[curTar]];
+//        if(curTar++ >6){ curTar=0;}
+//        [self addChild:coin z:100];
+//        [coins addObject:coin];
+//        gameState.coins=gameState.coins-1;
     }if(achieveShow>0){
         achieveSprite.position=ccp(200,200);
         achieveLab.position=ccp(200,200);
@@ -183,25 +228,25 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 
 - (void)calc:(ccTime) dt {
     int remObj=-1;
-    for(Coin *coin in coins){
-        coin.speed=coin.speed+.5;
-        if(remObj == -1 &&  coin.position.x==coin.target.x &&coin.position.y==coin.target.y){
-            if(coin.position.x==targetx && coin.position.y==targety){
-                [self removeChild:coin cleanup:true];
-                remObj=[coins indexOfObject:coin];
-            }else{
-                coin.target=ccp(targetx,targety);
-                coin.speed=-20;
-            }
-        }
-        if(coin.speed>0){
-            float xtrans=coin.target.x-coin.position.x;
-            xtrans=xtrans>0?MIN(coin.speed,xtrans):MAX(-coin.speed,xtrans);
-            float ytrans=coin.target.y-coin.position.y;
-            ytrans=ytrans>0?MIN(coin.speed,ytrans):MAX(-coin.speed,ytrans);
-            coin.position = ccp(coin.position.x+xtrans,coin.position.y+ytrans);
-        }
-    }
+//    for(Coin *coin in coins){
+//        coin.speed=coin.speed+.5;
+//        if(remObj == -1 &&  coin.position.x==coin.target.x &&coin.position.y==coin.target.y){
+//            if(coin.position.x==targetx && coin.position.y==targety){
+//                [self removeChild:coin cleanup:true];
+//                remObj=[coins indexOfObject:coin];
+//            }else{
+//                coin.target=ccp(targetx,targety);
+//                coin.speed=-20;
+//            }
+//        }
+//        if(coin.speed>0){
+//            float xtrans=coin.target.x-coin.position.x;
+//            xtrans=xtrans>0?MIN(coin.speed,xtrans):MAX(-coin.speed,xtrans);
+//            float ytrans=coin.target.y-coin.position.y;
+//            ytrans=ytrans>0?MIN(coin.speed,ytrans):MAX(-coin.speed,ytrans);
+//            coin.position = ccp(coin.position.x+xtrans,coin.position.y+ytrans);
+//        }
+//    }
     if(remObj >-1){
         [coins removeObjectAtIndex:remObj];
     }

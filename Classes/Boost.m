@@ -29,13 +29,13 @@
     return self;
 }
 
--(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+-(void)collide:(GameState*) gameState{
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.boost++;
     gameState.achEng.totboost++;
-    float vx=_body->GetLinearVelocity().x;
-    float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-    _body->SetLinearVelocity(b2Vec2(vx+power/2,fabs(vy)+power/2));
+    //float vx=_body->GetLinearVelocity().x;
+    //float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
+    //_body->SetLinearVelocity(b2Vec2(vx+power/2,fabs(vy)+power/2));
     
     self.position=ccp(self.position.x-2000, 0);
 }

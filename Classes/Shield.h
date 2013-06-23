@@ -7,7 +7,6 @@
 //
 
 #import "CCSprite.h"
-#import "Box2D.h"
 #import "cocos2d.h"
 #include <AudioToolbox/AudioToolbox.h>
 
@@ -24,11 +23,11 @@
 
 @property int power;
 @property int dur, timer, triggerCombo;
-@property (assign) NSString *imgName;
-@property (assign) NSString *name;
+@property (nonatomic, retain) NSString *imgName;
+@property (nonatomic, retain) NSString *name;
 @property SystemSoundID mySound;
-@property (assign) NSString *powStr;
-@property (assign) NSString *durStr;
+@property (nonatomic, retain) NSString *powStr;
+@property (nonatomic, retain) NSString *durStr;
 -(id) initSelf;
 -(void)updatePosition:(CGPoint)ballpos;
 @end

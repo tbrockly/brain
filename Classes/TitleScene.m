@@ -160,6 +160,28 @@
         shopSprite.scale=1;
         shopSprite.position = ccp(winSize.width/8, winSize.height/8);
 		[self addChild:shopSprite];
+        
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile: @"bearsssss.plist"];
+        
+        
+//        CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"bearsssss.png"];
+//        [self addChild:spriteSheet];
+//        NSMutableArray *walkAnimFrames = [NSMutableArray array];
+//        for (int i=1; i<=8; i++) {
+//            [walkAnimFrames addObject:
+//             [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:
+//              [NSString stringWithFormat:@"bear%d.png",i]]];
+//        }
+//        CCAnimation *walkAnim = [CCAnimation
+//                                 animationWithFrames:walkAnimFrames delay:0.1f];
+//        self.bear = [CCSprite spriteWithSpriteFrameName:@"bear1.png"];
+//        self.bear.scale=.2;
+//        self.bear.position = ccp(400, 280);
+//        self.walkAction = [CCRepeatForever actionWithAction:
+//                           [CCAnimate actionWithAnimation:walkAnim]];
+//        [self.bear runAction:self.walkAction];
+//        [spriteSheet addChild:self.bear];
+        
 	}	
 	return self;
 }

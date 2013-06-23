@@ -29,12 +29,12 @@
     return self;
 }
 
--(void)collide:(b2Body*) _body gameState:(GameState*) gs{
+-(void)collide:(GameState*) gs{
     AudioServicesPlaySystemSound(mySound);
     gs.achEng.spin++;
     gs.achEng.totspin++;
     [gs setSpinPower:5];
     self.position=ccp(self.position.x-2000, 0);
-    _body->SetAngularVelocity(-power);
+    //_body->SetAngularVelocity(-power);
 }
 @end

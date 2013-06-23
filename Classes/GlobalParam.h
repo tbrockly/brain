@@ -17,8 +17,8 @@
 
 @property int power;
 @property float value;
-@property (assign) NSString *imgName;
-@property (assign) NSString *name;
+@property (nonatomic, retain) NSString *imgName;
+@property (nonatomic, retain) NSString *name;
 
 -(id) initSelf;
 

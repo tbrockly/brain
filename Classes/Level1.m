@@ -10,7 +10,6 @@
 #import "SimpleAudioEngine.h"
 #include <AudioToolbox/AudioToolbox.h>
 #import "math.h"
-#import "Box2D.h"
 #import "cocos2d.h"
 #import "CCActionInterval.h"
 #import "AchievementEngine.h"
@@ -49,7 +48,7 @@ NSUserDefaults *defaults2;
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
-	if( (self=[super initWithColor:ccc4(155,155,155,255)] )) {
+	if( (self=[super init] )) {
         //self.pow
         gameState=gs;
         defaults2=[NSUserDefaults standardUserDefaults];
@@ -57,7 +56,6 @@ NSUserDefaults *defaults2;
          paused = false;
          flattened = false;
          rocketing=false;
-         launchSpeed=b2Vec2(5,5);
         for(GlobalParam *g in gameState.globalParams){
             if([g.name isEqualToString: @"WorldBounce"]){
                 restitution=g.value;
@@ -67,6 +65,7 @@ NSUserDefaults *defaults2;
                 gravity=g.value;
             }
         }
+
         
         
         gameState.score=0;
@@ -76,50 +75,59 @@ NSUserDefaults *defaults2;
         //[defaults2 integerForKey:@"airResist"]+
         AchievementEngine *achEng=[[AchievementEngine alloc] init:defaults2];
         [gameState setAchEng:achEng];
+        
+        bgLayer=[[CCLayer alloc] init];
 
-        gg1=[CCColorLayer layerWithColor:ccc4(50, 155, 50, 255) width:2000 height:500];
-        [gg1 setPosition:ccp(-1000,-300)];
-        [self addChild:gg1 z:0];
-        gg2=[CCColorLayer layerWithColor:ccc4(60, 65, 0, 255) width:2000 height:500];
-        [gg2 setPosition:ccp(-1000,-450)];
-        [self addChild:gg2 z:0];
+        gg1=[CCColorLayer layerWithColor:ccc4(50, 155, 50, 255) width:500 height:20];
+        [gg1 setPosition:ccp(0,30)];
+        [self addChild:gg1 z:1];
+        gg2=[CCColorLayer layerWithColor:ccc4(60, 65, 0, 255) width:500 height:20];
+        [gg2 setPosition:ccp(0,20)];
+        [self addChild:gg2 z:1];
         
         //        gg2=[CCColorLayer layerWithColor:ccc4(50, 155, 50, 255) width:2000 height:500];
         //        [gg2 setPosition:ccp(-1000,-400)];
         //        [self addChild:gg2 z:0];
-        bg80 = [CCSprite spriteWithFile:@"bg2.png"];
-        bg80.scale = 1.3;
-        [bg80 setPosition:ccp(000,40+bg80.boundingBox.size.height/2)];
-        [self addChild:bg80 z:0];
-        bg81 = [CCSprite spriteWithFile:@"bg2.png"];
-        bg81.scale = 1.3;
-        [bg81 setPosition:ccp(-1000,40+bg81.boundingBox.size.height/2)];
-        [self addChild:bg81 z:0];
-        bg90 = [CCSprite spriteWithFile:@"bg3.png"];
-        bg90.scale = 1.5;
-        [bg90 setPosition:ccp(000,40+bg90.boundingBox.size.height/2)];
-        [self addChild:bg90 z:0];
-        bg91 = [CCSprite spriteWithFile:@"bg3.png"];
-        bg91.scale = 1.5;
-        [bg91 setPosition:ccp(-1000,40+bg91.boundingBox.size.height/2)];
-        [self addChild:bg91 z:0];
-        bg70 = [CCSprite spriteWithFile:@"bg4.png"];
-        bg70.scale = .8;
-        [bg70 setPosition:ccp(000,40+bg70.boundingBox.size.height/2)];
-        [self addChild:bg70 z:0];
-        bg71 = [CCSprite spriteWithFile:@"bg4.png"];
-        bg71.scale = .8;
-        [bg71 setPosition:ccp(-1000,40+bg71.boundingBox.size.height/2)];
-        [self addChild:bg71 z:0];
+        bg = [CCSprite spriteWithFile:@"slice_1_0.jpg"];
+        bg.scale = 2;
+        [bg setPosition:ccp(480,160)];
+        [bgLayer addChild:bg z:0];
+        bg1 = [CCSprite spriteWithFile:@"bgtree.png"];
+        bg1.scale = 1;
+        [bg1 setPosition:ccp(200,120)];
+        [bgLayer addChild:bg1 z:0];
+        bg2 = [CCSprite spriteWithFile:@"bgtree.png"];
+        bg2.scale = 1;
+        [bg2 setPosition:ccp(200+bg1.boundingBox.size.width,120)];
+        [bgLayer addChild:bg2 z:0];
+        
+        //core BG movement
+        //if([gameState dy] <120){
+        bgLayer.position=ccp(bgLayer.position.x,0);
+
+        [self addChild:bgLayer];
+//        bg81 = [CCSprite spriteWithFile:@"bg2.png"];
+//        bg81.scale = .8;
+//        [bg81 setPosition:ccp(-1000,40+bg81.boundingBox.size.height/2)];
+//        [self addChild:bg81 z:0];
+//        bg90 = [CCSprite spriteWithFile:@"bg3.png"];
+//        bg90.scale = .8;
+//        [bg90 setPosition:ccp(000,40+bg90.boundingBox.size.height/2)];
+//        [self addChild:bg90 z:0];
+//        bg91 = [CCSprite spriteWithFile:@"bg3.png"];
+//        bg91.scale = .8;
+//        [bg91 setPosition:ccp(bg91.boundingBox.size.width,40+bg91.boundingBox.size.height/2)];
+//        [self addChild:bg91 z:0];
+//        bg92 = [CCSprite spriteWithFile:@"bg3.png"];
+//        bg92.scale = .8;
+//        [bg92 setPosition:ccp(-1000,40+bg92.boundingBox.size.height/2)];
+//        [self addChild:bg92 z:0];
         
         
         
         for (Powerup *pow in [gameState powerups]) {
             pow.position=ccp(-1000,0);
             [self addChild:pow z:1];
-            if([pow.name isEqualToString:@"Rocket"]){
-                myRocket = pow;
-            }
         }
         
 		// Enable touch events
@@ -133,11 +141,6 @@ NSUserDefaults *defaults2;
         //character=[Character alloc];
         
 		//runAI = true;
-        
-        _ball = [Character spriteWithFile:@"brain_test.png"];
-        _ball.scale=.2;
-        _ball.position = ccp(100, 100);
-        [self addChild:_ball z:1];
         
         // SHIELDS
         for (Shield *shield in [gameState shields]) {
@@ -157,53 +160,13 @@ NSUserDefaults *defaults2;
         [fireback runAction:[CCFadeOut actionWithDuration:.1]];
         [arrow runAction:[CCFadeOut actionWithDuration:.1]];
         
-        // Create ainitWithGame world
+        gameState.dx=0;
+        gameState.dy=0;
+        gameState.vx=200;
+        gameState.vy=1000;
+        //gameState.ax=0;
+        gameState.ay=-1000;
         
-        b2Vec2 gravityb2v2 = b2Vec2(0.0f, gravity);
-        world = new b2World(gravityb2v2);
-        //world->SetContinuousPhysics(false);
-        //[self setWorld:world];
-        
-        // Create edges around the entire screen
-        b2BodyDef groundBodyDef;
-        groundBodyDef.position.Set(0,0);
-        b2Body *groundBody = world->CreateBody(&groundBodyDef);
-        b2EdgeShape groundEdge;
-        b2FixtureDef boxShapeDef;
-        boxShapeDef.shape = &groundEdge;
-        int myWidth=999999;
-        int myHeight=bg.boundingBox.size.height+99999;
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(myWidth/PTM_RATIO, 0));
-        groundBody->CreateFixture(&boxShapeDef);
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(0, myHeight/PTM_RATIO));
-        groundBody->CreateFixture(&boxShapeDef);
-        groundEdge.Set(b2Vec2(0, myHeight/PTM_RATIO),
-                       b2Vec2(myWidth/PTM_RATIO, myHeight/PTM_RATIO));
-        groundBody->CreateFixture(&boxShapeDef);
-        groundEdge.Set(b2Vec2(myWidth/PTM_RATIO,
-                              myHeight/PTM_RATIO), b2Vec2(myWidth/PTM_RATIO, 0));
-        groundBody->CreateFixture(&boxShapeDef);
-        
-        // Create ball body and shape
-        ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.position.Set(150/PTM_RATIO, 150/PTM_RATIO);
-        ballBodyDef.userData = _ball;
-        ballBodyDef.linearVelocity= launchSpeed;
-        ballBodyDef.linearDamping=0;
-        _body = world->CreateBody(&ballBodyDef);
-        
-        _circle.m_radius=50/PTM_RATIO;
-        _box.SetAsBox(.06, .06, b2Vec2(0, 0), .01);
-        ballShapeDef.shape = &_box;
-        ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = friction;
-        ballShapeDef.restitution = restitution;
-        _fixture = _body->CreateFixture(&ballShapeDef);
-        
-        if(fabs(_body->GetAngularVelocity())<.05)
-            _body->SetAngularVelocity(.1);
-        
-        self.scale=.8;
         [self schedule:@selector(tick:)];
         [self schedule:@selector(calc:) interval:.5f];
         [gameState setCharge:4];
@@ -227,34 +190,18 @@ int i=0;
 }
 
 - (void)calc:(ccTime) dt {
-    if([gameState score]>50000){
-        [gameState setBallvx:_body->GetLinearVelocity().x];
-        [gameState setBallvy:_body->GetLinearVelocity().y];
-        [self.parent startLvl2:gameState];
-    }
-    if(_body->GetLinearVelocity().x<0){
-        _body->SetLinearVelocity(b2Vec2(0, _body->GetLinearVelocity().y));
-    }
+//    if([gameState score]>50000){
+//        [gameState setBallvx:_body->GetLinearVelocity().x];
+//        [gameState setBallvy:_body->GetLinearVelocity().y];
+//        [self.parent startLvl2:gameState];
+//    }
     if([gameState state]==0){
+        
+        
+        
         [gameState setComboTimer:[gameState comboTimer]+1];
         if([gameState comboTimer]>2){
             [gameState setComboVal:1];
-        }
-        //count
-        if(_body->GetLinearVelocity().x ==0){
-            gameState.quizTime++;
-            if(gameState.quizTime>1){
-                //_ball=[[CCSprite alloc] initWithFile:@"brain_squash01.png"];
-            }
-            if(gameState.quizTime>3){
-                [self.parent addTotal];
-                [gameState setState:99];
-            }
-        }else{
-            gameState.quizTime=0;
-            if(flattened){
-                //_ball =[[CCSprite alloc] initWithFile:@"brain_test.png"];
-            }
         }
         
         //Rocket
@@ -278,11 +225,7 @@ int i=0;
         }//ZEROGRAV
         if(gameState.zerograv>=0){
             gameState.zerograv--;
-            if(gameState.zerograv==-1){
-                world->SetGravity(b2Vec2(0.0f, gravity));
-            }else{
-                world->SetGravity(b2Vec2(0.0f,0.0f));
-            }
+
         }
         //Shield
         for(Shield *s in gameState.shields){
@@ -307,159 +250,157 @@ int i=0;
 -(void)shieldAdd:(Shield *) s{
     s.timer=s.dur;
     if([s.name isEqual: @"RollShield"]){
-        ballShapeDef.shape = &_circle;
-        ballShapeDef.friction = 0.06f;
-        //backspin
-        if(_body->GetAngularVelocity()>0){
-            _body->SetAngularVelocity(-_body->GetAngularVelocity());
-        }
+       
     }else if([s.name isEqual: @"BounceShield"]){
-        float f =1.1+s.power*.1;
-        ballShapeDef.restitution = f;
-        ballShapeDef.friction=.01f;
+        
     }
-    _body->DestroyFixture(_fixture);
-    _fixture = _body->CreateFixture(&ballShapeDef);
+
 }
 
 -(void)shieldRemove:(Shield *) s{
     if([s.name isEqual: @"BounceShield"]){
-        ballShapeDef.friction = friction;
+       
     }else if([s.name isEqual: @"RollShield"]){
-        ballShapeDef.shape = &_box;
-        ballShapeDef.friction = friction;
-        ballShapeDef.restitution = .8f;
+       
     }
-    _body->DestroyFixture(_fixture);
-    _fixture = _body->CreateFixture(&ballShapeDef);
+
+}
+
+-(void)addTotal{
+    [self.parent addTotal];
 }
 
 - (void)tick:(ccTime) dt {
-    if([gameState state]==0 || [gameState state]==99){
-        static double UPDATE_INTERVAL = 1.0f/60.0f;
-        static double MAX_CYCLES_PER_FRAME = 5;
-        static double timeAccumulator = 0;
-        
-        
-        timeAccumulator += dt;
-        if (timeAccumulator > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL)) {
-            timeAccumulator = UPDATE_INTERVAL;
+    if([gameState state]==0){
+        [gameState setVx:[gameState vx] + [gameState ax]*dt];
+        [gameState setVy:[gameState vy] + [gameState ay]*dt];
+        [gameState setDx:[gameState dx] + [gameState vx]*dt];
+        [gameState setDy:[gameState dy] + [gameState vy]*dt];
+        float mov=[gameState vx]*dt;
+        bg1.position=ccp(bg1.position.x-mov, bg1.position.y);
+        bg2.position=ccp(bg2.position.x-mov, bg2.position.y);
+        if(bg1.position.x<-500){
+            bg1.position=ccp(bg2.position.x+bg2.boundingBox.size.width, bg1.position.y);
         }
         
-        int32 velocityIterations = 3;
-        int32 positionIterations = 2;
-        while (timeAccumulator >= UPDATE_INTERVAL) {
-            CCSprite *ballData1 = (CCSprite *)_body->GetUserData();
-            CGPoint lastBallPos =ballData1.position;
-            timeAccumulator -= UPDATE_INTERVAL;
-            world->Step(UPDATE_INTERVAL,
-                        velocityIterations, positionIterations);
-            CCSprite *ballData = (CCSprite *)_body->GetUserData();
-            ballData.position = ccp(_body->GetPosition().x * PTM_RATIO,
-                                    _body->GetPosition().y * PTM_RATIO);
-            //ROCKET
-            if(gameState.rocketTime>=0){
-                fireOffset=fireOffset-(_body->GetLinearVelocity().x/4)-4;
-                fireback.position=ccp(_ball.position.x+100+fireOffset,_ball.position.y+fireOffset);
-                arrow.position=ccp(_ball.position.x-fireOffset*2,_ball.position.y);
-                if(fireOffset<-255){
-                    fireOffset=256;
+        if(bg2.position.x<-500){
+            bg2.position=ccp(bg1.position.x+bg1.boundingBox.size.width, bg2.position.y);
+        }
+        
+        //core BG movement
+        if([gameState dy] <110){
+            bgLayer.position=ccp(bgLayer.position.x,0);
+            gg1.position=ccp(gg1.position.x, 25);
+            gg2.position=ccp(gg2.position.x, 15);
+        }else{
+            gg1.position=ccp(gg1.position.x, 135-[gameState dy]);
+            gg2.position=ccp(gg2.position.x, 125-[gameState dy]);
+            bgLayer.position=ccp(bgLayer.position.x,88-[gameState dy]*.8);
+        }
+        //BOUNCE
+        if([gameState dy]<0 && [gameState vy]<0){
+            [gameState setDy:0];
+            [gameState setVy:-[gameState vy]*.9];
+            [gameState setVx:[gameState vx]*.9];
+            if([gameState vy] <100 && [gameState vy] >-100 && [gameState vx] <100){
+                [gameState setState:99];
+                [self runAction:[CCSequence actions:
+                                 [CCDelayTime actionWithDuration:3],
+                                 [CCCallFuncN actionWithTarget:self.parent selector:@selector(addTotal)],
+                                 nil]];
+            }
+        }
+        
+        
+        for (Powerup *pow in [gameState powerups]) {
+            if([gameState dy] <120){
+                pow.position=ccp(pow.position.x-mov,pow.height);
+            }else{
+                pow.position=ccp(pow.position.x-mov,120+pow.height-[gameState dy]);
+            }
+            if(CGRectContainsPoint(pow.boundingBox, ccp(160,50+[gameState dy]))){
+                [pow collide:gameState];
+                if([pow.name isEqualToString:@"Quiz"]){
+                    //[self.parent addChild:q z:10];
+                    //CGPoint center=ccp(brain.position.x+60*(2/self.scale),brain.position.y+320);
+                    //card.position=ccp(center.x,center.y+320);
+                    [[self.parent getHud] drawCard];
                 }
             }
-            //ZOOM
             
-            if(gameState.score<49200){
-                float xx = 25.0/(fabs(_body->GetLinearVelocity().x)+25.0)-fabs(_body->GetLinearVelocity().y)*.001;
-                self.scale=xx>self.scale?self.scale+.002:self.scale-.002;
-                
-                [gameState setScale:self.scale];
-                [self swtViewCenter:ccp(ballData.position.x+60*(2/self.scale),ballData.position.y+20)];
-                
-                if(ballData.position.x>bg80.position.x+bg80.boundingBox.size.width){
-                    bg80.position = ccp(bg81.position.x+bg81.boundingBox.size.width/2+bg80.boundingBox.size.width/2-9,bg80.position.y);
-                }if(ballData.position.x>bg81.position.x+bg81.boundingBox.size.width){
-                    bg81.position = ccp(bg80.position.x+bg80.boundingBox.size.width/2+bg81.boundingBox.size.width/2-9,bg81.position.y);
-                }
-                if(ballData.position.x>bg70.position.x+bg70.boundingBox.size.width){
-                    bg70.position = ccp(bg71.position.x+bg71.boundingBox.size.width/2+bg70.boundingBox.size.width/2-9,bg70.position.y);
-                }if(ballData.position.x>bg71.position.x+bg71.boundingBox.size.width){
-                    bg71.position = ccp(bg70.position.x+bg70.boundingBox.size.width/2+bg71.boundingBox.size.width/2-9,bg71.position.y);
-                }
-                if(ballData.position.x>bg90.position.x+bg90.boundingBox.size.width){
-                    bg90.position = ccp(bg91.position.x+bg91.boundingBox.size.width/2+bg90.boundingBox.size.width/2-9,bg90.position.y);
-                }if(ballData.position.x>bg91.position.x+bg91.boundingBox.size.width){
-                    bg91.position = ccp(bg90.position.x+bg90.boundingBox.size.width/2+bg91.boundingBox.size.width/2-9,bg91.position.y);
-                }
-                
-                
-                gg1.position = ccp(ballData.position.x-512,gg1.position.y);
-                gg2.position = ccp(ballData.position.x-512,gg2.position.y);
-                float lol = (float)ballData.position.x - (float)lastBallPos.x  ;
-                bg80.position=ccp(bg80.position.x+(float)lol*0.9f,40+bg80.boundingBox.size.height/2+ballData.position.y*.7);
-                bg81.position=ccp(bg81.position.x+(float)lol*0.9f,40+bg81.boundingBox.size.height/2+ballData.position.y*.7);
-                bg90.position=ccp(bg90.position.x+(float)lol*0.5f,40+bg90.boundingBox.size.height/2+ballData.position.y*.4);
-                bg91.position=ccp(bg91.position.x+(float)lol*0.5f,40+bg91.boundingBox.size.height/2+ballData.position.y*.4);
+            
+            if(pow.position.x<-200){
+                //NSLog(@"%f", _body->GetLinearVelocity().x);
+                [pow updatePosition:ccp(400,400)];
             }
-            //SHIELD
+        }
+        
+        //ROCKET
+        if(gameState.rocketTime>=0){
+            //fireOffset=fireOffset-(_body->GetLinearVelocity().x/4)-4;
+            //fireback.position=ccp(_ball.position.x+100+fireOffset,_ball.position.y+fireOffset);
+            //arrow.position=ccp(_ball.position.x-fireOffset*2,_ball.position.y);
+            if(fireOffset<-255){
+                fireOffset=256;
+            }
+        }
+        //SHIELD
+        for(Shield *s in gameState.shields){
+            if(s.timer>0){
+                //s.position=_ball.position;
+            }
+        }
+        //BOOST
+        if([gameState boost]>0){
+            [gameState setVx:[gameState vx]+[gameState boost]*100];
+            [gameState setVy:fabs([gameState vy])+[gameState boost]*100];
+            [gameState setBoost:0];
+        }
+        //TOPSPEED
+        //todo
+        //score and speed
+        //int delta = (float)ballData.position.x - (float)lastBallPos.x;
+        [gameState setScore:[gameState dx]];
+        //[gameState setSpeed:_body->GetLinearVelocity().x];
+        
+        if([gameState spinPower]>0){
             for(Shield *s in gameState.shields){
-                if(s.timer>0){
-                    s.position=_ball.position;
+                if([s.name isEqualToString:@"RollShield"]){
+                    [self shieldAdd:s];
+                    gameState.spinPower=0;
                 }
             }
-            //BOOST
-            if([gameState boost]>0){
-                float vx=_body->GetLinearVelocity().x;
-                float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
-                _body->SetLinearVelocity(b2Vec2(vx+[gameState boost],vy+[gameState boost]*.8));
-                [gameState setBoost:0];
-            }
-            //TOPSPEED
-            if(_body->GetLinearVelocity().x>gameState.topSpeed){
-                _body->SetLinearVelocity(b2Vec2(gameState.topSpeed,_body->GetLinearVelocity().y));
-            }
-            int delta = (float)ballData.position.x - (float)lastBallPos.x;
-            [gameState setScore:[gameState score] + delta];
-            [gameState setSpeed:_body->GetLinearVelocity().x];
-            
-            if([gameState spinPower]>0){
-                for(Shield *s in gameState.shields){
-                    if([s.name isEqualToString:@"RollShield"]){
-                        [self shieldAdd:s];
-                        gameState.spinPower=0;
-                    }
-                }
-            }
-            
-            //check for enemy collision
-            if(!rocketing){
-                for (Powerup *pow in [gameState powerups]) {
-                    if(CGRectIntersectsRect(ballData.boundingBox, pow.boundingBox)){
-                        [pow collide: _body gameState:gameState];
-                        if(gameState.state==1){
-                            
-                            //[self.parent addChild:q z:10];
-                            CGPoint center=ccp(ballData.position.x+60*(2/self.scale),ballData.position.y+320);
-                            card.position=ccp(center.x,center.y+320);
-                            [[self.parent getHud] drawCard];
-                        }
-                    }
-                }
-                
-                
-                //update positions
-                for (Powerup *pow in [gameState powerups]) {
-                    if(ballData.position.x>pow.position.x+2000){
-                        //NSLog(@"%f", _body->GetLinearVelocity().x);
-                        [pow updatePosition:ballData.position];
-                    }
-                }
-            }
-
-            _body->SetLinearDamping((_body->GetLinearVelocity().x/500)+((ballData.position.x/100)/(40000.0+(ballData.position.x/100))));
-            //int i =  ballData.position.x;
-            //NSLog(@"%f", _body->GetLinearVelocity().x);
-            ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(_body->GetAngle());
         }
+        
+        //check for enemy collision
+        if(!rocketing){
+            for (Powerup *pow in [gameState powerups]) {
+//                if(CGRectIntersectsRect(ballData.boundingBox, pow.boundingBox)){
+//                    [pow collide:gameState];
+//                    if(gameState.state==1){
+//                        
+//                        //[self.parent addChild:q z:10];
+//                        //CGPoint center=ccp(ballData.position.x+60*(2/self.scale),ballData.position.y+320);
+//                        //card.position=ccp(center.x,center.y+320);
+//                        [[self.parent getHud] drawCard];
+//                    }
+//                }
+            }
+            
+            
+            //update positions
+//            for (Powerup *pow in [gameState powerups]) {
+//                if(ballData.position.x>pow.position.x+2000){
+//                    //NSLog(@"%f", _body->GetLinearVelocity().x);
+//                    [pow updatePosition:ballData.position];
+//                }
+//            }
+        }
+        
+        //_body->SetLinearDamping((_body->GetLinearVelocity().x/500)+((ballData.position.x/100)/(40000.0+(ballData.position.x/100))));
+        //int i =  ballData.position.x;
+        //NSLog(@"%f", _body->GetLinearVelocity().x);
+        //ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(_body->GetAngle());
     }
 }
 
@@ -479,53 +420,51 @@ int i=0;
         [[NSUserDefaults standardUserDefaults] setInteger:tonext forKey:@"tonext"];
         [self popMe];
     }
-    if([gameState state]==0){
-        // Choose one of the touches to work with
-        //gameState.rocketTime=10;
-        UITouch *touch = [touches anyObject];
-        CGPoint location = [touch locationInView:[touch view]];
-        lastTouch = [[CCDirector sharedDirector] convertToGL:location];
-        float len=ccpDistance(firstTouch,lastTouch);
-        
-        if(fabs(_body->GetAngularVelocity())<.05)
-            _body->SetAngularVelocity(.05);
-        if(gameState.rocketTime>-1){
-            if(firstTouch.x+60<lastTouch.x && len>80){
-                _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+len/1200.0-myRocket.power*100.0,_body->GetLinearVelocity().y+len/600.0-myRocket.power*50.0));
-            }
-        }else if(gameState.charge>0) {
-            if(firstTouch.y>lastTouch.y+120){
-                if(_body->GetLinearVelocity().y>0){
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,-3.0));
-                }else{
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y-3.0));
-                }
-                [gameState setCharge:(gameState.charge-1)];
-            }
-            if(firstTouch.y+120<lastTouch.y){
-                if(_body->GetLinearVelocity().y<0){
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,3.0));
-                }else{
-                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y+3.0));
-                }
-                
-                [gameState setCharge:(gameState.charge-1)];
-            }
-            //combos
-            ///<<<<
-            if(firstTouch.x>lastTouch.x+120){
-                [gameState setComboTimer:0];
-                [gameState setComboVal:[gameState comboVal]*10];
-                [self fireShield];
-            }
-            ///>>>>
-            if(firstTouch.x+120<lastTouch.x){
-                [gameState setComboTimer:0];
-                [gameState setComboVal:[gameState comboVal]*10+1];
-                [self fireShield];
-            }
-        }
-    }
+//    if([gameState state]==0){
+//        // Choose one of the touches to work with
+//        //gameState.rocketTime=10;
+//        UITouch *touch = [touches anyObject];
+//        CGPoint location = [touch locationInView:[touch view]];
+//        lastTouch = [[CCDirector sharedDirector] convertToGL:location];
+//        float len=ccpDistance(firstTouch,lastTouch);
+//        
+//        if(gameState.rocketTime>-1){
+//            if(firstTouch.x+60<lastTouch.x && len>80){
+//                _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+len/1200.0-myRocket.power*100.0,_body->GetLinearVelocity().y+len/600.0-myRocket.power*50.0));
+//            }
+//        }else if(gameState.charge>0) {
+//            if(firstTouch.y>lastTouch.y+120){
+//                if(_body->GetLinearVelocity().y>0){
+//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,-3.0));
+//                }else{
+//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y-3.0));
+//                }
+//                [gameState setCharge:(gameState.charge-1)];
+//            }
+//            if(firstTouch.y+120<lastTouch.y){
+//                if(_body->GetLinearVelocity().y<0){
+//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,3.0));
+//                }else{
+//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y+3.0));
+//                }
+//                
+//                [gameState setCharge:(gameState.charge-1)];
+//            }
+//            //combos
+//            ///<<<<
+//            if(firstTouch.x>lastTouch.x+120){
+//                [gameState setComboTimer:0];
+//                [gameState setComboVal:[gameState comboVal]*10];
+//                [self fireShield];
+//            }
+//            ///>>>>
+//            if(firstTouch.x+120<lastTouch.x){
+//                [gameState setComboTimer:0];
+//                [gameState setComboVal:[gameState comboVal]*10+1];
+//                [self fireShield];
+//            }
+//        }
+//    }
 }
 
 -(void)fireShield{
@@ -559,24 +498,6 @@ int i=0;
 	[_targets release];
 	_targets = nil;
     [self removeAllChildrenWithCleanup:true];
-    //    [bg dealloc];
-    //    [bg1 dealloc];
-    //    [bg2 dealloc];
-    //    [bg3 dealloc];
-    //    [bg10 dealloc];
-    //    [bg11 dealloc];
-    //    [bg20 dealloc];
-    //    [bg21 dealloc];
-    //    [bg30 dealloc];
-    //    [bg31 dealloc];
-    //    [_ball dealloc];
-    //    [_boostshield dealloc];
-    //    [_bounceshield dealloc];
-    //    [_ballshield dealloc];
-    //    [_bonusshield dealloc];
-    //    [achEngine dealloc];
-    //	[_quizLayer dealloc];
-	// don't forget to call "super dealloc"
 	[super dealloc];
 }
 @end

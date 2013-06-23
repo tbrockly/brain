@@ -11,10 +11,6 @@
 
 @interface iosVC : UIViewController{
 
-    UIImageView* bgImageView;
-    MainTableView* myTable;
 }
-@property (nonatomic,retain) MainTableView* myTable;
-@property (nonatomic, retain) UIImageView* bgImageView;
 -(void)reloadData;
 @end

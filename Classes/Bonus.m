@@ -29,7 +29,7 @@
     return self;
 }
 
--(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+-(void)collide:(GameState*) gameState{
     AudioServicesPlaySystemSound(mySound);
     gameState.coins=gameState.coins+power+5;
     gameState.achEng.bonus++;

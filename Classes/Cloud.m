@@ -28,7 +28,7 @@
     return self;
 }
 
--(void)collide:(b2Body*) _body gameState:(GameState*) gameState{
+-(void)collide:(GameState*) gameState{
 
 }
 
@@ -37,7 +37,9 @@
 }
 
 -(void)updatePosition:(CGPoint)ballpos{
-    self.position=ccp(ballpos.x+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], fmax([self calcFreq:HEIGHTDIFF2 withMin:ballpos.y-HEIGHTDIFF withDist:0], 1500));
+    
+    self.height=fmax([self calcFreq:HEIGHTDIFF2 withMin:ballpos.y-HEIGHTDIFF withDist:0], 1500);
+    self.position=ccp(ballpos.x+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], self.height);
 }
 
 @end
