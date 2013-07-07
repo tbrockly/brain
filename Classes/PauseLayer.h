@@ -10,10 +10,9 @@
 #import "cocos2d.h"
 #import "GameState.h"
 
-@interface PauseLayer : CCColorLayer <UITextFieldDelegate>{
+@interface PauseLayer : CCColorLayer{
     CCSprite *oneLevel;
-    CCSprite *restart;
-    UITextField *answer;
+    //CCSprite *restart;
     @public GameState *gameState;
     int booster;
 }

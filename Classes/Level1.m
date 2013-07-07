@@ -65,7 +65,6 @@ NSUserDefaults *defaults2;
                 gravity=g.value;
             }
         }
-
         
         
         gameState.score=0;
@@ -76,8 +75,9 @@ NSUserDefaults *defaults2;
         AchievementEngine *achEng=[[AchievementEngine alloc] init:defaults2];
         [gameState setAchEng:achEng];
         
+        skyLayer=[[CCColorLayer alloc] initWithColor:ccc4(200, 200, 255, 255) width:500 height:500];
+        [self addChild:skyLayer];
         bgLayer=[[CCLayer alloc] init];
-
         gg1=[CCColorLayer layerWithColor:ccc4(50, 155, 50, 255) width:500 height:20];
         [gg1 setPosition:ccp(0,30)];
         [self addChild:gg1 z:1];
@@ -88,16 +88,19 @@ NSUserDefaults *defaults2;
         //        gg2=[CCColorLayer layerWithColor:ccc4(50, 155, 50, 255) width:2000 height:500];
         //        [gg2 setPosition:ccp(-1000,-400)];
         //        [self addChild:gg2 z:0];
-        bg = [CCSprite spriteWithFile:@"slice_1_0.jpg"];
-        bg.scale = 2;
-        [bg setPosition:ccp(480,160)];
-        [bgLayer addChild:bg z:0];
-        bg1 = [CCSprite spriteWithFile:@"bgtree.png"];
-        bg1.scale = 1;
+        
+//        [[CCTextureCache sharedTextureCache] addImage:@"slice_1_0.jpg"];
+//        bg = [CCSprite spriteWithFile:@"slice_1_0.jpg"];
+//        bg.scale = 2;
+//        [bg setPosition:ccp(480,160)];
+//        [bgLayer addChild:bg z:0];
+        [[CCTextureCache sharedTextureCache] addImage:@"ScienceBG.png"];
+        bg1 = [CCSprite spriteWithFile:@"ScienceBG.png"];
+        bg1.scale = .4;
         [bg1 setPosition:ccp(200,120)];
         [bgLayer addChild:bg1 z:0];
-        bg2 = [CCSprite spriteWithFile:@"bgtree.png"];
-        bg2.scale = 1;
+        bg2 = [CCSprite spriteWithFile:@"ScienceBG.png"];
+        bg2.scale = .4;
         [bg2 setPosition:ccp(200+bg1.boundingBox.size.width,120)];
         [bgLayer addChild:bg2 z:0];
         
@@ -126,12 +129,13 @@ NSUserDefaults *defaults2;
         
         
         for (Powerup *pow in [gameState powerups]) {
+            [pow removeFromParentAndCleanup:true];
             pow.position=ccp(-1000,0);
             [self addChild:pow z:1];
         }
         
 		// Enable touch events
-		self.isTouchEnabled = YES;
+		//self.isTouchEnabled = YES;
 		
 		// Initialize arrays
 		_targets = [[NSMutableArray alloc] init];
@@ -144,10 +148,11 @@ NSUserDefaults *defaults2;
         
         // SHIELDS
         for (Shield *shield in [gameState shields]) {
+            [shield removeFromParentAndCleanup:true];
             shield.position=ccp(-1000,0);
             [self addChild:shield z:1];
         }
-        
+        [[CCTextureCache sharedTextureCache] addImage:@"arrow.png"];
         fireback=[CCSprite spriteWithFile:@"firebackground2.jpg" rect:CGRectMake(0,0,-2056,-2056)];
         arrow=[CCSprite spriteWithFile:@"arrow.png"];
         arrow.scale=3;
@@ -166,6 +171,11 @@ NSUserDefaults *defaults2;
         gameState.vy=1000;
         //gameState.ax=0;
         gameState.ay=-1000;
+        gameState.rot=0;
+        gameState.vrot=1;
+        NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"hit" ofType:@"wav"];
+        AudioServicesCreateSystemSoundID(( CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
+        
         
         [self schedule:@selector(tick:)];
         [self schedule:@selector(calc:) interval:.5f];
@@ -257,17 +267,24 @@ int i=0;
 
 }
 
+-(void)dropBrain{
+    [[self.parent getHud] dropBrain];
+}
+-(void)restart{
+    [self.parent restart:gameState];
+}
+
 -(void)shieldRemove:(Shield *) s{
     if([s.name isEqual: @"BounceShield"]){
        
     }else if([s.name isEqual: @"RollShield"]){
        
     }
-
 }
 
 -(void)addTotal{
-    [self.parent addTotal];
+    //[gameState setState:98];
+    //[self.parent addTotal];
 }
 
 - (void)tick:(ccTime) dt {
@@ -276,15 +293,21 @@ int i=0;
         [gameState setVy:[gameState vy] + [gameState ay]*dt];
         [gameState setDx:[gameState dx] + [gameState vx]*dt];
         [gameState setDy:[gameState dy] + [gameState vy]*dt];
+        [gameState setRot:[gameState rot] + (20+[gameState vx]/10)*dt];
         float mov=[gameState vx]*dt;
         bg1.position=ccp(bg1.position.x-mov, bg1.position.y);
         bg2.position=ccp(bg2.position.x-mov, bg2.position.y);
+        float r=MAX(MIN(200-[gameState dy]*.06,100), MAX(200-[gameState dy]*.08, 0));
+        float g=MAX(200-[gameState dy]*.08, 0);
+        float b=MAX(255-[gameState dy]*.06, 0);
+        skyLayer.color=ccc3(r, g, b);
+        //skyLayer.position=ccp([gameState dx],[gameState dy]);
         if(bg1.position.x<-500){
-            bg1.position=ccp(bg2.position.x+bg2.boundingBox.size.width, bg1.position.y);
+            bg1.position=ccp(bg2.position.x+bg2.boundingBox.size.width*2, bg1.position.y);
         }
         
         if(bg2.position.x<-500){
-            bg2.position=ccp(bg1.position.x+bg1.boundingBox.size.width, bg2.position.y);
+            bg2.position=ccp(bg1.position.x+bg1.boundingBox.size.width*2, bg2.position.y);
         }
         
         //core BG movement
@@ -295,28 +318,32 @@ int i=0;
         }else{
             gg1.position=ccp(gg1.position.x, 135-[gameState dy]);
             gg2.position=ccp(gg2.position.x, 125-[gameState dy]);
-            bgLayer.position=ccp(bgLayer.position.x,88-[gameState dy]*.8);
+            bgLayer.position=ccp(bgLayer.position.x,110-[gameState dy]);
         }
         //BOUNCE
         if([gameState dy]<0 && [gameState vy]<0){
+            AudioServicesPlaySystemSound(mySound);
+            [[self.parent getHud] brainbounce];
+            gameState.vrot=(arc4random()%101)-50.0f;
             [gameState setDy:0];
-            [gameState setVy:-[gameState vy]*.9];
-            [gameState setVx:[gameState vx]*.9];
+            [gameState setVy:-[gameState vy]*.89];
+            [gameState setVx:[gameState vx]*.89];
             if([gameState vy] <100 && [gameState vy] >-100 && [gameState vx] <100){
+                [[self.parent getHud] brainsplat];
                 [gameState setState:99];
                 [self runAction:[CCSequence actions:
                                  [CCDelayTime actionWithDuration:3],
-                                 [CCCallFuncN actionWithTarget:self.parent selector:@selector(addTotal)],
+                                 [CCCallFuncN actionWithTarget:[self.parent getHud] selector:@selector(pushEnd)],
                                  nil]];
             }
         }
         
         
         for (Powerup *pow in [gameState powerups]) {
-            if([gameState dy] <120){
+            if([gameState dy] <110){
                 pow.position=ccp(pow.position.x-mov,pow.height);
             }else{
-                pow.position=ccp(pow.position.x-mov,120+pow.height-[gameState dy]);
+                pow.position=ccp(pow.position.x-mov,110+pow.height-[gameState dy]);
             }
             if(CGRectContainsPoint(pow.boundingBox, ccp(160,50+[gameState dy]))){
                 [pow collide:gameState];
@@ -404,22 +431,23 @@ int i=0;
     }
 }
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if([gameState state]==99){
-        [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]+(gameState.score/1000) forKey:@"xp"];
-        int curxp=[[NSUserDefaults standardUserDefaults] integerForKey:@"curxp"];
-        int tonext=[[NSUserDefaults standardUserDefaults] integerForKey:@"tonext"];
-        curxp=curxp+gameState.score/1000;
-        while(curxp>tonext){
-            curxp=curxp-tonext;
-            int level=[[NSUserDefaults standardUserDefaults] integerForKey:@"level"];
-            [[NSUserDefaults standardUserDefaults] setInteger:level+1 forKey:@"level"];
-            tonext=(6*level*level-16*level+100)*.8;
-        }
-        [[NSUserDefaults standardUserDefaults] setInteger:curxp forKey:@"curxp"];
-        [[NSUserDefaults standardUserDefaults] setInteger:tonext forKey:@"tonext"];
-        [self popMe];
-    }
+//- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+//    if([gameState state]==99){
+//        [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]+(gameState.score/1000) forKey:@"xp"];
+//        int curxp=[[NSUserDefaults standardUserDefaults] integerForKey:@"curxp"];
+//        int tonext=[[NSUserDefaults standardUserDefaults] integerForKey:@"tonext"];
+//        curxp=curxp+gameState.score/1000;
+//        while(curxp>tonext){
+//            curxp=curxp-tonext;
+//            int level=[[NSUserDefaults standardUserDefaults] integerForKey:@"level"];
+//            [[NSUserDefaults standardUserDefaults] setInteger:level+1 forKey:@"level"];
+//            tonext=(6*level*level-16*level+100)*.8;
+//        }
+//        [[NSUserDefaults standardUserDefaults] setInteger:curxp forKey:@"curxp"];
+//        [[NSUserDefaults standardUserDefaults] setInteger:tonext forKey:@"tonext"];
+//        [self.parent stopBearMusic];
+//        [self popMe];
+//    }
 //    if([gameState state]==0){
 //        // Choose one of the touches to work with
 //        //gameState.rocketTime=10;
@@ -432,24 +460,8 @@ int i=0;
 //            if(firstTouch.x+60<lastTouch.x && len>80){
 //                _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+len/1200.0-myRocket.power*100.0,_body->GetLinearVelocity().y+len/600.0-myRocket.power*50.0));
 //            }
-//        }else if(gameState.charge>0) {
-//            if(firstTouch.y>lastTouch.y+120){
-//                if(_body->GetLinearVelocity().y>0){
-//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,-3.0));
-//                }else{
-//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y-3.0));
-//                }
-//                [gameState setCharge:(gameState.charge-1)];
-//            }
-//            if(firstTouch.y+120<lastTouch.y){
-//                if(_body->GetLinearVelocity().y<0){
-//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,3.0));
-//                }else{
-//                    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x+2.0,_body->GetLinearVelocity().y+3.0));
-//                }
-//                
-//                [gameState setCharge:(gameState.charge-1)];
-//            }
+//        }else
+        
 //            //combos
 //            ///<<<<
 //            if(firstTouch.x>lastTouch.x+120){
@@ -465,7 +477,7 @@ int i=0;
 //            }
 //        }
 //    }
-}
+//}
 
 -(void)fireShield{
     //SHIELD
@@ -478,20 +490,20 @@ int i=0;
     }
 }
 
-- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    // Choose one of the touches to work with
-	UITouch *touch = [touches anyObject];
-	CGPoint location = [touch locationInView:[touch view]];
-	location = [[CCDirector sharedDirector] convertToGL:location];
-    
-}
-
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	// Choose one of the touches to work with
-	UITouch *touch = [touches anyObject];
-	CGPoint location = [touch locationInView:[touch view]];
-	firstTouch = [[CCDirector sharedDirector] convertToGL:location];
-}
+//- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+//    // Choose one of the touches to work with
+//	UITouch *touch = [touches anyObject];
+//	CGPoint location = [touch locationInView:[touch view]];
+//	location = [[CCDirector sharedDirector] convertToGL:location];
+//    
+//}
+//
+//- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//	// Choose one of the touches to work with
+//	UITouch *touch = [touches anyObject];
+//	CGPoint location = [touch locationInView:[touch view]];
+//	firstTouch = [[CCDirector sharedDirector] convertToGL:location];
+//}
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {

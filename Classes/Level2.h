@@ -1,14 +1,14 @@
-////
-////  Level2.h
-////  Cocos2DSimpleGame
-////
-////  Created by Ted on 5/25/13.
-////
-////
 //
-//#import "Game.h"
+//  Level2.h
+//  Cocos2DSimpleGame
 //
-//@interface Level2 : Level1
+//  Created by Ted on 5/25/13.
 //
 //
-//@end
+
+#import "Game.h"
+
+@interface Level2 : Level1
+
+
+@end

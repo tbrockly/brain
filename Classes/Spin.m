@@ -24,6 +24,7 @@
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon025" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     imgName=@"thing_blue.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     self.scale=.8;
     return self;

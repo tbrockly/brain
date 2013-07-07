@@ -26,7 +26,7 @@
 		self.isTouchEnabled = YES;
         
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-        shopBG = [CCSprite spriteWithFile:@"Shop2.png"];
+        shopBG = [CCSprite spriteWithFile:@"lab.jpg"];
         shopBG.scale=.5;
         shopBG.position=ccp(winSize.width/2, winSize.height/2);
 		[self addChild:shopBG];

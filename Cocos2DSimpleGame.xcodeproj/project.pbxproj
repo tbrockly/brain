@@ -71,6 +71,22 @@
 		9F16B3AF1771642C0008E4E0 /* MultipleBox.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F16B3AC177164260008E4E0 /* MultipleBox.png */; };
 		9F16B3B01771642C0008E4E0 /* MultipleButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F16B3AD1771642A0008E4E0 /* MultipleButton.png */; };
 		9F18E0851776D692003D41F0 /* LaunchLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18E0841776D692003D41F0 /* LaunchLayer.m */; };
+		9F18E08817781220003D41F0 /* Hole.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18E08717781220003D41F0 /* Hole.m */; };
+		9F18E08A177AA30A003D41F0 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E089177AA2F3003D41F0 /* hit.mp3 */; };
+		9F18E08C177AA88B003D41F0 /* hit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E08B177AA889003D41F0 /* hit.wav */; };
+		9F18E08E177AA893003D41F0 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E08D177AA891003D41F0 /* hit.mp3 */; };
+		9F18E091177FB20F003D41F0 /* MCLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18E090177FB20D003D41F0 /* MCLayer.m */; };
+		9F18E0941780B802003D41F0 /* collider.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0921780B7E2003D41F0 /* collider.jpg */; };
+		9F18E0951780B802003D41F0 /* lab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0931780B7E9003D41F0 /* lab.jpg */; };
+		9F18E0981780CE7A003D41F0 /* EndRunLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18E0971780CE78003D41F0 /* EndRunLayer.m */; };
+		9F18E09B1780D013003D41F0 /* RetryB.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0991780CFFC003D41F0 /* RetryB.png */; };
+		9F18E09C1780D013003D41F0 /* ShopB.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E09A1780D003003D41F0 /* ShopB.png */; };
+		9F18E09E17824931003D41F0 /* girl.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E09D17824929003D41F0 /* girl.png */; };
+		9F18E0A4178A1592003D41F0 /* medals.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E09F178A14D4003D41F0 /* medals.png */; };
+		9F18E0A5178A1592003D41F0 /* medals1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0A0178A14E9003D41F0 /* medals1.png */; };
+		9F18E0A6178A1592003D41F0 /* medals2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0A1178A14F6003D41F0 /* medals2.png */; };
+		9F18E0A7178A1593003D41F0 /* medals3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0A2178A150D003D41F0 /* medals3.png */; };
+		9F18E0A8178A1593003D41F0 /* medals3g.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F18E0A3178A155C003D41F0 /* medals3g.png */; };
 		9F198A9E175ED9C40014B90B /* UIBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F198A9C175ED9C40014B90B /* UIBar.png */; };
 		9F198A9F175ED9C40014B90B /* UICircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F198A9D175ED9C40014B90B /* UICircle.png */; };
 		9F198AA2175EDB0B0014B90B /* ShopContentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F198AA1175EDB0B0014B90B /* ShopContentLayer.m */; };
@@ -446,6 +462,25 @@
 		9F16B3AD1771642A0008E4E0 /* MultipleButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MultipleButton.png; sourceTree = "<group>"; };
 		9F18C7FF1634DFE100D1BCE5 /* Archer-Medium-Pro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Archer-Medium-Pro.otf"; path = "../Classes/Archer-Medium-Pro.otf"; sourceTree = "<group>"; };
 		9F18E0841776D692003D41F0 /* LaunchLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchLayer.m; sourceTree = "<group>"; };
+		9F18E08617781220003D41F0 /* Hole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hole.h; sourceTree = "<group>"; };
+		9F18E08717781220003D41F0 /* Hole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hole.m; sourceTree = "<group>"; };
+		9F18E089177AA2F3003D41F0 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
+		9F18E08B177AA889003D41F0 /* hit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit.wav; sourceTree = "<group>"; };
+		9F18E08D177AA891003D41F0 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
+		9F18E08F177FB20B003D41F0 /* MCLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLayer.h; sourceTree = "<group>"; };
+		9F18E090177FB20D003D41F0 /* MCLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLayer.m; sourceTree = "<group>"; };
+		9F18E0921780B7E2003D41F0 /* collider.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = collider.jpg; sourceTree = "<group>"; };
+		9F18E0931780B7E9003D41F0 /* lab.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lab.jpg; sourceTree = "<group>"; };
+		9F18E0961780CE76003D41F0 /* EndRunLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndRunLayer.h; sourceTree = "<group>"; };
+		9F18E0971780CE78003D41F0 /* EndRunLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndRunLayer.m; sourceTree = "<group>"; };
+		9F18E0991780CFFC003D41F0 /* RetryB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RetryB.png; sourceTree = "<group>"; };
+		9F18E09A1780D003003D41F0 /* ShopB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShopB.png; sourceTree = "<group>"; };
+		9F18E09D17824929003D41F0 /* girl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl.png; sourceTree = "<group>"; };
+		9F18E09F178A14D4003D41F0 /* medals.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medals.png; sourceTree = "<group>"; };
+		9F18E0A0178A14E9003D41F0 /* medals1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medals1.png; sourceTree = "<group>"; };
+		9F18E0A1178A14F6003D41F0 /* medals2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medals2.png; sourceTree = "<group>"; };
+		9F18E0A2178A150D003D41F0 /* medals3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medals3.png; sourceTree = "<group>"; };
+		9F18E0A3178A155C003D41F0 /* medals3g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medals3g.png; sourceTree = "<group>"; };
 		9F198A9C175ED9C40014B90B /* UIBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIBar.png; sourceTree = "<group>"; };
 		9F198A9D175ED9C40014B90B /* UICircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UICircle.png; sourceTree = "<group>"; };
 		9F198AA0175EDB0B0014B90B /* ShopContentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopContentLayer.h; sourceTree = "<group>"; };
@@ -997,7 +1032,15 @@
 		50F414EB1069373D002A0D5E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9F18E09F178A14D4003D41F0 /* medals.png */,
+				9F18E0A0178A14E9003D41F0 /* medals1.png */,
+				9F18E0A1178A14F6003D41F0 /* medals2.png */,
+				9F18E0A2178A150D003D41F0 /* medals3.png */,
+				9F18E0A3178A155C003D41F0 /* medals3g.png */,
 				9F5836541776A41F00179228 /* bearscut.mp3 */,
+				9F18E0991780CFFC003D41F0 /* RetryB.png */,
+				9F18E09D17824929003D41F0 /* girl.png */,
+				9F18E09A1780D003003D41F0 /* ShopB.png */,
 				9F198ABD1768A08B0014B90B /* bearsssss.plist */,
 				9F198ABE1768A08B0014B90B /* bearsssss.png */,
 				9F198AA51766DD5C0014B90B /* left.png */,
@@ -1005,6 +1048,8 @@
 				9F16B3AB177164230008E4E0 /* bgtree.png */,
 				9F16B3AC177164260008E4E0 /* MultipleBox.png */,
 				9F16B3AD1771642A0008E4E0 /* MultipleButton.png */,
+				9F18E0921780B7E2003D41F0 /* collider.jpg */,
+				9F18E0931780B7E9003D41F0 /* lab.jpg */,
 				9FDA21F51662D755000D7BF0 /* 0.png */,
 				9F2B837E166066900088324A /* 1.png */,
 				9F2B837F166066900088324A /* 2.png */,
@@ -1123,6 +1168,10 @@
 				9F18E0841776D692003D41F0 /* LaunchLayer.m */,
 				9FFF1CE7177695CC001A61C7 /* BearLayer.h */,
 				9FFF1CE8177695CC001A61C7 /* BearLayer.m */,
+				9F18E08F177FB20B003D41F0 /* MCLayer.h */,
+				9F18E090177FB20D003D41F0 /* MCLayer.m */,
+				9F18E0961780CE76003D41F0 /* EndRunLayer.h */,
+				9F18E0971780CE78003D41F0 /* EndRunLayer.m */,
 			);
 			name = layers;
 			sourceTree = "<group>";
@@ -1130,6 +1179,9 @@
 		9FBAD13D1644B8E1007A93A3 /* sound */ = {
 			isa = PBXGroup;
 			children = (
+				9F18E08D177AA891003D41F0 /* hit.mp3 */,
+				9F18E08B177AA889003D41F0 /* hit.wav */,
+				9F18E089177AA2F3003D41F0 /* hit.mp3 */,
 				9FBAD13E1644B8E1007A93A3 /* cartoon004.mp3 */,
 				9FBAD13F1644B8E1007A93A3 /* cartoon008.mp3 */,
 				9FBAD1401644B8E1007A93A3 /* cartoon015.mp3 */,
@@ -1184,11 +1236,11 @@
 				9FEDF0B51623DDB8006A5E35 /* Rocket.m */,
 				9FEDF0B71623DDC8006A5E35 /* Spin.h */,
 				9FEDF0B81623DDC8006A5E35 /* Spin.m */,
-				9FEDF0BA1623DDE0006A5E35 /* PCoin.h */,
 				9FEDF0BB1623DDE0006A5E35 /* PCoin.m */,
 				9FEDF0BD1623DDF3006A5E35 /* Bonus.h */,
 				9FEDF0BE1623DDF3006A5E35 /* Bonus.m */,
 				9FEDF0C01623DE0D006A5E35 /* Quiz.h */,
+				9FEDF0BA1623DDE0006A5E35 /* PCoin.h */,
 				9FEDF0C11623DE0E006A5E35 /* Quiz.m */,
 				9FEDF0C3162BE191006A5E35 /* Ride.h */,
 				9FEDF0C4162BE193006A5E35 /* Ride.m */,
@@ -1196,6 +1248,8 @@
 				9FEDF0C7162D09A3006A5E35 /* Energy.m */,
 				9F7258B21664826000B8C80E /* Cloud.h */,
 				9F7258B31664826100B8C80E /* Cloud.m */,
+				9F18E08617781220003D41F0 /* Hole.h */,
+				9F18E08717781220003D41F0 /* Hole.m */,
 			);
 			name = Powerups;
 			sourceTree = "<group>";
@@ -1689,6 +1743,19 @@
 				9F16B3AF1771642C0008E4E0 /* MultipleBox.png in Resources */,
 				9F16B3B01771642C0008E4E0 /* MultipleButton.png in Resources */,
 				9F5836551776A41F00179228 /* bearscut.mp3 in Resources */,
+				9F18E08A177AA30A003D41F0 /* hit.mp3 in Resources */,
+				9F18E08C177AA88B003D41F0 /* hit.wav in Resources */,
+				9F18E08E177AA893003D41F0 /* hit.mp3 in Resources */,
+				9F18E0941780B802003D41F0 /* collider.jpg in Resources */,
+				9F18E0951780B802003D41F0 /* lab.jpg in Resources */,
+				9F18E09B1780D013003D41F0 /* RetryB.png in Resources */,
+				9F18E09C1780D013003D41F0 /* ShopB.png in Resources */,
+				9F18E09E17824931003D41F0 /* girl.png in Resources */,
+				9F18E0A4178A1592003D41F0 /* medals.png in Resources */,
+				9F18E0A5178A1592003D41F0 /* medals1.png in Resources */,
+				9F18E0A6178A1592003D41F0 /* medals2.png in Resources */,
+				9F18E0A7178A1593003D41F0 /* medals3.png in Resources */,
+				9F18E0A8178A1593003D41F0 /* medals3g.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1743,6 +1810,9 @@
 				9F198AA2175EDB0B0014B90B /* ShopContentLayer.m in Sources */,
 				9FFF1CE9177695CD001A61C7 /* BearLayer.m in Sources */,
 				9F18E0851776D692003D41F0 /* LaunchLayer.m in Sources */,
+				9F18E08817781220003D41F0 /* Hole.m in Sources */,
+				9F18E091177FB20F003D41F0 /* MCLayer.m in Sources */,
+				9F18E0981780CE7A003D41F0 /* EndRunLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2004,6 +2074,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
@@ -2012,9 +2083,10 @@
 				);
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2030,13 +2102,15 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;

@@ -19,6 +19,8 @@
     AVAudioPlayer *bearPlayer;
     CCAction *walkAction;
     CCAction *moveAction;
+    bool addEndLayer;
 }
 -(id) init:(GameState*)gs;
+-(void) stopMusic;
 @end

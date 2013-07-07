@@ -18,6 +18,7 @@
 
 - (id) initSelf{
     imgName=@"microscope.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     self.powStr=@"rocketLevel";
     self.freqStr=@"rocketFreq";
@@ -35,6 +36,7 @@
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.rocket++;
     gameState.achEng.totrocket++;
+    
     //_body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y)+power,0));
     gameState.rocketTime=10;
     //_body->SetAngularVelocity(0);

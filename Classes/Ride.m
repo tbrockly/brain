@@ -24,6 +24,7 @@
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon016" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     imgName=@"light.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     self.scale=.5;
     return self;
@@ -33,7 +34,8 @@
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.ride++;
     gameState.achEng.totride++;
-    //gamestate.setVX
+    [gameState setVx:(gameState.vx+fabs(gameState.vy))];
+    [gameState setVy:(100)];
     //_body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y),0));
     gameState.zerograv=power+4;
     self.position=ccp(self.position.x-2000, 0);

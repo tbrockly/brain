@@ -20,7 +20,10 @@
 #import "CoinShield.h"
 #import "RollShield.h"
 #import "Level1.h"
+#import "Level2.h"
 #import "Achievement.h"
+#import "ShopHome.h"
+
 #define PTM_RATIO 150.0
 
 #define pi 3.14
@@ -57,7 +60,7 @@
         _hudLayer = [[HudLayer alloc] init:gameState];
         [self addChild:[CCColorLayer layerWithColor:ccc4(124,106,128,255)] z:1];
         [self addChild:lay z:5];
-        [self addChild:_hudLayer z:10];
+        [self addChild:_hudLayer z:9];
 
         achieves=[[NSMutableArray alloc] init];
         completeAchieves=[[NSMutableArray alloc] init];
@@ -121,18 +124,44 @@
     return _hudLayer;
 }
 
+- (void)stopBearMusic{
+    return [bearLayer stopMusic];
+}
+
 -(void)addTotal{
     //TotalLayer* tt = [[TotalLayer alloc] init:gameState];
     lay.visible=0;
     _hudLayer.visible=0;
-    BearLayer* tt = [[BearLayer alloc] init:gameState];
-    [self addChild:tt z:10];
+    bearLayer = [[BearLayer alloc] init:gameState];
+    [self addChild:bearLayer z:10];
+}
+
+- (void)restart{
+    [self removeChild:lay cleanup:YES];
+    [self removeChild:_hudLayer cleanup:YES];
+    [self removeChild:shopHome cleanup:YES];
+    [self removeChild:bearLayer cleanup:YES];
+    lay = [Level1 initNode:gameState];
+    _hudLayer = [[HudLayer alloc] init:gameState];
+    [self addChild:lay z:5];
+    [self addChild:_hudLayer z:9];
+}
+
+
+- (void)goToShop{
+    [self removeChild:lay cleanup:YES];
+    [self removeChild:_hudLayer cleanup:YES];
+    [self removeChild:shopHome cleanup:YES];
+    [self removeChild:bearLayer cleanup:YES];
+    shopHome = [[ShopHome alloc] init:gameState];
+
+    [self addChild:shopHome z:10];
 }
 
 - (void)startLvl2:(GameState *)gs{
     [self removeChild:lay cleanup:YES];
     gameState=gs;
-    //lay = [Level2 initNode:gs];
+    lay = [Level2 initNode:gs];
     [self addChild:lay z:5];
 }
 

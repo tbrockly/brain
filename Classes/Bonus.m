@@ -22,6 +22,7 @@
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusLevel"];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusFreq"]*1000;
     imgName=@"Kawaii-Popsicle.gif";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon015" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );

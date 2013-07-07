@@ -20,6 +20,7 @@
 #import "Energy.h"
 #import "Cloud.h"
 #import "Shield.h"
+#import "Hole.h"
 #import "BounceShield.h"
 #import "BoostShield.h"
 #import "CoinShield.h"
@@ -49,7 +50,7 @@
 @end
 
 @implementation TitleLayer
-@synthesize onePlayer, shopSprite, gameState;
+@synthesize girl, gameState;
 -(id) init
 {
 	if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
@@ -132,6 +133,10 @@
         cPow.position=ccp(-1000,50);
         [gameState.powerups addObject:cPow];
         
+        Hole *hole=[[Hole alloc] initSelf];
+        hole.position=ccp(-1000,50);
+        [gameState.powerups addObject:hole];
+        
         gameState.shields=[[NSMutableArray alloc] init];
         BounceShield *bounceShld=[[BounceShield alloc] initSelf];
         [gameState.shields addObject:bounceShld];
@@ -151,15 +156,15 @@
         [gameState.globalParams addObject:bounce];
         
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-        onePlayer = [CCSprite spriteWithFile:@"Title.png"];
-        onePlayer.scale=.5;
-		onePlayer.position = ccp(winSize.width/2, winSize.height/2);
-        [self addChild:onePlayer];
-        
-		shopSprite = [CCSprite spriteWithFile:@"super_mario_coin.png"];
-        shopSprite.scale=1;
-        shopSprite.position = ccp(winSize.width/8, winSize.height/8);
-		[self addChild:shopSprite];
+        title = [[CCLabelTTF alloc] initWithString:@"Brainball lol" fontName:@"Verdana" fontSize:20];
+        //onePlayer.scale=;
+        title.color=ccBLACK;
+		title.position = ccp(winSize.width/4, winSize.height/2);
+        [self addChild:title];
+        girl = [CCSprite spriteWithFile:@"girl.png"];
+        girl.scale=.5;
+		girl.position = ccp(winSize.width-100, winSize.height/2);
+        [self addChild:girl];
         
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile: @"bearsssss.plist"];
         
@@ -186,22 +191,24 @@
 	return self;
 }
 
+-(void) load{
+    title.string=@"Loading......";
+}
+
+-(void) startMe{
+    [[CCDirector sharedDirector] pushScene:[GameScene initNode:gameState]];
+}
+
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	// Choose one of the touches to work with
     if([gameState state] ==10){
-        UITouch *touch = [touches anyObject];
-        CGPoint location = [touch locationInView:[touch view]];
-        location = [[CCDirector sharedDirector] convertToGL:location];
+        [self runAction:[CCSequence actions:
+                         [CCCallFuncN actionWithTarget:self selector:@selector(load)],
+                         [CCDelayTime actionWithDuration:.5],
+                         [CCCallFuncN actionWithTarget:self selector:@selector(startMe)],
+                        nil]];
         
-        if (CGRectContainsPoint(shopSprite.boundingBox,location)) {
-            //[gameState setState:-10];
-            ShopHome *q = [[ShopHome alloc] init:gameState];
-            self.isTouchEnabled=NO;
-            [q setParentLayer:self];
-            [self.parent addChild:q z:10];
-        }else if (CGRectContainsPoint(onePlayer.boundingBox,location)) {
-            [[CCDirector sharedDirector] pushScene:[GameScene initNode:gameState]];
-        }
+            
     }
 
 }

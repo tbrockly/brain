@@ -16,16 +16,22 @@
     CCSprite *audioBtn,*card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*coinIcon,*eng;
     UITextField *answer;
     @public GameState *gameState;
-    NSMutableArray *coins;
+    NSMutableArray *coins, *brains;
     int score;
     CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab;
     AVAudioPlayer *hudplayer;
+    CGPoint firstTouch;
+    int brainimg;
 }
 @property (nonatomic, retain) CCSprite * brain;
 
 -(void)resumeGame;
 -(void)drawArrows;
 -(void)drawCard;
+-(void)brainbounce;
+-(void)braingrr;
+-(void)brainsplat;
 -(void)pushQuiz;
+-(void)pushEnd;
 -(id) init:(GameState*)myGameState;
 @end

@@ -6,6 +6,7 @@
 #import "HudLayer.h"
 #import "GameState.h"
 #import "TotalLayer.h"
+#import "ShopHome.h"
 #import "BearLayer.h"
 #import "Level1.h"
 #import "SimpleAudioEngine.h"
@@ -45,6 +46,7 @@
     Level1 *lay;
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
+    ShopHome *shopHome;
     TotalLayer *_totalLayer;
     BearLayer *bearLayer;
     BOOL runAI;
@@ -61,9 +63,11 @@
 @property (nonatomic, retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves;
 - (HudLayer*) getHud;
 -(void)startLvl2:(GameState*) gs;
+-(void)restart;
 -(void)addTotal;
 -(void)showGame;
 -(void)hideGame;
+-(void)stopBearMusic;
 + (id) initNode:(GameState*) gs;
 - (id) initWithMonsters:(GameState*) gs;
 @end

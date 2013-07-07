@@ -10,21 +10,21 @@
 #import "cocos2d.h"
 #import "GameState.h"
 
-@interface LaunchScene : CCScene {
+@interface MCScene : CCScene {
 }
 - (id)init:(GameState*)gs;
 @end
 
-@interface LaunchLayer : CCColorLayer {
-    CCSprite *n1,*n2,*n3,*n4,*n5,*nn1,*nn2,*nn3,*nn4,*selected;
-    CCSprite *btn1,*btn2,*btn3,*btn4,*correct,*wrong;
+@interface MCLayer : CCColorLayer {
+    CCSprite *oneLevel,*n1,*n2,*n3,*n4,*n5,*nn1,*nn2,*nn3,*nn4,*p0,*p1,*p2,*p3,*p4,*p5,*p6,*p7,*p8,*p9,*s1,*s2,*s3,*s4,*s5,*bg,*bg2,*selected;
+    UITextField *answer;
 @public GameState *gameState;
     int booster;
     int selectNum,ss1,ss2,ss3,ss4,ss5;
-    int num1, num2, answer, answers[4], correctNum, mathType,timer, popTimer;
+    int num1, num2, mathType,timer, popTimer;
     CCLabelTTF *num1l,*timeLab;
-    CCLabelTTF *lol1,*lol2,*lol3,*lol4;
 }
--(id) init:(GameState *) gs;
+- (CCSprite*) getTagForInt:(int)i;
+- (void)setNumPositions;
 @end
 

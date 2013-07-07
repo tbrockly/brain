@@ -22,6 +22,7 @@
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
     imgName=@"tubey.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     self.scale=.8;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon008" ofType:@"mp3"];
@@ -33,6 +34,7 @@
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.boost++;
     gameState.achEng.totboost++;
+    [gameState setBoost:power+1];
     //float vx=_body->GetLinearVelocity().x;
     //float vy=_body->GetLinearVelocity().y < 0.0 ?0.0:_body->GetLinearVelocity().y;
     //_body->SetLinearVelocity(b2Vec2(vx+power/2,fabs(vy)+power/2));

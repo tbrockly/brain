@@ -22,6 +22,7 @@
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"energyLevel"];
     self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"energyFreq"]*1000;
     imgName=@"lightning-icon.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon019" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );

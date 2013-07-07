@@ -39,10 +39,9 @@
         but3=[CCColorLayer layerWithColor:ccc4(200, 100, 100, 0) width:100 height:100];
         [but3 setPosition:ccp(340,170)];
         [self addChild:but3];
-		oneLevel = [CCSprite spriteWithFile:@"HeadItemside.png"];
-        oneLevel.scale=.5;
+		oneLevel = [CCSprite spriteWithFile:@"RetryB.png"];
 		[self addChild:oneLevel];
-        oneLevel.position = ccp(20, 20);
+        oneLevel.position = ccp(50, 30);
 
         gameState=gs;
         xpLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]]
@@ -99,11 +98,12 @@
     location = [[CCDirector sharedDirector] convertToGL:location];
     if (CGRectContainsPoint(oneLevel.boundingBox,location)) {
         //[gameState setState:-[gameState state]];
-        parentLayer.isTouchEnabled=YES;
-        [self.parent removeChild:self cleanup:TRUE];
-        [myTable removeFromSuperview];
-        [[CCDirector sharedDirector] resume];
+        //parentLayer.isTouchEnabled=YES;
+        //[self.parent removeChild:self cleanup:TRUE];
+        //[myTable removeFromSuperview];
+        //[[CCDirector sharedDirector] resume];
         //[self dealloc];
+        [self.parent restart];
     }
     if (CGRectContainsPoint(but1.boundingBox,location)) {
         XPShop *q = [[XPShop alloc] init:gameState];

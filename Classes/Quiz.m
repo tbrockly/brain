@@ -20,8 +20,9 @@
     self.name=@"Quiz";
     self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"quizLevel"];
-    self.freq=1000;//0-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
+    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
     imgName=@"light.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon004" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );

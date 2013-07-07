@@ -22,6 +22,7 @@
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"coinLevel"];
     self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"coinFreq"]*1000;
     imgName=@"super_mario_coin.png";
+    [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
     self.scale=1;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon019" ofType:@"mp3"];

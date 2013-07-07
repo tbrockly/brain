@@ -11,11 +11,10 @@
 
 @interface TitleLayer : CCColorLayer {
     CCSprite *onePlayer;
-    CCSprite *shopSprite;
+    CCLabelTTF *title;
     GameState *gameState;
 }
-@property (nonatomic, retain) CCSprite *onePlayer;
-@property (nonatomic, retain) CCSprite *shopSprite;
+@property (nonatomic, retain) CCSprite *girl;
 @property (nonatomic, retain) GameState *gameState;
 @property (nonatomic, strong) CCSprite *bear;
 @property (nonatomic, strong) CCAction *walkAction;

@@ -16,7 +16,7 @@
 @property int boost,score,charge;
 @property int rocketTime,quizTime,zerograv,spinPower;
 @property int topSpeed, coins;
-@property float scale,speed,vx,vy,dx,dy,ax,ay;
+@property float scale,speed,vx,vy,dx,dy,ax,ay,rot,vrot;
 @property (nonatomic,retain) AchievementEngine * achEng;
 @property (nonatomic,retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves, *globalParams;
 
