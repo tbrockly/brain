@@ -18,10 +18,11 @@
     @public GameState *gameState;
     NSMutableArray *coins, *brains;
     int score;
-    CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab;
+    CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab, *highScoreLab;
     AVAudioPlayer *hudplayer;
     CGPoint firstTouch;
     int brainimg;
+    int highscore;
 }
 @property (nonatomic, retain) CCSprite * brain;
 

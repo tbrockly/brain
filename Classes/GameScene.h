@@ -9,6 +9,7 @@
 #import "ShopHome.h"
 #import "BearLayer.h"
 #import "Level1.h"
+#import "LevelSelect.h"
 #import "SimpleAudioEngine.h"
 #include <AudioToolbox/AudioToolbox.h>
 
@@ -47,6 +48,7 @@
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
     ShopHome *shopHome;
+    LevelSelect *levelSelect;
     TotalLayer *_totalLayer;
     BearLayer *bearLayer;
     BOOL runAI;
@@ -60,7 +62,6 @@
 @property int topSpeed, coins;
 @property float scale,speed;
 @property (nonatomic, retain) AchievementEngine * achEng;
-@property (nonatomic, retain) NSMutableArray *shields, *powerups, *achieves,*displayAchieves, *completeAchieves;
 - (HudLayer*) getHud;
 -(void)startLvl2:(GameState*) gs;
 -(void)restart;

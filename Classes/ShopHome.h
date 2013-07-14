@@ -12,7 +12,7 @@
 #import "MainTableView.h"
 
 @interface ShopHome : CCColorLayer <UITextFieldDelegate>{
-    CCSprite *oneLevel;
+    CCSprite *oneLevel, *back;
     CCSprite *shopBG,*but1,*but2,*but3;
     GameState *gameState;
     CCColorLayer *parentLayer, *xpBar;

@@ -1,8 +1,8 @@
 //
-//  EndRunLayer.h
+//  CountdownLayer.h
 //  Cocos2DSimpleGame
 //
-//  Created by Ted on 6/30/13.
+//  Created by Ted on 7/10/13.
 //
 //
 
@@ -10,13 +10,13 @@
 #import "cocos2d.h"
 #import "GameState.h"
 
-@interface EndRunLayer : CCColorLayer{
-    CCSprite *shop;
-    CCSprite *restart, *back;
-    CCSprite *girl;
-    CCLabelTTF *goodRun;
+@interface CountdownLayer : CCColorLayer{
+    CCSprite *reds;
+    CCSprite *blues;
+    CCSprite *greens;
     GameState *gameState;
     int booster;
 }
 -(id) init:(GameState *) gs;
+-(void) countdown;
 @end

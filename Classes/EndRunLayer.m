@@ -24,11 +24,14 @@
         girl.position = ccp(400,160);
         [self addChild:girl];
 		shop = [CCSprite spriteWithFile:@"ShopB.png"];
-        shop.position = ccp(220,100);
+        shop.position = ccp(300,100);
         [self addChild:shop];
         restart = [CCSprite spriteWithFile:@"RetryB.png"];
-        restart.position = ccp(100, 100);
+        restart.position = ccp(200, 100);
         [self addChild:restart];
+        back = [CCSprite spriteWithFile:@"BackButton.png"];
+        back.position = ccp(100, 100);
+        [self addChild:back];
 	}
 	return self;
 }
@@ -49,6 +52,13 @@
             [gameState setState:0];
             //[self.parent removeChild:self cleanup:TRUE];
             [self.parent.parent restart];
+            [self.parent removeChild:self cleanup:TRUE];
+            //[[CCDirector sharedDirector] popScene];
+        }
+        if (CGRectContainsPoint(back.boundingBox,location)) {
+            [gameState setState:0];
+            //[self.parent removeChild:self cleanup:TRUE];
+            [self.parent.parent goToLevelSelect];
             [self.parent removeChild:self cleanup:TRUE];
             //[[CCDirector sharedDirector] popScene];
         }

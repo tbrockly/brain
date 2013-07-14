@@ -107,6 +107,11 @@
 		9F2B838D166066940088324A /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B8384166066920088324A /* 7.png */; };
 		9F2B838E166066940088324A /* 8.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B8385166066920088324A /* 8.png */; };
 		9F2B838F166066940088324A /* 9.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B8386166066930088324A /* 9.png */; };
+		9F3CE8CD178A679600721FDE /* LevelSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CE8CC178A679600721FDE /* LevelSelect.m */; };
+		9F3CE8D0178A72C000721FDE /* LevelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CE8CF178A72C000721FDE /* LevelData.m */; };
+		9F3CE8D3178D132600721FDE /* LevelScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CE8D2178D132500721FDE /* LevelScore.m */; };
+		9F3CE8D6178DD54100721FDE /* CountdownLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CE8D5178DD54000721FDE /* CountdownLayer.m */; };
+		9F3CE8D817921E1900721FDE /* BackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3CE8D717921E1900721FDE /* BackButton.png */; };
 		9F5836551776A41F00179228 /* bearscut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9F5836541776A41F00179228 /* bearscut.mp3 */; };
 		9F61E65715FDB2740093A596 /* PauseLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F61E65615FDB2740093A596 /* PauseLayer.m */; };
 		9F7258A716630DA000B8C80E /* ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7258A516630DA000B8C80E /* ok.png */; };
@@ -503,6 +508,15 @@
 		9F2B8384166066920088324A /* 7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7.png; sourceTree = "<group>"; };
 		9F2B8385166066920088324A /* 8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 8.png; sourceTree = "<group>"; };
 		9F2B8386166066930088324A /* 9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 9.png; sourceTree = "<group>"; };
+		9F3CE8CB178A679600721FDE /* LevelSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelSelect.h; sourceTree = "<group>"; };
+		9F3CE8CC178A679600721FDE /* LevelSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelSelect.m; sourceTree = "<group>"; };
+		9F3CE8CE178A72C000721FDE /* LevelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelData.h; sourceTree = "<group>"; };
+		9F3CE8CF178A72C000721FDE /* LevelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelData.m; sourceTree = "<group>"; };
+		9F3CE8D1178D132300721FDE /* LevelScore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelScore.h; sourceTree = "<group>"; };
+		9F3CE8D2178D132500721FDE /* LevelScore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelScore.m; sourceTree = "<group>"; };
+		9F3CE8D4178DD54000721FDE /* CountdownLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownLayer.h; sourceTree = "<group>"; };
+		9F3CE8D5178DD54000721FDE /* CountdownLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownLayer.m; sourceTree = "<group>"; };
+		9F3CE8D717921E1900721FDE /* BackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackButton.png; sourceTree = "<group>"; };
 		9F5836541776A41F00179228 /* bearscut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bearscut.mp3; sourceTree = "<group>"; };
 		9F61E65515FDB2740093A596 /* PauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseLayer.h; sourceTree = "<group>"; };
 		9F61E65615FDB2740093A596 /* PauseLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseLayer.m; sourceTree = "<group>"; };
@@ -921,6 +935,10 @@
 				1F3B9A2B0EF2145700286867 /* Cocos2DSimpleGameAppDelegate.m */,
 				9FEDF0D91633DEBE006A5E35 /* Achievement.h */,
 				9FEDF0DA1633DEC1006A5E35 /* Achievement.m */,
+				9F3CE8CE178A72C000721FDE /* LevelData.h */,
+				9F3CE8CF178A72C000721FDE /* LevelData.m */,
+				9F3CE8D1178D132300721FDE /* LevelScore.h */,
+				9F3CE8D2178D132500721FDE /* LevelScore.m */,
 				9FEDF0A61622A6C3006A5E35 /* AchievementEngine.h */,
 				9FEDF0D71633CFBE006A5E35 /* AchievementEngine.m */,
 			);
@@ -1033,6 +1051,7 @@
 			isa = PBXGroup;
 			children = (
 				9F18E09F178A14D4003D41F0 /* medals.png */,
+				9F3CE8D717921E1900721FDE /* BackButton.png */,
 				9F18E0A0178A14E9003D41F0 /* medals1.png */,
 				9F18E0A1178A14F6003D41F0 /* medals2.png */,
 				9F18E0A2178A150D003D41F0 /* medals3.png */,
@@ -1150,6 +1169,8 @@
 				9F7258B8166C513900B8C80E /* TotalLayer.m */,
 				9FC6DBC91747FE8400441A57 /* ShopHome.h */,
 				9FC6DBCA1747FE8600441A57 /* ShopHome.m */,
+				9F3CE8CB178A679600721FDE /* LevelSelect.h */,
+				9F3CE8CC178A679600721FDE /* LevelSelect.m */,
 				9FC6DBCC174812DB00441A57 /* XPShop.h */,
 				9FC6DBCD174812DC00441A57 /* XPShop.m */,
 				9F198AA0175EDB0B0014B90B /* ShopContentLayer.h */,
@@ -1172,6 +1193,8 @@
 				9F18E090177FB20D003D41F0 /* MCLayer.m */,
 				9F18E0961780CE76003D41F0 /* EndRunLayer.h */,
 				9F18E0971780CE78003D41F0 /* EndRunLayer.m */,
+				9F3CE8D4178DD54000721FDE /* CountdownLayer.h */,
+				9F3CE8D5178DD54000721FDE /* CountdownLayer.m */,
 			);
 			name = layers;
 			sourceTree = "<group>";
@@ -1756,6 +1779,7 @@
 				9F18E0A6178A1592003D41F0 /* medals2.png in Resources */,
 				9F18E0A7178A1593003D41F0 /* medals3.png in Resources */,
 				9F18E0A8178A1593003D41F0 /* medals3g.png in Resources */,
+				9F3CE8D817921E1900721FDE /* BackButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1813,6 +1837,10 @@
 				9F18E08817781220003D41F0 /* Hole.m in Sources */,
 				9F18E091177FB20F003D41F0 /* MCLayer.m in Sources */,
 				9F18E0981780CE7A003D41F0 /* EndRunLayer.m in Sources */,
+				9F3CE8CD178A679600721FDE /* LevelSelect.m in Sources */,
+				9F3CE8D0178A72C000721FDE /* LevelData.m in Sources */,
+				9F3CE8D3178D132600721FDE /* LevelScore.m in Sources */,
+				9F3CE8D6178DD54100721FDE /* CountdownLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

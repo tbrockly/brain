@@ -8,22 +8,51 @@
 
 #import "GameState.h"
 #import "Achievement.h"
+#import "LevelData.h"
+#import "LevelScore.h"
 
 @implementation GameState
 @synthesize state,comboTimer,comboVal;
-@synthesize boost,score,charge;
+@synthesize boost,score,charge, currLevel;
 @synthesize scale,vx,vy,dx,dy,ax,ay;
 @synthesize rocketTime,quizTime, zerograv, speed, spinPower;
-@synthesize achEng, topSpeed, coins, achieves, displayAchieves, completeAchieves;
+@synthesize achEng, topSpeed, coins, achieves, levels, levelScores, displayAchieves, completeAchieves;
 @synthesize powerups, shields, globalParams;
 
 - (id)init
 {
     self = [super init];
     if (self) {
+        levels=[[NSMutableArray alloc] init];
+        levelScores=[[NSMutableArray alloc] init];
         achieves=[[NSMutableArray alloc] init];
         completeAchieves=[[NSMutableArray alloc] init];
         displayAchieves=[[NSMutableArray alloc] init];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levels addObject:[[LevelData alloc] initWithName:@"lol" bronze:10000 silver:50000 gold:100000]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        [levelScores addObject:[[LevelScore alloc] initWithScore:0]];
+        
         [achieves addObject:[[Achievement alloc] initWithTitle:@"score 25k" xp:9001 icon:1 var1:@"score" val1:25000]];
         [achieves addObject:[[Achievement alloc] initWithTitle:@"score 50k" xp:9001 icon:1 var1:@"score" val1:50000]];
         [achieves addObject:[[Achievement alloc] initWithTitle:@"score 100k" xp:9001 icon:1 var1:@"score" val1:100000]];

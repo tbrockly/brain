@@ -29,6 +29,7 @@
 #import "CoinShield.h"
 #import "RollShield.h"
 #import "GlobalParam.h"
+#import "LevelScore.h"
 #define PTM_RATIO 150.0
 
 #define pi 3.14
@@ -299,7 +300,7 @@ int i=0;
         bg2.position=ccp(bg2.position.x-mov, bg2.position.y);
         float r=MAX(MIN(200-[gameState dy]*.06,100), MAX(200-[gameState dy]*.08, 0));
         float g=MAX(200-[gameState dy]*.08, 0);
-        float b=MAX(255-[gameState dy]*.06, 0);
+        float b=MAX(MIN(255-[gameState dy]*.06, 255), 0);
         skyLayer.color=ccc3(r, g, b);
         //skyLayer.position=ccp([gameState dx],[gameState dy]);
         if(bg1.position.x<-500){
@@ -331,6 +332,11 @@ int i=0;
             if([gameState vy] <100 && [gameState vy] >-100 && [gameState vx] <100){
                 [[self.parent getHud] brainsplat];
                 [gameState setState:99];
+                LevelScore *hiScore=[[gameState levelScores] objectAtIndex:[gameState currLevel]];
+                if(hiScore.score<[gameState score]){
+                    [hiScore setScore:[gameState score]];
+                }
+                
                 [self runAction:[CCSequence actions:
                                  [CCDelayTime actionWithDuration:3],
                                  [CCCallFuncN actionWithTarget:[self.parent getHud] selector:@selector(pushEnd)],

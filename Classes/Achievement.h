@@ -19,6 +19,8 @@
 @property int xp;
 @property int icon;
 
+
+
 -(id)initWithTitle:(NSString*)titleIn xp:(int)xpIn icon:(int)iconIn var1:(NSString*)var1in val1:(int)val1in ;
 
 @end

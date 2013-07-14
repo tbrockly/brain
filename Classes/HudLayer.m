@@ -13,6 +13,9 @@
 #import "QuizLayer.h"
 #import "EndRunLayer.h"
 #import "SimpleAudioEngine.h"
+#import "CountdownLayer.h"
+#import "LevelData.h"
+#import "LevelScore.h"
 #include <AudioToolbox/AudioToolbox.h>
 
 @implementation HudLayer
@@ -50,12 +53,20 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         arrowVV.scale=.5;
         arrowVV.position=ccp(380,10);
         [self addChild:arrowVV z:20];
+        LevelScore *hiScore=[[gameState levelScores] objectAtIndex:[gameState currLevel]];
+        highscore=hiScore.score;
 		scoreLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.score]
                                         fontName:@"Futura" 
                                         fontSize:15];
         [scoreLab setColor:ccBLACK];
         [self addChild:scoreLab z:20];
         scoreLab.position=ccp(300,10);
+        highScoreLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"Record: %i",highscore]
+                                           fontName:@"Futura"
+                                           fontSize:15];
+        [highScoreLab setColor:ccWHITE];
+        [self addChild:highScoreLab z:20];
+        highScoreLab.position=ccp(300,30);
         chargeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.charge]
                                            fontName:@"Futura" 
                                            fontSize:15];
@@ -130,14 +141,15 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         
         //[gameState setState:2];
         [gameState setState:1];
-        [self runAction:[CCSequence actions:
-                         [CCCallFuncN actionWithTarget:self selector:@selector(pushLaunch)],
-                         [CCDelayTime actionWithDuration:1],
-                         [CCDelayTime actionWithDuration:1.2],
-                         [CCCallFuncN actionWithTarget:self.parent selector:@selector(showGame)],
-                         
-                         //[CCCallFuncN actionWithTarget:self selector:@selector(resumeGame)],
-                         nil]];
+        [self runAction:[CCCallFuncN actionWithTarget:self selector:@selector(pushCountdown)]];
+//        [self runAction:[CCSequence actions:
+//                         ,
+//                         [CCDelayTime actionWithDuration:1],
+//                         [CCDelayTime actionWithDuration:1.2],
+//                         [CCCallFuncN actionWithTarget:self.parent selector:@selector(showGame)],
+//                         
+//                         //[CCCallFuncN actionWithTarget:self selector:@selector(resumeGame)],
+//                         nil]];
         [self schedule:@selector(tick:)];
         float pos=160+[gameState vy]/100;
         if([gameState dy] <240 && pos > 50+[gameState dy]*.5){
@@ -146,6 +158,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
             brain.position=ccp(160,pos);
         }
         brainimg=0;
+        
 	}	
 	return self;
 }
@@ -203,6 +216,11 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 }
 -(void)resumeGame{
     [gameState setState:0];
+}
+
+-(void)pushCountdown{
+    CountdownLayer *lol=[[CountdownLayer alloc] init:gameState];
+    [self addChild: lol z:10];
 }
 
 -(void)pushEnd{
@@ -321,6 +339,8 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         }
     chargeLab.string=[NSString stringWithFormat:@"%i",gameState.charge];
     scoreLab.string=[NSString stringWithFormat:@"%i",gameState.score];
+    LevelData *currLvl=[gameState.levels objectAtIndex:[gameState currLevel]];
+    if(gameState.score>[currLvl bronze] )
     speedLab.string=[NSString stringWithFormat:@"%.1f",gameState.speed];
 }
 
