@@ -32,6 +32,6 @@
 @property (nonatomic, retain) NSString *freqStr;
 -(id) initSelf;
 - (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist;
--(void)updatePosition:(CGPoint)ballpos;
+-(void)updatePosition:(GameState*)gs;
 -(void)collide:(GameState*)gs;
 @end

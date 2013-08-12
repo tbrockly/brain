@@ -8,7 +8,6 @@
 
 #import "TitleScene.h"
 #import "GameScene.h"
-#import "ShopHome.h"
 #import "Powerup.h"
 #import "Boost.h"
 #import "Rocket.h"
@@ -63,8 +62,6 @@
             [defaults2 setInteger:0 forKey:@"curxp"];
             [defaults2 setInteger:50 forKey:@"tonext"];
             [defaults2 setInteger:1 forKey:@"airResist"];
-            [defaults2 setInteger:1 forKey:@"enemyFreq"];
-            [defaults2 setInteger:1 forKey:@"quizFreq"];
             [defaults2 setInteger:1 forKey:@"enemyBoost"];
             [defaults2 setInteger:1 forKey:@"quizBoost"];
             [defaults2 setInteger:1 forKey:@"WorldGravity"];
@@ -73,18 +70,15 @@
             [defaults2 setInteger:1 forKey:@"friction"];
             [defaults2 setInteger:1 forKey:@"quizDifficulty"];
             [defaults2 setInteger:1 forKey:@"topSpeed"];
-            [defaults2 setInteger:4 forKey:@"charge"];
+            [defaults2 setInteger:3 forKey:@"charge"];
             [defaults2 setInteger:1 forKey:@"airResist"];
-            [defaults2 setInteger:1 forKey:@"coinFreq"];
-            [defaults2 setInteger:1 forKey:@"energyFreq"];
-            [defaults2 setInteger:1 forKey:@"bonusFreq"];
-            [defaults2 setInteger:1 forKey:@"rocketFreq"];
             [defaults2 setInteger:1 forKey:@"coinLevel"];
             [defaults2 setInteger:1 forKey:@"boostLevel"];
             [defaults2 setInteger:1 forKey:@"energyLevel"];
-            [defaults2 setInteger:1000 forKey:@"gold"];
-            [defaults2 setInteger:1000 forKey:@"xp"];
-            [defaults2 setInteger:1000 forKey:@"brains"];
+            [defaults2 setInteger:1 forKey:@"bonusLevel"];
+            [defaults2 setInteger:200 forKey:@"gold"];
+            [defaults2 setInteger:200 forKey:@"xp"];
+            [defaults2 setInteger:200 forKey:@"brains"];
         }
 		// Enable touch events
 		self.isTouchEnabled = YES;

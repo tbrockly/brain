@@ -380,7 +380,8 @@ static CCTexture2DPixelFormat defaultAlphaPixelFormat_ = kCCTexture2DPixelFormat
 		[self release];
 		return nil;
 	}
-	
+    //todo REMOVE THIS LINE FOR ALIASING
+	CGContextSetAllowsAntialiasing(context, NO);
 	CGContextSetGrayFillColor(context, 1.0f, 1.0f);
 	CGContextTranslateCTM(context, 0.0f, POTHigh);
 	CGContextScaleCTM(context, 1.0f, -1.0f); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential

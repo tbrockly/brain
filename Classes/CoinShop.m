@@ -12,10 +12,8 @@
 #import "iosVC.h"
 #import "Powerup.h"
 #import "RootViewController.h"
-#import "CoinShopTable.h"
 
 @implementation CoinShop
-@synthesize parentLayer;
 
 
 #define degreesToRadians(x) (M_PI * x /180.0)
@@ -59,7 +57,7 @@
         shop=[[ShopContentLayer alloc] init:gameState];
         //shop.position=ccp(240*shop.pages,160);
         [self addChild:shop];
-        currpage=1;
+
         
         left=[[CCSprite alloc] initWithFile:@"left.png"];
         left.position=ccp(20,20);
@@ -94,16 +92,15 @@
     location = [[CCDirector sharedDirector] convertToGL:location];
     if (CGRectContainsPoint(oneLevel.boundingBox,location)) {
         //[gameState setState:-[gameState state]];
-        parentLayer.isTouchEnabled=YES;
+        //parentLayer.isTouchEnabled=YES;
+        [self.parent goToLevelSelect];
         [self.parent removeChild:self cleanup:TRUE];
-        [[CCDirector sharedDirector] resume];
+        //[[CCDirector sharedDirector] resume];
         //[self dealloc];
-    }else if (CGRectContainsPoint(left.boundingBox,location) && currpage>1) {
-        currpage--;
-        [shop runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.4 position:ccp(shop.position.x+480, shop.position.y)], nil, nil]];
-    }else if (CGRectContainsPoint(right.boundingBox,location) && currpage<shop.pages) {
-        currpage++;
-        [shop runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.4 position:ccp(shop.position.x-480, shop.position.y)], nil, nil]];
+    }else if (CGRectContainsPoint(left.boundingBox,location)) {
+        //[shop runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.4 position:ccp(shop.position.x+480, shop.position.y)], nil, nil]];
+    }else if (CGRectContainsPoint(right.boundingBox,location)) {
+        //[shop runAction:[CCSequence actions:[CCMoveTo actionWithDuration:.4 position:ccp(shop.position.x-480, shop.position.y)], nil, nil]];
     }
     xpLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]];
     coinLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]];

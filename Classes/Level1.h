@@ -48,5 +48,8 @@
 - (id) initWithMonsters;
 -(void)pushQuiz;
 -(void)restart;
+-(void)addCoins:(int)coinVal;
+-(void)addBrains:(int)brainVal;
+-(void)addxp:(int)xVal;
 
 @end

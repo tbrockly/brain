@@ -167,7 +167,7 @@ NSUserDefaults *defaults2;
         [arrow runAction:[CCFadeOut actionWithDuration:.1]];
         
         gameState.dx=0;
-        gameState.dy=0;
+        gameState.dy=20;
         gameState.vx=200;
         gameState.vy=1000;
         //gameState.ax=0;
@@ -291,7 +291,9 @@ int i=0;
 - (void)tick:(ccTime) dt {
     if([gameState state]==0){
         [gameState setVx:[gameState vx] + [gameState ax]*dt];
-        [gameState setVy:[gameState vy] + [gameState ay]*dt];
+        if(gameState.zerograv<=0){
+            [gameState setVy:[gameState vy] + [gameState ay]*dt];
+        }
         [gameState setDx:[gameState dx] + [gameState vx]*dt];
         [gameState setDy:[gameState dy] + [gameState vy]*dt];
         [gameState setRot:[gameState rot] + (20+[gameState vx]/10)*dt];
@@ -327,15 +329,11 @@ int i=0;
             [[self.parent getHud] brainbounce];
             gameState.vrot=(arc4random()%101)-50.0f;
             [gameState setDy:0];
-            [gameState setVy:-[gameState vy]*.89];
-            [gameState setVx:[gameState vx]*.89];
+            [gameState setVy:-[gameState vy]*(.9 -[gameState currLevel]*.05)];
+            [gameState setVx:[gameState vx]*(.9 -[gameState currLevel]*.05)];
             if([gameState vy] <100 && [gameState vy] >-100 && [gameState vx] <100){
                 [[self.parent getHud] brainsplat];
                 [gameState setState:99];
-                LevelScore *hiScore=[[gameState levelScores] objectAtIndex:[gameState currLevel]];
-                if(hiScore.score<[gameState score]){
-                    [hiScore setScore:[gameState score]];
-                }
                 
                 [self runAction:[CCSequence actions:
                                  [CCDelayTime actionWithDuration:3],
@@ -344,14 +342,17 @@ int i=0;
             }
         }
         
-        
+        int pos=160+[gameState vy]/100;
+        if([gameState dy] <110){
+            pos=[gameState dy]+50;
+        }
         for (Powerup *pow in [gameState powerups]) {
             if([gameState dy] <110){
                 pow.position=ccp(pow.position.x-mov,pow.height);
             }else{
                 pow.position=ccp(pow.position.x-mov,110+pow.height-[gameState dy]);
             }
-            if(CGRectContainsPoint(pow.boundingBox, ccp(160,50+[gameState dy]))){
+            if(CGRectContainsPoint(pow.boundingBox, ccp(160,pos))){
                 [pow collide:gameState];
                 if([pow.name isEqualToString:@"Quiz"]){
                     //[self.parent addChild:q z:10];
@@ -364,7 +365,7 @@ int i=0;
             
             if(pow.position.x<-200){
                 //NSLog(@"%f", _body->GetLinearVelocity().x);
-                [pow updatePosition:ccp(400,400)];
+                [pow updatePosition:gameState];
             }
         }
         
@@ -385,8 +386,8 @@ int i=0;
         }
         //BOOST
         if([gameState boost]>0){
-            [gameState setVx:[gameState vx]+[gameState boost]*100];
-            [gameState setVy:fabs([gameState vy])+[gameState boost]*100];
+            [gameState setVx:[gameState vx]+[gameState boost]*(100-[gameState currLevel]*5)];
+            [gameState setVy:fabs([gameState vy])+[gameState boost]*(100-[gameState currLevel]*5)];
             [gameState setBoost:0];
         }
         //TOPSPEED
@@ -494,6 +495,18 @@ int i=0;
             }
         }
     }
+}
+
+-(void)addCoins:(int)coinVal{
+    [[self.parent getHud] addCoins:coinVal];
+}
+
+-(void)addBrains:(int)brainVal{
+    [[self.parent getHud] addBrains:brainVal];
+}
+
+-(void)addxp:(int)xVal{
+    [[self.parent getHud] addxp:xVal];
 }
 
 //- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {

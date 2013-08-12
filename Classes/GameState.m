@@ -12,17 +12,23 @@
 #import "LevelScore.h"
 
 @implementation GameState
+@synthesize forceMathType, addDiff,subDiff,multDiff,divDiff;
 @synthesize state,comboTimer,comboVal;
 @synthesize boost,score,charge, currLevel;
 @synthesize scale,vx,vy,dx,dy,ax,ay;
 @synthesize rocketTime,quizTime, zerograv, speed, spinPower;
 @synthesize achEng, topSpeed, coins, achieves, levels, levelScores, displayAchieves, completeAchieves;
-@synthesize powerups, shields, globalParams;
+@synthesize powerups, shields, globalParams, startString;
 
 - (id)init
 {
     self = [super init];
     if (self) {
+        forceMathType=0;
+        addDiff=500;
+        subDiff=500;
+        multDiff=13;
+        divDiff=13;
         levels=[[NSMutableArray alloc] init];
         levelScores=[[NSMutableArray alloc] init];
         achieves=[[NSMutableArray alloc] init];

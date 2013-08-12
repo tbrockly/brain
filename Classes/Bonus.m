@@ -20,7 +20,7 @@
     self.name=@"Bonus";
     self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusLevel"];
-    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusFreq"]*1000;
+    self.freq=2000-[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusFreq"]*1000;
     imgName=@"Kawaii-Popsicle.gif";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
@@ -35,7 +35,7 @@
     gameState.coins=gameState.coins+power+5;
     gameState.achEng.bonus++;
     gameState.achEng.totbonus++;
-    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]+power*10 forKey:@"gold"];
+    [self.parent addxp:power*10];
     self.position=ccp(self.position.x-2000, 0);
 }
 @end

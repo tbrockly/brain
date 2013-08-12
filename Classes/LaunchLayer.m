@@ -12,7 +12,7 @@
 #define degreesToRadians(x) (M_PI * x /180.0)
 -(id) init:(GameState*) gs
 {
-	if( (self=[super initWithColor:ccc4(155,155,155,100)] )) {
+	if( (self=[super initWithColor:ccc4(0,0,0,150)] )) {
 		// Enable touch events
         popTimer=-1;
         gameState=gs;
@@ -22,31 +22,37 @@
         timer=30;
         
 		
-        mathType=1+arc4random() %4;
-        if(mathType==1){
-            num1=1+arc4random() %500;
-            num2=1+arc4random() %500;
+        if([gameState forceMathType]==5){
+            mathType=1+arc4random() %2;
+        }else if([gameState forceMathType]>0){
+            mathType=0;
+        }else{
+            mathType=1+arc4random() %4;
+        }
+        if(mathType==1 || [gameState forceMathType]==1){
+            num1=2+arc4random() %[gameState addDiff];
+            num2=2+arc4random() %[gameState addDiff];
             num1l=[[CCLabelTTF alloc] initWithString:@"+"
                                             fontName:@"Arial"
                                             fontSize:40];
             answer=num1+num2;
-        }else if(mathType ==2){
-            num1=1+arc4random() %500;
+        }else if(mathType ==2 || [gameState forceMathType]==2){
+            num1=5+arc4random() %[gameState subDiff];
             num2=1+arc4random() %(num1-1);
             num1l=[[CCLabelTTF alloc] initWithString:@"-"
                                             fontName:@"Arial"
                                             fontSize:40];
             answer=num1-num2;
-        }else if(mathType==3){
-            num1=2+arc4random() %12;
-            num2=2+arc4random() %12;
+        }else if(mathType==3 || [gameState forceMathType]==3){
+            num1=2+arc4random() %[gameState multDiff];
+            num2=2+arc4random() %[gameState multDiff];
             num1l=[[CCLabelTTF alloc] initWithString:@"x"
                                             fontName:@"Arial"
                                             fontSize:40];
             answer=num1*num2;
-        }else if(mathType==4){
-            num2=2+arc4random() %12;
-            num1=num2*(2+arc4random() %12);
+        }else if(mathType==4 || [gameState forceMathType]==4){
+            num2=2+arc4random() %[gameState divDiff];
+            num1=num2*(2+arc4random() %[gameState divDiff]);
             num1l=[[CCLabelTTF alloc] initWithString:@"÷"
                                             fontName:@"Arial"
                                             fontSize:40];
@@ -77,10 +83,10 @@
         lol1.position=ccp(160,120);
         btn2.position=ccp(320,120);
         lol2.position=ccp(320,120);
-        btn3.position=ccp(160,50);
-        lol3.position=ccp(160,50);
-        btn4.position=ccp(320,50);
-        lol4.position=ccp(320,50);
+        btn3.position=ccp(160,55);
+        lol3.position=ccp(160,55);
+        btn4.position=ccp(320,55);
+        lol4.position=ccp(320,55);
         [self addChild:btn1];
         [self addChild:lol1];
         [self addChild:btn2];
@@ -93,9 +99,9 @@
        
         
         
-        [num1l setColor:ccBLACK];
+        //[num1l setColor:ccBLACK];
         [self addChild:num1l];
-        num1l.position=ccp(120,180);
+        num1l.position=ccp(130,180);
         int temp=num1;
         n4 = [self getTagForInt:temp%10];
 		[self addChild:n4];
@@ -143,8 +149,8 @@
         timeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",timer]
                                           fontName:@"Arial"
                                           fontSize:30];
-        timeLab.position = ccp(winSize.width/2, winSize.height -15);
-        [timeLab setColor:ccBLACK];
+        timeLab.position = ccp(winSize.width/2, winSize.height -30);
+        //[timeLab setColor:ccBLACK];
         [self addChild:timeLab];
         correct =[[CCSprite alloc] initWithFile:@"ok.png"];
         correct.position=ccp(240,450);
@@ -168,8 +174,7 @@
     
     timeLab.string=[NSString stringWithFormat:@"%i",timer];
     if(timer==0){
-        [[CCDirector sharedDirector] popScene];
-        [self.parent removeChild:self cleanup:TRUE];
+        [self popWrong];
     }
 }
 
@@ -192,6 +197,9 @@
         selected.position = [[CCDirector sharedDirector] convertToGL:location];
     }
 }
+- (void)addBrains:(int)i{
+    [self.parent addBrains:i];
+}
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if([gameState state]==1){
@@ -202,8 +210,6 @@
         
         if (CGRectContainsPoint(btn1.boundingBox,location)) {
             if(correctNum == 0){
-                [gameState setBoost:timer/4+2];
-                [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 [self popCorrect];
             }else{
                 [self popWrong];
@@ -211,8 +217,6 @@
         }
         if (CGRectContainsPoint(btn2.boundingBox,location)) {
             if(correctNum == 1){
-                [gameState setBoost:timer/4+2];
-                [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 [self popCorrect];
             }else{
                 [self popWrong];
@@ -220,8 +224,6 @@
         }
         if (CGRectContainsPoint(btn3.boundingBox,location)) {
             if(correctNum == 2){
-                [gameState setBoost:timer/4+2];
-                [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 [self popCorrect];
             }else{
                 [self popWrong];
@@ -229,8 +231,6 @@
         }
         if (CGRectContainsPoint(btn4.boundingBox,location)) {
             if(correctNum == 3){
-                [gameState setBoost:timer/4+2];
-                [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(timer) forKey:@"brains"];
                 [self popCorrect];
             }else{
                 [self popWrong];
@@ -250,6 +250,8 @@
     
 }
 -(void) popCorrect{
+    [gameState setBoost:timer/4+2];
+    [self addBrains:timer];
     [correct runAction:[CCSequence actions:
                      [CCMoveTo actionWithDuration:.5 position:ccp(240,160)],
                      [CCDelayTime actionWithDuration:1],

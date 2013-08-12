@@ -70,6 +70,35 @@
         CCSprite *sprite=[levels objectAtIndex:i];
         if (CGRectContainsPoint(sprite.boundingBox,location)) {
             gameState.currLevel=i;
+            if(gameState.currLevel==0){
+                gameState.forceMathType=1;
+                gameState.addDiff=10;
+                gameState.startString=@"Level 1 - Easy Addition";
+            }else if(gameState.currLevel==1){
+                gameState.forceMathType=1;
+                gameState.addDiff=100;
+                gameState.startString=@"Level 2 - Medium Addition";
+            }else if(gameState.currLevel==2){
+                gameState.forceMathType=2;
+                gameState.subDiff=20;
+                gameState.startString=@"Level 3 - Easy Subtraction";
+            }else if(gameState.currLevel==3){
+                gameState.forceMathType=2;
+                gameState.subDiff=200;
+                gameState.startString=@"Level 4 - Medium Subtraction";
+            }else if(gameState.currLevel==4){
+                gameState.forceMathType=5;
+                gameState.addDiff=100;
+                gameState.subDiff=200;
+                gameState.startString=@"Level 5 - Medium Addition and Subtraction";
+            }else{
+                gameState.forceMathType=0;
+                gameState.addDiff=500;
+                gameState.subDiff=500;
+                gameState.multDiff=13;
+                gameState.divDiff=13;
+                gameState.startString=@"Level X - Time Lord";
+            }
             [self.parent restart];
         }
         //[gameState setState:-[gameState state]];

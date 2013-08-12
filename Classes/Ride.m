@@ -34,7 +34,7 @@
     AudioServicesPlaySystemSound(mySound);
     gameState.achEng.ride++;
     gameState.achEng.totride++;
-    [gameState setVx:(gameState.vx+fabs(gameState.vy))];
+    [gameState setVx:(gameState.vx+(fabs(gameState.vy)*.8))];
     [gameState setVy:(100)];
     //_body->SetLinearVelocity(b2Vec2(fabs(_body->GetLinearVelocity().x)+fabs(_body->GetLinearVelocity().y),0));
     gameState.zerograv=power+4;

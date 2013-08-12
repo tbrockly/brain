@@ -11,15 +11,7 @@
 #import "GameState.h"
 #import "Powerup.h"
 
-@interface ShopContentLayer : CCLayer{
-    NSMutableArray *bars, *buttons, *descriptions,*icons;
-    int pages, shopType;
-    GameState* gamestate;
-}
--(id) init:(GameState*)myGameState;;
-@property int pages,shopType;
 
-@end
 
 @interface ShopRow : NSObject{
     NSString *iconName;
@@ -32,5 +24,18 @@
 @property(nonatomic, retain) NSString *text;
 @property(nonatomic, retain) NSString *name;
 @property int price, level, type;
+
+@end
+
+@interface ShopContentLayer : CCLayer{
+    NSMutableArray *bars, *buttons, *descriptions,*icons;
+    int pages, shopType;
+    GameState* gamestate;
+    CCLabelTTF* desc;
+    CCSprite* buy;
+    ShopRow* selectedRow;
+}
+-(id) init:(GameState*)myGameState;;
+@property int pages,shopType;
 
 @end

@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "GameState.h"
+#import "TextBoxLayer.h"
 
-@interface CountdownLayer : CCColorLayer{
+@interface CountdownLayer : CCColorLayer<TextBoxDelegate>{
     CCSprite *reds;
     CCSprite *blues;
     CCSprite *greens;
     GameState *gameState;
+    TextBoxLayer *textBox;
     int booster;
 }
 -(id) init:(GameState *) gs;

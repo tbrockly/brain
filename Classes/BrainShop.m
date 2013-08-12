@@ -38,19 +38,19 @@
         xpLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]]
                                         fontName:@"Futura"
                                         fontSize:15];
-        [xpLab setColor:ccBLACK];
+        //[xpLab setColor:ccBLACK];
         [self addChild:xpLab];
         xpLab.position=ccp(100,305);
         coinLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]]
                                           fontName:@"Futura"
                                           fontSize:15];
-        [coinLab setColor:ccBLACK];
+        //[coinLab setColor:ccBLACK];
         [self addChild:coinLab];
         coinLab.position=ccp(250,305);
         brainLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]]
                                            fontName:@"Futura"
                                            fontSize:15];
-        [brainLab setColor:ccBLACK];
+        //[brainLab setColor:ccBLACK];
         [self addChild:brainLab];
         brainLab.position=ccp(420,305);
         NSMutableArray *tableItems=[[NSMutableArray alloc] init];

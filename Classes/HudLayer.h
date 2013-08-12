@@ -13,12 +13,11 @@
 #include <AudioToolbox/AudioToolbox.h>
 
 @interface HudLayer : CCLayer <UITextFieldDelegate>{
-    CCSprite *audioBtn,*card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*coinIcon,*eng;
+    CCSprite *bronzeBar,*silverBar,*goldBar,*audioBtn,*card,*oneLevel,*botBar,*arrowA,*arrowD,*arrow1,*arrow2,*arrow3,*arrow4,*arrowV,*arrowVV,*brainIcon,*coinIcon,*eng;
     UITextField *answer;
     @public GameState *gameState;
     NSMutableArray *coins, *brains;
-    int score;
-    CCLabelTTF *scoreLab, *chargeLab,*achieveLab,*speedLab, *highScoreLab;
+    CCLabelBMFont *scoreLab, *chargeLab,*achieveLab,*speedLab, *highScoreLab, *coinLab, *xpLab,*brainLab;
     AVAudioPlayer *hudplayer;
     CGPoint firstTouch;
     int brainimg;
@@ -35,4 +34,7 @@
 -(void)pushQuiz;
 -(void)pushEnd;
 -(id) init:(GameState*)myGameState;
+-(void)addCoins:(int)coinVal;
+-(void)addBrains:(int)brainVal;
+-(void)addxp:(int)xVal;
 @end

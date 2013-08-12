@@ -22,7 +22,6 @@
 #import "Level1.h"
 #import "Level2.h"
 #import "Achievement.h"
-#import "ShopHome.h"
 
 #define PTM_RATIO 150.0
 
@@ -165,7 +164,7 @@
     [self removeChild:_hudLayer cleanup:YES];
     [self removeChild:shopHome cleanup:YES];
     [self removeChild:bearLayer cleanup:YES];
-    shopHome = [[ShopHome alloc] init:gameState];
+    shopHome = [[CoinShop alloc] init:gameState];
 
     [self addChild:shopHome z:10];
 }

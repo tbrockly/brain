@@ -6,7 +6,7 @@
 #import "HudLayer.h"
 #import "GameState.h"
 #import "TotalLayer.h"
-#import "ShopHome.h"
+#import "CoinShop.h"
 #import "BearLayer.h"
 #import "Level1.h"
 #import "LevelSelect.h"
@@ -47,7 +47,7 @@
     Level1 *lay;
     QuizLayer *_quizLayer;
     HudLayer *_hudLayer;
-    ShopHome *shopHome;
+    CoinShop *shopHome;
     LevelSelect *levelSelect;
     TotalLayer *_totalLayer;
     BearLayer *bearLayer;

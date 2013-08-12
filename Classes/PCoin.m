@@ -11,8 +11,8 @@
 #import "GameState.h"
 
 @implementation PCoin
-#define HEIGHTDIFF 2000
-#define HEIGHTDIFF2 4000
+#define HEIGHTDIFF 500
+#define HEIGHTDIFF2 1000
 
 - (id) initSelf{
     self.powStr=@"coinLevel";
@@ -20,7 +20,7 @@
     self.name=@"Coin";
     self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"coinLevel"];
-    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"coinFreq"]*1000;
+    self.freq=2000-[[NSUserDefaults standardUserDefaults] integerForKey:@"coinFreq"]*1000;
     imgName=@"super_mario_coin.png";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
@@ -35,7 +35,13 @@
     gameState.coins=gameState.coins+power;
     gameState.achEng.coins=gameState.achEng.coins+power;
     gameState.achEng.totcoins=gameState.achEng.totcoins+power;
-    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]+power*10 forKey:@"gold"];
+    [self.parent addCoins:power*10];
     self.position=ccp(self.position.x-2000, 0);
+}
+
+-(void)updatePosition:(GameState*)gs{
+    
+    self.height=fmax([self calcFreq:HEIGHTDIFF2 withMin:[gs dy]-(HEIGHTDIFF2/2) withDist:0], 80)+[gs vy]*.1;
+    self.position=ccp(400+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], self.height);
 }
 @end

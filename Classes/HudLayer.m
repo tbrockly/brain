@@ -39,9 +39,8 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         botBar.scaleY=.5;
         botBar.position = ccp(240, 10);
         [self addChild:botBar z:20];
-        speedLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.speed]
-                                           fontName:@"Futura"
-                                           fontSize:15];
+        speedLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i",(int)gameState.vx]
+                                           fntFile:@"arial16.fnt"];
         [speedLab setColor:ccBLACK];
         [self addChild:speedLab z:20];
         speedLab.position=ccp(420,10);
@@ -55,21 +54,45 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         [self addChild:arrowVV z:20];
         LevelScore *hiScore=[[gameState levelScores] objectAtIndex:[gameState currLevel]];
         highscore=hiScore.score;
-		scoreLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.score]
-                                        fontName:@"Futura" 
-                                        fontSize:15];
+		scoreLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.score]
+                                        fntFile:@"arial16.fnt"];
         [scoreLab setColor:ccBLACK];
         [self addChild:scoreLab z:20];
         scoreLab.position=ccp(300,10);
-        highScoreLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"Record: %i",highscore]
-                                           fontName:@"Futura"
-                                           fontSize:15];
+        coinIcon=[CCSprite spriteWithFile:@"super_mario_coin.png"];
+        coinIcon.scale=.4;
+        coinIcon.position=ccp(210,305);
+        [self addChild:coinIcon];
+        
+        brainIcon=[CCSprite spriteWithFile:@"Icon.png"];
+        brainIcon.scale=.4;
+        brainIcon.position=ccp(380,305);
+        [self addChild:brainIcon];
+        
+        xpLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]]
+                                        fntFile:@"arial16.fnt"];
+        [xpLab setColor:ccBLACK];
+        [self addChild:xpLab];
+        xpLab.position=ccp(100,305);
+        coinLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]]
+                                          fntFile:@"arial16.fnt"];
+        [coinLab setColor:ccBLACK];
+        [self addChild:coinLab];
+        coinLab.position=ccp(250,305);
+        brainLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]]
+                                           fntFile:@"arial16.fnt"];
+        [brainLab setColor:ccBLACK];
+        [self addChild:brainLab];
+        brainLab.position=ccp(420,305);
+        
+        highScoreLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"Record: %i",highscore]
+                                           fntFile:@"arial16.fnt"];
         [highScoreLab setColor:ccWHITE];
         [self addChild:highScoreLab z:20];
-        highScoreLab.position=ccp(300,30);
-        chargeLab=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.charge]
-                                           fontName:@"Futura" 
-                                           fontSize:15];
+        highScoreLab.position=ccp(410,30);
+        
+        chargeLab=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i",gameState.charge]
+                                           fntFile:@"arial16.fnt"];
         [chargeLab setColor:ccBLACK];
         [self addChild:chargeLab z:20];
         chargeLab.position=ccp(100,10);
@@ -101,14 +124,12 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         arrow4.position=ccp(110,300);
         arrow4.opacity=0;
         [self addChild:arrow4];
-        [self schedule:@selector(calc:) interval:.1f];
+        [self schedule:@selector(calc:) interval:.01f];
         [self schedule:@selector(addCoin:) interval:.3f];
         achieveSprite=[CCSprite spriteWithFile:@"Kawaii-Popsicle.gif"];
         achieveSprite.scale=.5;
         [self addChild:achieveSprite];
-        achieveLab=[[CCLabelTTF alloc] initWithString:@""
-                                             fontName:@"Futura" 
-                                             fontSize:20];
+        achieveLab=[[CCLabelBMFont alloc] initWithString:@"" fntFile:@"arial16.fnt"];
         [achieveLab setColor:ccWHITE];
         [self addChild:achieveLab];
         achieveLab.position=ccp(-200,-200);
@@ -139,6 +160,18 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         card.position=ccp(240,480);
         [self addChild:card z:2];
         
+        bronzeBar=[CCSprite spriteWithFile:@"BronzeBar.png"];
+        bronzeBar.scaleY=5;
+        bronzeBar.position = ccp(600, 160);
+        [self addChild:bronzeBar z:1];
+        silverBar=[CCSprite spriteWithFile:@"SilverBar.png"];
+        silverBar.scaleY=5;
+        silverBar.position = ccp(600, 160);
+        [self addChild:silverBar z:1];
+        goldBar=[CCSprite spriteWithFile:@"GoldBar.png"];
+        goldBar.scaleY=5;
+        goldBar.position = ccp(600, 160);
+        [self addChild:goldBar z:1];
         //[gameState setState:2];
         [gameState setState:1];
         [self runAction:[CCCallFuncN actionWithTarget:self selector:@selector(pushCountdown)]];
@@ -187,9 +220,88 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
         }else{
             brain.position=ccp(160,pos);
         }
+        LevelData *data=[[gameState levels] objectAtIndex:[gameState currLevel]];
         
+        if([gameState score]<data.gold+500 && [gameState score]>data.gold-500){
+            goldBar.position=ccp((data.gold-[gameState score])+160,160);
+        }else if([gameState score]<data.silver+500 && [gameState score]>data.silver-500){
+            silverBar.position=ccp((data.silver-[gameState score])+160,160);
+        }else if([gameState score]<data.bronze+500 && [gameState score]>data.bronze-500){
+            bronzeBar.position=ccp((data.bronze-[gameState score])+160,160);
+        }
+
     }
 }
+
+-(void)addCoins:(int)coinVal{
+    CCLabelTTF* tempCoin=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%i",coinVal] fontName:@"FontStuck Extended" fontSize:64];
+    [tempCoin setColor:ccYELLOW];
+    tempCoin.position =brain.position;
+    [self addChild:tempCoin z:0];
+    [tempCoin runAction:[CCSequence actions:
+                     [CCMoveTo actionWithDuration:.4 position:ccp(240,160)],
+                     [CCDelayTime actionWithDuration:.5],
+                     [CCCallFuncN actionWithTarget:self selector:@selector(scalePoints:)],
+                     [CCCallFuncN actionWithTarget:self selector:@selector(moveCoins:)],
+                     [CCDelayTime actionWithDuration:.5],
+                     [CCCallBlock actionWithBlock:^(){
+                        [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]+(coinVal) forKey:@"gold"];
+                    }],
+                     [CCCallFuncN actionWithTarget:self selector:@selector(popSelf:)],
+                     nil]];
+}
+-(void)popSelf: (id) sender{
+    [sender removeFromParentAndCleanup:YES];
+}
+-(void)scalePoints: (id) sender{
+    [sender runAction:[CCScaleTo actionWithDuration:.5 scale:.1]];
+}
+-(void)moveCoins: (id) sender{
+    [sender runAction:[CCMoveTo actionWithDuration:.5 position:coinLab.position]];
+}
+
+-(void)addBrains:(int)brainVal{
+        CCLabelTTF* tempBrain=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%i",brainVal] fontName:@"FontStuck Extended" fontSize:64];
+        [tempBrain setColor:ccBLUE];
+        tempBrain.position =brain.position;
+        [self addChild:tempBrain z:0];
+        [tempBrain runAction:[CCSequence actions:
+                             [CCMoveTo actionWithDuration:.4 position:ccp(240,160)],
+                             [CCDelayTime actionWithDuration:1.5],
+                             [CCCallFuncN actionWithTarget:self selector:@selector(scalePoints:)],
+                             [CCCallFuncN actionWithTarget:self selector:@selector(moveBrains:)],
+                             [CCDelayTime actionWithDuration:.5],
+                              [CCCallBlock actionWithBlock:^(){
+                                    [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]+(brainVal) forKey:@"brains"];
+                                }],
+                             [CCCallFuncN actionWithTarget:self selector:@selector(popSelf:)],
+                             nil]];
+}
+-(void)moveBrains: (id) sender{
+    [sender runAction:[CCMoveTo actionWithDuration:.5 position:brainLab.position]];
+}
+
+-(void)addxp:(int)xVal{
+    CCLabelTTF* tempBrain=[[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%i",xVal] fontName:@"FontStuck Extended" fontSize:64];
+    [tempBrain setColor:ccGREEN];
+    tempBrain.position =brain.position;
+    [self addChild:tempBrain z:0];
+    [tempBrain runAction:[CCSequence actions:
+                          [CCMoveTo actionWithDuration:.4 position:ccp(240,160)],
+                          [CCDelayTime actionWithDuration:.5],
+                          [CCCallFuncN actionWithTarget:self selector:@selector(scalePoints:)],
+                          [CCCallFuncN actionWithTarget:self selector:@selector(movex:)],
+                          [CCDelayTime actionWithDuration:.5],
+                          [CCCallBlock actionWithBlock:^(){
+                            [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]+(xVal) forKey:@"xp"];
+                            }],
+                          [CCCallFuncN actionWithTarget:self selector:@selector(popSelf:)],
+                          nil]];
+}
+-(void)movex: (id) sender{
+    [sender runAction:[CCMoveTo actionWithDuration:.5 position:xpLab.position]];
+}
+
 
 -(void) drawCard{
     
@@ -224,13 +336,12 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 }
 
 -(void)pushEnd{
-    //[self.parent hideGame];
-    //[[CCDirector sharedDirector] pause];
+    LevelScore *hiScore=[[gameState levelScores] objectAtIndex:[gameState currLevel]];
+    if(hiScore.score<[gameState score]){
+        [hiScore setScore:[gameState score]];
+    }
     EndRunLayer *lol=[[EndRunLayer alloc] init:gameState];
     [self addChild: lol z:10];
-    //QuizScene *q = [[QuizScene alloc] init:gameState];
-    //CCTransitionFlipAngular *cctf = [CCTransitionFlipAngular transitionWithDuration:1 scene:q];
-    //[[CCDirector sharedDirector] pushScene:cctf];
 }
 
 -(void)pushLaunch{
@@ -341,7 +452,10 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     scoreLab.string=[NSString stringWithFormat:@"%i",gameState.score];
     LevelData *currLvl=[gameState.levels objectAtIndex:[gameState currLevel]];
     if(gameState.score>[currLvl bronze] )
-    speedLab.string=[NSString stringWithFormat:@"%.1f",gameState.speed];
+    speedLab.string=[NSString stringWithFormat:@"%.1f",gameState.vx];
+    xpLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]];
+    coinLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]];
+    brainLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -362,13 +476,15 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     if([gameState state]==0){
         if(gameState.charge>0 ) {
             if(firstTouch.y-location.y>120){
-                [gameState setVx:[gameState vx]+200];
-                [gameState setVy:-(fabs([gameState vy])+300)];
+                [gameState setVx:[gameState vx]+100];
+                [gameState setDy:-(fabs([gameState dy])+20)];
+                [gameState setVy:-(fabs([gameState vy])+200)];
                 [gameState setCharge:(gameState.charge-1)];
             }
             if(firstTouch.y-location.y<-120){
-                [gameState setVx:[gameState vx]+200];
-                [gameState setVy:(fabs([gameState vy])+300)];
+                [gameState setVx:[gameState vx]+100];
+                [gameState setDy:(fabs([gameState dy])+20)];
+                [gameState setVy:(fabs([gameState vy])+200)];
                 [gameState setCharge:(gameState.charge-1)];
             }
         }
@@ -407,6 +523,10 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
 }
 
 -(void)dropBrain{
+    LevelScore *hiScore=[[gameState levelScores] objectAtIndex:[gameState currLevel]];
+    if(hiScore.score<[gameState score]){
+        [hiScore setScore:[gameState score]];
+    }
     [gameState setState:99];
     [brain runAction:[CCSequence actions:
                       [CCMoveTo actionWithDuration:2 position:ccp(brain.position.x, -30)],

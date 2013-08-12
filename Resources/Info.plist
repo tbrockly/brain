@@ -35,6 +35,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>FontStuck-Extended.ttf</string>
 		<string>Archer-Medium-Pro.otf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>

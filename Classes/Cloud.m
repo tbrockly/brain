@@ -37,10 +37,10 @@
     return (arc4random() % freq2) + min;
 }
 
--(void)updatePosition:(CGPoint)ballpos{
+-(void)updatePosition:(GameState*)gs{
     
-    self.height=fmax([self calcFreq:HEIGHTDIFF2 withMin:ballpos.y-HEIGHTDIFF withDist:0], 1500);
-    self.position=ccp(ballpos.x+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], self.height);
+    self.height=fmax([self calcFreq:HEIGHTDIFF2 withMin:160-HEIGHTDIFF withDist:0], 1500);
+    self.position=ccp(400+[self calcFreq:(freq/4) withMin:(freq/4) withDist:0], self.height);
 }
 
 @end
