@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"bonusLevel";
-    self.freqStr=@"bonusFreq";
     self.name=@"Bonus";
     self.collectable=true;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusLevel"];
-    self.freq=2000-[[NSUserDefaults standardUserDefaults] integerForKey:@"bonusFreq"]*1000;
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*1000;
     imgName=@"Kawaii-Popsicle.gif";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
@@ -35,7 +34,7 @@
     gameState.coins=gameState.coins+power+5;
     gameState.achEng.bonus++;
     gameState.achEng.totbonus++;
-    [self.parent addxp:power*10];
+    [self.parent addxp:power*10*(gameState.currLevel/2+1)];
     self.position=ccp(self.position.x-2000, 0);
 }
 @end

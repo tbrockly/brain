@@ -19,7 +19,7 @@
         [gameState setState:1];
 		self.isTouchEnabled = YES;
         CGSize winSize = [[CCDirector sharedDirector] winSize];
-        timer=30;
+        timer=20;
         
 		
         if([gameState forceMathType]==5){
@@ -250,8 +250,8 @@
     
 }
 -(void) popCorrect{
-    [gameState setBoost:timer/4+2];
-    [self addBrains:timer];
+    [gameState setBoost:timer/2+2];
+    [self addBrains:timer*(gameState.currLevel/2+1)];
     [correct runAction:[CCSequence actions:
                      [CCMoveTo actionWithDuration:.5 position:ccp(240,160)],
                      [CCDelayTime actionWithDuration:1],

@@ -80,24 +80,24 @@
         cell.textLabel.textColor=[UIColor lightTextColor];
         int gold = [[NSUserDefaults standardUserDefaults] integerForKey:@"gold"];
         
-        for (Powerup *p in gameState.powerups){
-            if([p.name isEqualToString:row.name]){
-                
-                    int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.powStr];
-                    int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.freqStr];
-                    if((row.type==0 && row.level==powLvl+1) || (row.type==1 && row.level==freqLvl+1)){
-                        if(gold>row.price){
-                            cell.contentView.backgroundColor=[UIColor whiteColor];
-                            cell.textLabel.backgroundColor=[UIColor whiteColor];
-                            cell.textLabel.textColor=[UIColor yellowColor];
-                        }else{
-                            cell.contentView.backgroundColor=[UIColor redColor];
-                            cell.textLabel.backgroundColor=[UIColor redColor];
-                            cell.textLabel.textColor=[UIColor blackColor];
-                        }
-                    }
-            }
-        }
+//        for (Powerup *p in gameState.powerups){
+//            if([p.name isEqualToString:row.name]){
+//                
+//                    int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.powStr];
+//                    int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.freqStr];
+//                    if((row.type==0 && row.level==powLvl+1) || (row.type==1 && row.level==freqLvl+1)){
+//                        if(gold>row.price){
+//                            cell.contentView.backgroundColor=[UIColor whiteColor];
+//                            cell.textLabel.backgroundColor=[UIColor whiteColor];
+//                            cell.textLabel.textColor=[UIColor yellowColor];
+//                        }else{
+//                            cell.contentView.backgroundColor=[UIColor redColor];
+//                            cell.textLabel.backgroundColor=[UIColor redColor];
+//                            cell.textLabel.textColor=[UIColor blackColor];
+//                        }
+//                    }
+//            }
+//        }
         cell.imageView.image=[UIImage imageNamed:row.iconName];
         cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
         cell.textLabel.text=row.text;
@@ -119,35 +119,35 @@
 {
     CoinShopRow *row=[myArray objectAtIndex:indexPath.row];
     for (Powerup *pup in gameState.powerups){
-        if([pup.name isEqualToString:row.name]){
-            int gold = [[NSUserDefaults standardUserDefaults] integerForKey:@"gold"];
-            if(gold>row.price){
-                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.powStr];
-                int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.freqStr];
-                if(row.type==0 && row.level==powLvl+1){
-                    gold=gold-row.price;
-                    [[NSUserDefaults standardUserDefaults] setInteger:gold forKey:@"gold"];
-                    [[NSUserDefaults standardUserDefaults] setInteger:powLvl+1 forKey:pup.powStr];
-                    [pup initSelf];
-                    [myArray removeObjectAtIndex:indexPath.row];
-                    [CATransaction begin];
-                    [CATransaction setCompletionBlock:^{[self reloadData];}];
-                    [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                    [CATransaction commit];
-                }
-                if(row.type==1 && row.level==freqLvl+1){
-                    gold=gold-row.price;
-                    [[NSUserDefaults standardUserDefaults] setInteger:gold forKey:@"gold"];
-                    [[NSUserDefaults standardUserDefaults] setInteger:freqLvl+1 forKey:pup.freqStr];
-                    [pup initSelf];
-                    [myArray removeObjectAtIndex:indexPath.row];
-                    [CATransaction begin];
-                    [CATransaction setCompletionBlock:^{[self reloadData];}];
-                    [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                    [CATransaction commit];
-                }
-            }
-        }
+//        if([pup.name isEqualToString:row.name]){
+//            int gold = [[NSUserDefaults standardUserDefaults] integerForKey:@"gold"];
+//            if(gold>row.price){
+//                int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.powStr];
+//                int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:pup.freqStr];
+//                if(row.type==0 && row.level==powLvl+1){
+//                    gold=gold-row.price;
+//                    [[NSUserDefaults standardUserDefaults] setInteger:gold forKey:@"gold"];
+//                    [[NSUserDefaults standardUserDefaults] setInteger:powLvl+1 forKey:pup.powStr];
+//                    [pup initSelf];
+//                    [myArray removeObjectAtIndex:indexPath.row];
+//                    [CATransaction begin];
+//                    [CATransaction setCompletionBlock:^{[self reloadData];}];
+//                    [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//                    [CATransaction commit];
+//                }
+//                if(row.type==1 && row.level==freqLvl+1){
+//                    gold=gold-row.price;
+//                    [[NSUserDefaults standardUserDefaults] setInteger:gold forKey:@"gold"];
+//                    [[NSUserDefaults standardUserDefaults] setInteger:freqLvl+1 forKey:pup.freqStr];
+//                    [pup initSelf];
+//                    [myArray removeObjectAtIndex:indexPath.row];
+//                    [CATransaction begin];
+//                    [CATransaction setCompletionBlock:^{[self reloadData];}];
+//                    [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//                    [CATransaction commit];
+//                }
+//            }
+//        }
     }
 }
 

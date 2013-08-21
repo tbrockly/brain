@@ -18,7 +18,6 @@
     NSString *name;
     SystemSoundID mySound;
     NSString *powStr;
-    NSString *freqStr;
     bool collectable;
 }
 
@@ -29,7 +28,6 @@
 @property (nonatomic, retain) NSString *name;
 @property SystemSoundID mySound;
 @property (nonatomic, retain) NSString *powStr;
-@property (nonatomic, retain) NSString *freqStr;
 -(id) initSelf;
 - (int)calcFreq:(int)freq withMin:(int)min withDist:(int)dist;
 -(void)updatePosition:(GameState*)gs;

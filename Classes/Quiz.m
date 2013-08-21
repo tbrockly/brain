@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"quizLevel";
-    self.freqStr=@"quizFreq";
     self.name=@"Quiz";
     self.collectable=true;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"quizLevel"];
-    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"quizFreq"]*1000;
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
+    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*1000;
     imgName=@"light.png";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];

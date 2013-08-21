@@ -451,8 +451,7 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     chargeLab.string=[NSString stringWithFormat:@"%i",gameState.charge];
     scoreLab.string=[NSString stringWithFormat:@"%i",gameState.score];
     LevelData *currLvl=[gameState.levels objectAtIndex:[gameState currLevel]];
-    if(gameState.score>[currLvl bronze] )
-    speedLab.string=[NSString stringWithFormat:@"%.1f",gameState.vx];
+    speedLab.string=[NSString stringWithFormat:@"%.1f",[gameState vx]];
     xpLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"xp"]];
     coinLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"gold"]];
     brainLab.string=[NSString stringWithFormat:@"%i",[[NSUserDefaults standardUserDefaults] integerForKey:@"brains"]];
@@ -475,13 +474,13 @@ CGPoint targets[]={ccp(targetx,targety+100) ,ccp(targetx-70,targety+70),ccp(targ
     location = [[CCDirector sharedDirector] convertToGL:location];
     if([gameState state]==0){
         if(gameState.charge>0 ) {
-            if(firstTouch.y-location.y>120){
+            if(firstTouch.y-location.y>100){
                 [gameState setVx:[gameState vx]+100];
-                [gameState setDy:-(fabs([gameState dy])+20)];
+                [gameState setDy:(fabs([gameState dy])-20)];
                 [gameState setVy:-(fabs([gameState vy])+200)];
                 [gameState setCharge:(gameState.charge-1)];
             }
-            if(firstTouch.y-location.y<-120){
+            if(firstTouch.y-location.y<-100){
                 [gameState setVx:[gameState vx]+100];
                 [gameState setDy:(fabs([gameState dy])+20)];
                 [gameState setVy:(fabs([gameState vy])+200)];

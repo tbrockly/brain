@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"rideLevel";
-    self.freqStr=@"rideFreq";
     self.name=@"ZeroGrav";
     self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"rideLevel"];
-    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"rideFreq"]*1000;
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*1000;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon016" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     imgName=@"light.png";

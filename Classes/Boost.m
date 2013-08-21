@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"boostLevel";
-    self.freqStr=@"boostFreq";
     self.name=@"Booster";
     self.collectable=true;
     self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
-    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*1000;
     imgName=@"tubey.png";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];

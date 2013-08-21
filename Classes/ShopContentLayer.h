@@ -29,7 +29,7 @@
 
 @interface ShopContentLayer : CCLayer{
     NSMutableArray *bars, *buttons, *descriptions,*icons;
-    int pages, shopType;
+    int pages, shopType, selectedIndex;
     GameState* gamestate;
     CCLabelTTF* desc;
     CCSprite* buy;

@@ -14,10 +14,9 @@
 
 - (id) initSelf{
     self.powStr=@"holeLevel";
-    self.freqStr=@"holeFreq";
     self.name=@"Hole";
     self.collectable=false;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
+    self.power=1;
     self.freq=20000;
     //10000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
     imgName=@"MultipleBox.png";

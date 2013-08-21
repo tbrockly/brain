@@ -55,7 +55,7 @@
 	if( (self=[super initWithColor:ccc4(255,255,255,255)] )) {
         NSUserDefaults *defaults2=[NSUserDefaults standardUserDefaults];
         
-        [defaults2 setInteger:0 forKey:@"version"];
+        [defaults2 setInteger:1 forKey:@"version"];
         if([defaults2 integerForKey:@"version"] <1){
             [defaults2 setInteger:1 forKey:@"version"];
             [defaults2 setInteger:1 forKey:@"level"];
@@ -70,12 +70,17 @@
             [defaults2 setInteger:1 forKey:@"friction"];
             [defaults2 setInteger:1 forKey:@"quizDifficulty"];
             [defaults2 setInteger:1 forKey:@"topSpeed"];
-            [defaults2 setInteger:3 forKey:@"charge"];
+            [defaults2 setInteger:2 forKey:@"startingCharge"];
             [defaults2 setInteger:1 forKey:@"airResist"];
-            [defaults2 setInteger:1 forKey:@"coinLevel"];
-            [defaults2 setInteger:1 forKey:@"boostLevel"];
-            [defaults2 setInteger:1 forKey:@"energyLevel"];
-            [defaults2 setInteger:1 forKey:@"bonusLevel"];
+            [defaults2 setInteger:-1 forKey:@"coinLevel"];
+            [defaults2 setInteger:0 forKey:@"boostLevel"];
+            [defaults2 setInteger:-1 forKey:@"energyLevel"];
+            [defaults2 setInteger:-1 forKey:@"bonusLevel"];
+            [defaults2 setInteger:-1 forKey:@"rocketLevel"];
+            [defaults2 setInteger:-1 forKey:@"spinLevel"];
+            [defaults2 setInteger:-1 forKey:@"quizLevel"];
+            [defaults2 setInteger:-1 forKey:@"rideLevel"];
+            [defaults2 setInteger:1 forKey:@"holeLevel"];
             [defaults2 setInteger:200 forKey:@"gold"];
             [defaults2 setInteger:200 forKey:@"xp"];
             [defaults2 setInteger:200 forKey:@"brains"];
@@ -89,18 +94,6 @@
         boostPow.position=ccp(-1000,50);
         [gameState.powerups addObject:boostPow];
         
-        Ride *ridePow=[[Ride alloc] initSelf];
-        ridePow.position=ccp(-1000,50);
-        [gameState.powerups addObject:ridePow];
-        
-        Quiz *quizPow=[[Quiz alloc] initSelf];
-        quizPow.position=ccp(-1000,50);
-        [gameState.powerups addObject:quizPow];
-        
-        Spin *spinPow=[[Spin alloc] initSelf];
-        spinPow.position=ccp(-1000,50);
-        [gameState.powerups addObject:spinPow];
-        
         PCoin *coinPow=[[PCoin alloc] initSelf];
         coinPow.position=ccp(-1000,50);
         [gameState.powerups addObject:coinPow];
@@ -112,6 +105,18 @@
         Bonus *bonusPow=[[Bonus alloc] initSelf];
         bonusPow.position=ccp(-1000,50);
         [gameState.powerups addObject:bonusPow];
+        
+        Ride *ridePow=[[Ride alloc] initSelf];
+        ridePow.position=ccp(-1000,50);
+        [gameState.powerups addObject:ridePow];
+        
+        Quiz *quizPow=[[Quiz alloc] initSelf];
+        quizPow.position=ccp(-1000,50);
+        [gameState.powerups addObject:quizPow];
+        
+        Spin *spinPow=[[Spin alloc] initSelf];
+        spinPow.position=ccp(-1000,50);
+        [gameState.powerups addObject:spinPow];
         
         Rocket *rocketPow=[[Rocket alloc] initSelf];
         rocketPow.position=ccp(-1000,50);

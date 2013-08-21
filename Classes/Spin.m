@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"spinLevel";
-    self.freqStr=@"spinFreq";
     self.name=@"Spinner";
     self.collectable=true;
-    self.power=40+[[NSUserDefaults standardUserDefaults] integerForKey:@"spinLevel"]*2;
-    self.freq=10000-[[NSUserDefaults standardUserDefaults] integerForKey:@"spinFreq"]*1000;
+    self.power=40+[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*2;
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*1000;
     NSString *soundPath=[[NSBundle mainBundle] pathForResource:@"cartoon025" ofType:@"mp3"];
     AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:soundPath],&mySound );
     imgName=@"thing_blue.png";
@@ -34,7 +33,7 @@
     AudioServicesPlaySystemSound(mySound);
     gs.achEng.spin++;
     gs.achEng.totspin++;
-    [gs setSpinPower:5];
+    [gs setSpinPower:8];
     self.position=ccp(self.position.x-2000, 0);
     //_body->SetAngularVelocity(-power);
 }

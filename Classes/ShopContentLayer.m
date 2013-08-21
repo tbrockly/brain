@@ -31,24 +31,21 @@
     self.isTouchEnabled=true;
     buttons=[[NSMutableArray alloc] init];
     bars=[[NSMutableArray alloc] init];
-    for (Powerup *p in gamestate.powerups){
+    for(int j =0;j<gamestate.powerups.count;j++){
+        Powerup *p=[gamestate.powerups objectAtIndex:j];
         if(p.collectable){
             int powLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.powStr];
             //int freqLvl=[[NSUserDefaults standardUserDefaults] integerForKey:p.freqStr];
-            int i=1;
-            while( i<11){
-                if(i==powLvl+1){
+
                     ShopRow *row=[ShopRow alloc];
                     row.iconName=p.imgName;
-                    row.price=10*i*i;
-                    row.level=i;
+                    row.price=10*(powLvl+1)*(powLvl+1)+(j*10);
+                    row.level=powLvl;
                     row.type=0;
                     row.name=p.name;
-                    row.text=[NSString stringWithFormat:@"%@ \nlevel:%i\nPrice:%i", p.name, i, row.price];
+                    row.text=[NSString stringWithFormat:@"%@ \nlevel:%i\nPrice:%i", p.name, powLvl+1, row.price];
                     [bars addObject:row];
-                }
-                i++;
-            }
+
 //            i=1;
 //            while( i<11){
 //                if(i==freqLvl+1){
@@ -84,14 +81,21 @@
         lolbar2.scale=.17;
         lolbar2.position=ccp(x-20,y+20);
         [self addChild:lolbar2];
-        CCLabelBMFont *lvl=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i", shopRow.level]
-                                           fntFile:@"arial16.fnt"];
-        lvl.position=ccp(x-20,y+20);
-        [self addChild:lvl];
-        CCSprite *icon =[[CCSprite alloc] initWithFile:shopRow.iconName];
-        icon.position=ccp(x,y);
-        icon.scale=.4;
-        [self addChild:icon];
+        
+        if(shopRow.level>=0){
+            CCLabelBMFont *lvl=[[CCLabelBMFont alloc] initWithString:[NSString stringWithFormat:@"%i", shopRow.level]
+                                               fntFile:@"arial16.fnt"];
+            lvl.position=ccp(x-20,y+20);
+            [self addChild:lvl];
+            CCSprite *icon =[[CCSprite alloc] initWithFile:shopRow.iconName];
+            icon.position=ccp(x,y);
+            icon.scale=.4;
+            [self addChild:icon];
+        }else{
+            CCLabelTTF* tempCoin=[[CCLabelTTF alloc] initWithString:@"?" fontName:@"FontStuck Extended" fontSize:48];
+            tempCoin.position=ccp(x,y);
+            [self addChild:tempCoin];
+        }
     }
     CCSprite *box=[[CCSprite alloc] initWithFile:@"MultipleBox.png"];
     box.position=ccp(340,210);
@@ -121,6 +125,7 @@
                 if([pup.name isEqualToString:row.name]){
                     [desc setString:row.text];
                     selectedRow=row;
+                    selectedIndex=j;
                     int gold = [[NSUserDefaults standardUserDefaults] integerForKey:@"gold"];
                     if(gold>selectedRow.price){
                         buy.opacity=250;
@@ -139,7 +144,17 @@
                     gold=gold-selectedRow.price;
                     [[NSUserDefaults standardUserDefaults] setInteger:gold forKey:@"gold"];
                     if(selectedRow.type==0){
-                        [[NSUserDefaults standardUserDefaults] setInteger:selectedRow.level forKey:pup.powStr];
+                        [[NSUserDefaults standardUserDefaults] setInteger:selectedRow.level+1 forKey:pup.powStr];
+                    }
+                    if(selectedIndex+1< [bars count]){
+                        ShopRow *row=[bars objectAtIndex:selectedIndex+1];
+                        for (Powerup *pup in gamestate.powerups){
+                            if([pup.name isEqualToString:row.name]){
+                                if([[NSUserDefaults standardUserDefaults] integerForKey:pup.powStr]==-1){
+                                    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:pup.powStr];
+                                }
+                            }
+                        }
                     }
                     [self removeAllChildrenWithCleanup:true];
                     [self update];

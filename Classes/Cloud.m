@@ -16,10 +16,9 @@
 
 - (id) initSelf{
     self.powStr=@"cloudLevel";
-    self.freqStr=@"cloudFreq";
     self.name=@"Cloun";
     self.collectable=false;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
+    self.power=1;
     self.freq=6000;
     //10000-[[NSUserDefaults standardUserDefaults] integerForKey:freqStr]*1000;
     imgName=@"CL02.png";

@@ -132,6 +132,7 @@ NSUserDefaults *defaults2;
         for (Powerup *pow in [gameState powerups]) {
             [pow removeFromParentAndCleanup:true];
             pow.position=ccp(-1000,0);
+            [pow initSelf];
             [self addChild:pow z:1];
         }
         
@@ -180,7 +181,8 @@ NSUserDefaults *defaults2;
         
         [self schedule:@selector(tick:)];
         [self schedule:@selector(calc:) interval:.5f];
-        [gameState setCharge:4];
+        
+        [gameState setCharge:[[NSUserDefaults standardUserDefaults] integerForKey:@"startingCharge"]];
 	}
 	return self;
 }
@@ -208,7 +210,9 @@ int i=0;
 //    }
     if([gameState state]==0){
         
-        
+        if(gameState.spinPower>=0){
+            gameState.spinPower--;
+        }
         
         [gameState setComboTimer:[gameState comboTimer]+1];
         if([gameState comboTimer]>2){
@@ -269,6 +273,7 @@ int i=0;
 }
 
 -(void)dropBrain{
+    [self addxp:(gameState.score/1000)*(gameState.currLevel/2+1)];
     [[self.parent getHud] dropBrain];
 }
 -(void)restart{
@@ -296,7 +301,11 @@ int i=0;
         }
         [gameState setDx:[gameState dx] + [gameState vx]*dt];
         [gameState setDy:[gameState dy] + [gameState vy]*dt];
-        [gameState setRot:[gameState rot] + (20+[gameState vx]/10)*dt];
+        if([gameState spinPower]>0){
+            [gameState setRot:[gameState rot] + (200+[gameState vx]/2)*dt];
+        }else{
+           [gameState setRot:[gameState rot] + (20+[gameState vx]/10)*dt]; 
+        }
         float mov=[gameState vx]*dt;
         bg1.position=ccp(bg1.position.x-mov, bg1.position.y);
         bg2.position=ccp(bg2.position.x-mov, bg2.position.y);
@@ -329,12 +338,16 @@ int i=0;
             [[self.parent getHud] brainbounce];
             gameState.vrot=(arc4random()%101)-50.0f;
             [gameState setDy:0];
-            [gameState setVy:-[gameState vy]*(.9 -[gameState currLevel]*.05)];
-            [gameState setVx:[gameState vx]*(.9 -[gameState currLevel]*.05)];
+            [gameState setVy:-[gameState vy]*(.8 -[gameState currLevel]*.03)];
+            if(gameState.spinPower>=0 && [gameState vy]>50){
+                [gameState setVx:[gameState vx]+20];
+            }else{
+                [gameState setVx:[gameState vx]*(.8 -[gameState currLevel]*.03)];
+            }
             if([gameState vy] <100 && [gameState vy] >-100 && [gameState vx] <100){
                 [[self.parent getHud] brainsplat];
                 [gameState setState:99];
-                
+                [self addxp:(gameState.score/1000)*(gameState.currLevel/2+1)];
                 [self runAction:[CCSequence actions:
                                  [CCDelayTime actionWithDuration:3],
                                  [CCCallFuncN actionWithTarget:[self.parent getHud] selector:@selector(pushEnd)],
@@ -347,25 +360,27 @@ int i=0;
             pos=[gameState dy]+50;
         }
         for (Powerup *pow in [gameState powerups]) {
-            if([gameState dy] <110){
-                pow.position=ccp(pow.position.x-mov,pow.height);
-            }else{
-                pow.position=ccp(pow.position.x-mov,110+pow.height-[gameState dy]);
-            }
-            if(CGRectContainsPoint(pow.boundingBox, ccp(160,pos))){
-                [pow collide:gameState];
-                if([pow.name isEqualToString:@"Quiz"]){
-                    //[self.parent addChild:q z:10];
-                    //CGPoint center=ccp(brain.position.x+60*(2/self.scale),brain.position.y+320);
-                    //card.position=ccp(center.x,center.y+320);
-                    [[self.parent getHud] drawCard];
+            if(pow.power>0){
+                if([gameState dy] <110){
+                    pow.position=ccp(pow.position.x-mov,pow.height);
+                }else{
+                    pow.position=ccp(pow.position.x-mov,110+pow.height-[gameState dy]);
                 }
-            }
-            
-            
-            if(pow.position.x<-200){
-                //NSLog(@"%f", _body->GetLinearVelocity().x);
-                [pow updatePosition:gameState];
+                if(CGRectContainsPoint(pow.boundingBox, ccp(160,pos))){
+                    [pow collide:gameState];
+                    if([pow.name isEqualToString:@"Quiz"]){
+                        //[self.parent addChild:q z:10];
+                        //CGPoint center=ccp(brain.position.x+60*(2/self.scale),brain.position.y+320);
+                        //card.position=ccp(center.x,center.y+320);
+                        [[self.parent getHud] drawCard];
+                    }
+                }
+                
+                
+                if(pow.position.x<-200){
+                    //NSLog(@"%f", _body->GetLinearVelocity().x);
+                    [pow updatePosition:gameState];
+                }
             }
         }
         
@@ -397,14 +412,7 @@ int i=0;
         [gameState setScore:[gameState dx]];
         //[gameState setSpeed:_body->GetLinearVelocity().x];
         
-        if([gameState spinPower]>0){
-            for(Shield *s in gameState.shields){
-                if([s.name isEqualToString:@"RollShield"]){
-                    [self shieldAdd:s];
-                    gameState.spinPower=0;
-                }
-            }
-        }
+        
         
         //check for enemy collision
         if(!rocketing){

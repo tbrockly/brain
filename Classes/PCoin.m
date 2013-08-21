@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"coinLevel";
-    self.freqStr=@"coinFreq";
     self.name=@"Coin";
     self.collectable=true;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"coinLevel"];
-    self.freq=2000-[[NSUserDefaults standardUserDefaults] integerForKey:@"coinFreq"]*1000;
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
+    self.freq=2000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*500;
     imgName=@"super_mario_coin.png";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
@@ -35,7 +34,7 @@
     gameState.coins=gameState.coins+power;
     gameState.achEng.coins=gameState.achEng.coins+power;
     gameState.achEng.totcoins=gameState.achEng.totcoins+power;
-    [self.parent addCoins:power*10];
+    [self.parent addCoins:self.power*10*(gameState.currLevel/2+1)];
     self.position=ccp(self.position.x-2000, 0);
 }
 

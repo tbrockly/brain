@@ -16,11 +16,10 @@
 
 - (id) initSelf{
     self.powStr=@"energyLevel";
-    self.freqStr=@"energyFreq";
     self.name=@"Energy";
     self.collectable=true;
-    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:@"energyLevel"];
-    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:@"energyFreq"]*1000;
+    self.power=[[NSUserDefaults standardUserDefaults] integerForKey:powStr];
+    self.freq=20000-[[NSUserDefaults standardUserDefaults] integerForKey:powStr]*1000;
     imgName=@"lightning-icon.png";
     [[CCTextureCache sharedTextureCache] addImage:imgName];
     [self initWithFile:imgName];
